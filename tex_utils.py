@@ -3,6 +3,28 @@ import jinja2
 import os
 import shutil
 
+
+def combine_datasets(datasets, subname):
+    toBeRemoved = []
+    for dataset in datasets:
+        if subname in dataset:
+            toBeRemoved.append(dataset)
+    for dataset in toBeRemoved:
+        datasets.remove(dataset)
+    if len(toBeRemoved) > 0:
+        datasets.add(subname)
+
+
+def move_element(odict, thekey, newpos):
+    odict[thekey] = odict.pop(thekey)
+    i = 0
+    for key, value in odict.items():
+        if key != thekey and i >= newpos:
+            odict[key] = odict.pop(key)
+        i += 1
+    return odict
+
+
 def get_options_from_file(path):
     """Read a options file.
 
