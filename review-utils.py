@@ -167,6 +167,10 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
 
     TODO:
     - Restructure...
+
+    NOTES:
+    - To unflatten automatically, apply the following on the .dot file:
+        >> unflatten -l 3 -c 10 domains | dot -Teps -o outfile.eps
     """
     df = df[['domain1', 'domain2', 'domain3', 'domain4']].copy()
     df = df[~df['domain1'].isnull()]
@@ -234,7 +238,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'domains')  # + '.' + save_cfg['format']
-        dot.render(filename=fname, cleanup=True)
+        dot.render(filename=fname, cleanup=False)
                 
     return dot
 
