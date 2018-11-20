@@ -20,7 +20,7 @@ sns.set_context(cfg.plotting_context)
 sns.set_style(cfg.axes_styles)
 
 
-def load_data_items():
+def load_data_items(start_year=2012):
     """Load data items table.
 
     TODO:
@@ -34,6 +34,7 @@ def load_data_items():
     df = df.iloc[:195, :]
     df = df.dropna(axis=0, how='all')
     df = df.dropna(axis=1, how='all', thresh=int(df.shape[0] * 0.1))
+    df = df[df['Year'] >= start_year]
 
     return df
 
@@ -172,8 +173,8 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
     - To unflatten automatically, apply the following on the .dot file:
         >> unflatten -l 3 -c 10 domains | dot -Teps -o outfile.eps
     """
-    df = df[['domain1', 'domain2', 'domain3', 'domain4']].copy()
-    df = df[~df['domain1'].isnull()]
+    df = df[['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4']].copy()
+    df = df[~df['Domain 1'].isnull()]
 
     n_samples, n_levels = df.shape
     format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg' 
@@ -188,7 +189,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
     
     min_sat, max_sat = 0.05, 0.4
     
-    sub_df = df['domain1'].value_counts()
+    sub_df = df['Domain 1'].value_counts()
     n_categories = len(sub_df)
 
     for i, (d1, count1) in enumerate(sub_df.iteritems()):
@@ -196,13 +197,13 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
                               min_sat, max_sat, min_font_size, max_font_size, 'A',
                               counter=i, n_categories=n_categories)
         
-        for d2, count2 in df[df['domain1'] == d1]['domain2'].value_counts().iteritems():
+        for d2, count2 in df[df['Domain 1'] == d1]['Domain 2'].value_counts().iteritems():
             node2, _ = make_box(
                 dot, d2, max_char, count2, n_samples, 1, n_levels, min_sat, 
                 max_sat, min_font_size, max_font_size, node1, hue=hue)
             
             n_others3 = 0
-            for d3, count3 in df[df['domain2'] == d2]['domain3'].value_counts().iteritems():
+            for d3, count3 in df[df['Domain 2'] == d2]['Domain 3'].value_counts().iteritems():
                 if isinstance(d3, str) and d3 != 'TBD':
                     if count3 < min_n_items:
                         n_others3 += 1
@@ -213,7 +214,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
                             node2, hue=hue)
 
                         n_others4 = 0
-                        for d4, count4 in df[df['domain3'] == d3]['domain4'].value_counts().iteritems():
+                        for d4, count4 in df[df['Domain 3'] == d3]['Domain 4'].value_counts().iteritems():
                             if isinstance(d4, str) and d4 != 'TBD':
                                 if count4 < min_n_items:
                                     n_others4 += 1
@@ -259,6 +260,8 @@ def plot_model_comparison(df, save_cfg=cfg.saving_config):
     """
     fig, ax = plt.subplots()
     sns.countplot(df['Baseline model type'].dropna(axis=0), ax=ax)
+    ax.set_ylabel('Number of papers')
+    ax.set_xlabel('')
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'model_comparison')
@@ -267,11 +270,98 @@ def plot_model_comparison(df, save_cfg=cfg.saving_config):
     return ax
 
 
-def plot_domains(df, save_cfg=cfg.saving_config):
-    """Plot tree graph showing the domains of the studies.
-    """
-    pass
+def plot_performance_metrics(df, cutoff=3, eeg_clf=None, 
+                             save_cfg=cfg.saving_config):
+    """Plot bar graph showing the types of performance metrics used.
 
+    Args:
+        df (DataFrame)
+
+    Keyword Args:
+        cutoff (int): Metrics with less than this number of papers will be cut
+            off from the bar graph.
+        eeg_clf (bool): If True, only use studies that focus on EEG 
+            classification. If False, only use studies that did not focus on 
+            EEG classification. If None, use all studies.
+        save_cfg (dict)
+
+    Assumptions, simplifications:
+    - Rates have been simplified (e.g., "false positive rate" -> "false positives")
+    - RMSE and MSE have been merged under MSE
+    - Training/testing times have been simplified to "time"
+    - Macro f1-score === f1=score
+    """
+    def lstrip(list_of_strs):
+        """Remove left space and make lowercase."""
+        return [a.lstrip().lower() for a in list_of_strs] 
+    
+    if eeg_clf is True:
+        metrics = df[df['Domain 1'] == 'Classification of EEG signals']['Performance metrics (clean)']
+    elif eeg_clf is False:
+        metrics = df[df['Domain 1'] != 'Classification of EEG signals']['Performance metrics (clean)']
+    elif eeg_clf is None:
+        metrics = df['Performance metrics (clean)']
+
+    metrics = metrics.str.split(',').apply(lstrip)
+
+    metric_per_article = list()
+    for i, metric_list in metrics.iteritems():
+        for m in metric_list:
+            metric_per_article.append([i, m])
+
+    metrics_df = pd.DataFrame(metric_per_article, columns=['paper nb', 'metric'])
+
+    # Replace equivalent terms by standardized term
+    equivalences = {'selectivity': 'specificity',
+                    'true negative rate': 'specificity',
+                    'sensitivitiy': 'sensitivity',
+                    'sensitivy': 'sensitivity',
+                    'recall': 'sensitivity',
+                    'hit rate': 'sensitivity', 
+                    'true positive rate': 'sensitivity',
+                    'sensibility': 'sensitivity',
+                    'positive predictive value': 'precision',
+                    'f-measure': 'f1-score',
+                    'f-score': 'f1-score',
+                    'f1-measure': 'f1-score',
+                    'macro f1-score': 'f1-score',
+                    'macro-averaging f1-score': 'f1-score',
+                    'kappa': 'cohen\'s kappa',
+                    'mae': 'mean absolute error',
+                    'false negative rate': 'false negatives',
+                    'fpr': 'false positives',
+                    'false positive rate': 'false positives',
+                    'false prediction rate': 'false positives',
+                    'roc curves': 'roc',
+                    'rmse': 'mean squared error',
+                    'mse': 'mean squared error',
+                    'training time': 'time',
+                    'testing time': 'time',
+                    'test error': 'error'}
+    metrics_df = metrics_df.replace(equivalences)
+
+    # Removing low count categories
+    metrics_counts = metrics_df['metric'].value_counts()
+    metrics_df = metrics_df[metrics_df['metric'].isin(
+        metrics_counts[(metrics_counts >= cutoff)].index)]
+
+    fig, ax = plt.subplots()
+    ax = sns.countplot(y='metric', data=metrics_df, 
+                       order=metrics_df['metric'].value_counts().index)
+    ax.set_xlabel('Number of papers')
+    ax.set_ylabel('')
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        savename = 'performance_metrics'
+        if eeg_clf is True:
+            savename += '_eeg_clf'
+        elif eeg_clf is False:
+            savename += '_not_eeg_clf'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
 
 
 if __name__ == '__main__':
@@ -280,3 +370,7 @@ if __name__ == '__main__':
     check_data_items(df)
     plot_years(df)
     plot_domain_tree(df)
+    plot_model_comparison(df)
+    plot_performance_metrics(df)
+    plot_performance_metrics(df, cutoff=1, eeg_clf=True)
+    plot_performance_metrics(df, cutoff=1, eeg_clf=False)
