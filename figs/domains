@@ -1,0 +1,181 @@
+digraph {
+	graph [rankdir=TB]
+	node [fontname=Helvetica fontsize=12 margin="0.2,0.01" penwidth=0.5 shape=box style="filled, rounded"]
+	A [label="DL + EEG studies
+(151)" fillcolor=azure]
+	"Classification of EEG signals" [label="Classification
+of EEG signals
+(131)" fillcolor="0.3333333333333333 0.4 1" fontsize=11.24]
+	A -> "Classification of EEG signals"
+	Clinical [label="Clinical
+(47)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=7.88]
+	"Classification of EEG signals" -> Clinical
+	Epilepsy [label="Epilepsy
+(25)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=7.0]
+	Clinical -> Epilepsy
+	Detection [label="Detection
+(18)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.72]
+	Epilepsy -> Detection
+	Prediction [label="Prediction
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.16]
+	Epilepsy -> Prediction
+	Epilepsyothers [label="Others
+(1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.04]
+	Epilepsy -> Epilepsyothers
+	Sleep [label="Sleep
+(16)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.64]
+	Clinical -> Sleep
+	Staging [label="Staging
+(14)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.5600000000000005]
+	Sleep -> Staging
+	Sleepothers [label="Others
+(1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.04]
+	Sleep -> Sleepothers
+	"Pathological EEG" [label="Pathological EEG
+(2)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.08]
+	Clinical -> "Pathological EEG"
+	Clinicalothers [label="Others
+(4)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.16]
+	Clinical -> Clinicalothers
+	BCI [label="BCI
+(43)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=7.72]
+	"Classification of EEG signals" -> BCI
+	Active [label="Active
+(27)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=7.08]
+	BCI -> Active
+	"Motor imagery" [label="Motor imagery
+(17)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.68]
+	Active -> "Motor imagery"
+	"Mental tasks" [label="Mental tasks
+(3)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.12]
+	Active -> "Mental tasks"
+	"Speech decoding" [label="Speech decoding
+(2)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.08]
+	Active -> "Speech decoding"
+	Activeothers [label="Others
+(3)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.12]
+	Active -> Activeothers
+	Reactive [label="Reactive
+(14)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.5600000000000005]
+	BCI -> Reactive
+	RSVP [label="RSVP
+(5)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.2]
+	Reactive -> RSVP
+	SSVEP [label="SSVEP
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.16]
+	Reactive -> SSVEP
+	ERP [label="ERP
+(3)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.12]
+	Reactive -> ERP
+	Reactiveothers [label="Others
+(1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.04]
+	Reactive -> Reactiveothers
+	BCIothers [label="Others
+(1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.04]
+	BCI -> BCIothers
+	Monitoring [label="Monitoring
+(33)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=7.32]
+	"Classification of EEG signals" -> Monitoring
+	Affective [label="Affective
+(18)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.72]
+	Monitoring -> Affective
+	Emotion [label="Emotion
+(14)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.5600000000000005]
+	Affective -> Emotion
+	Affectiveothers [label="Others
+(1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.04]
+	Affective -> Affectiveothers
+	Cognitive [label="Cognitive
+(12)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.48]
+	Monitoring -> Cognitive
+	"Mental workload" [label="Mental workload
+(7)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.28]
+	Cognitive -> "Mental workload"
+	Cognitiveothers [label="Others
+(5)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.2]
+	Cognitive -> Cognitiveothers
+	Physical [label="Physical
+(2)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.08]
+	Monitoring -> Physical
+	Exercise [label="Exercise
+(2)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=6.08]
+	Physical -> Exercise
+	Monitoringothers [label="Others
+(1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.04]
+	Monitoring -> Monitoringothers
+	"Multi-purpose architecture" [label="Multi-purpose
+architecture
+(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=6.12]
+	"Classification of EEG signals" -> "Multi-purpose architecture"
+	"Personal trait/attribute" [label="Personal
+trait/attribute
+(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=6.12]
+	"Classification of EEG signals" -> "Personal trait/attribute"
+	"Person identification" [label="Person
+identification
+(2)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.08]
+	"Personal trait/attribute" -> "Person identification"
+	"Personal trait/attributeothers" [label="Others
+(1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.04]
+	"Personal trait/attribute" -> "Personal trait/attributeothers"
+	"Music semantics" [label="Music semantics
+(2)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=6.08]
+	"Classification of EEG signals" -> "Music semantics"
+	"Music semanticsothers" [label="Others
+(1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.04]
+	"Music semantics" -> "Music semanticsothers"
+	"Improvement of processing tools" [label="Improvement of
+processing tools
+(13)" fillcolor="0.6666666666666666 0.4 1" fontsize=6.52]
+	A -> "Improvement of processing tools"
+	"Signal cleaning" [label="Signal cleaning
+(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.16]
+	"Improvement of processing tools" -> "Signal cleaning"
+	"Artifact handling" [label="Artifact
+handling
+(4)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=6.16]
+	"Signal cleaning" -> "Artifact handling"
+	"Feature learning" [label="Feature learning
+(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.16]
+	"Improvement of processing tools" -> "Feature learning"
+	"Hardware optimization" [label="Hardware
+optimization
+(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.08]
+	"Improvement of processing tools" -> "Hardware optimization"
+	"Neuromorphic chips" [label="Neuromorphic
+chips
+(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=6.08]
+	"Hardware optimization" -> "Neuromorphic chips"
+	"Model interpretability" [label="Model
+interpretability
+(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.08]
+	"Improvement of processing tools" -> "Model interpretability"
+	"Model visualization" [label="Model
+visualization
+(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=6.08]
+	"Model interpretability" -> "Model visualization"
+	"Reduce effect of confounders" [label="Reduce effect of
+confounders
+(1)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.04]
+	"Improvement of processing tools" -> "Reduce effect of confounders"
+	"Generation of data" [label="Generation of
+data
+(7)" fillcolor="1.0 0.4 1" fontsize=6.28]
+	A -> "Generation of data"
+	"Data augmentation" [label="Data
+augmentation
+(3)" fillcolor="1.0 0.2833333333333333 1" fontsize=6.12]
+	"Generation of data" -> "Data augmentation"
+	"Generating images conditioned on EEG" [label="Generating
+images
+conditioned on
+EEG
+(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=6.08]
+	"Generation of data" -> "Generating images conditioned on EEG"
+	"Generating EEG" [label="Generating EEG
+(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=6.08]
+	"Generation of data" -> "Generating EEG"
+	"Generating EEGothers" [label="Others
+(1)" fillcolor="1.0 0.16666666666666666 1" fontsize=6.04]
+	"Generating EEG" -> "Generating EEGothers"
+}
