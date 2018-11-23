@@ -27,7 +27,7 @@ def load_data_items(start_year=2012):
     - Normalize column names?
     - Double check all the required columns are there?
     """
-    fname = 'data_items.csv'
+    fname = 'data/data_items.csv'
     df = pd.read_csv(fname, header=1)
 
     # A little cleaning up
