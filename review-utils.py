@@ -7,10 +7,16 @@ TODO:
 """
 
 import os
+import re
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
+
+from os import path
+from PIL import Image
+from wordcloud import WordCloud, STOPWORDS
 from graphviz import Digraph
 
 import plt_config as cfg
@@ -364,6 +370,38 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
     return ax
 
 
+def generate_wordcloud(df, save_cfg=cfg.saving_config):
+    brain_mask = np.array(Image.open("./img/brain_stencil.png"))
+
+    def transform_format(val):
+        if val == 0:
+            return 255
+        else:
+            return val
+
+    text = (df['Title']).to_string()
+
+    stopwords = set(STOPWORDS)
+    stopwords.add("using")
+    stopwords.add("based")
+
+    wc = WordCloud(background_color="white", max_words=2000, max_font_size=50, mask=brain_mask,
+                   stopwords=stopwords, contour_width=1, contour_color='steelblue')
+
+    # generate word cloud
+    wc.generate(text)
+
+    # store to file
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'DL-EEG_WordCloud')
+        wc.to_file(fname + '.' + save_cfg['format']) #, **save_cfg)
+
+    plt.figure()
+    plt.imshow(wc, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
+
+
 if __name__ == '__main__':
 
     df = load_data_items()
@@ -374,3 +412,4 @@ if __name__ == '__main__':
     plot_performance_metrics(df)
     plot_performance_metrics(df, cutoff=1, eeg_clf=True)
     plot_performance_metrics(df, cutoff=1, eeg_clf=False)
+    generate_wordcloud(df)
