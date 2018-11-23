@@ -65,7 +65,7 @@ saving_config = {'savepath': 'figs/',
                  'papertype': 'letter', 
                  'format': 'eps',
                  'transparent': True, 
-                 'bbox_inches': None, 
+                 'bbox_inches': 'tight', 
                  'pad_inches': 0.1,
                  'frameon': None,
                  'metadata': None}

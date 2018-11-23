@@ -39,6 +39,32 @@ def load_data_items(start_year=2012):
     return df
 
 
+def load_reported_results_data():
+    """Load table of reported results (second tab on spreadsheet).
+    """
+    fname = 'data/reporting_results.csv'
+    df = pd.read_csv(fname, header=0)
+    df = df.drop(columns=['Unnamed: 0', 'Title', 'Comment'])
+    df['Result'] = pd.to_numeric(df['Result'], errors='coerce')
+    df = df.dropna()
+
+    def extract_model_type(x):
+        if 'arch' in x:
+            out = 'Proposed'
+        elif 'trad' in x:
+            out = 'Baseline (traditional)'
+        elif 'dl' in x:
+            out = 'Baseline (deep learning)'
+        else:
+            raise ValueError('Model type {} not supported.'.format(x))
+        
+        return out
+
+    df['model_type'] = df['Model'].apply(extract_model_type)
+
+    return df
+
+
 def check_data_items(df):
     """Check data items to make sure it contains the right stuff. 
 
@@ -364,6 +390,183 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
     return ax
 
 
+def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
+    """Plot figures to described the reported results in the studies.
+
+    Args:
+        df (DataFrame): contains reported results (second tab in spreadsheet)
+
+    Keyword Args:
+        data_items_df (DataFrame): contains data items (first tab in spreadsheet)
+        save_cfg (dict)
+
+    Returns:
+        (list): list of axes to created figures
+    """
+    acc_df = df[df['Metric'] == 'accuracy']  # Extract accuracy rows only
+
+    # Create new column that contains both citation and task information
+    acc_df['citation_task'] = acc_df[['Citation', 'Task']].apply(
+        lambda x: ' ['.join(x) + ']', axis=1)
+
+    # Create a new column with the year
+    acc_df['year'] = acc_df['Citation'].apply(
+        lambda x: int(x[x.find('2'):x.find('2') + 4]))
+
+    # Order by average proposed model accuracy
+    acc_ind = acc_df[acc_df['model_type']=='Proposed'].groupby(
+        'Citation').mean().sort_values(by='Result').index
+    acc_df['Citation'] = acc_df['Citation'].astype('category')
+    acc_df['Citation'].cat.set_categories(acc_ind, inplace=True)
+    acc_df = acc_df.sort_values(['Citation'])
+
+    # Only keep 2 best per task and model type
+    acc2_df = acc_df.sort_values(
+        ['Citation', 'Task', 'model_type', 'Result'], ascending=True).groupby(
+            ['Citation', 'Task', 'model_type']).tail(2)
+
+    axes = list()
+    axes.append(_plot_results_per_citation_task(acc2_df, save_cfg))
+
+    # Only keep the maximum accuracy per citation & task
+    best_df = acc_df.groupby(
+        ['Citation', 'Task', 'model_type'])['Result'].max().reset_index()
+
+    # Only keep citations/tasks that have a traditional baseline
+    best_df = best_df.groupby(['Citation', 'Task']).filter(
+        lambda x: 'Baseline (traditional)' in x.values).reset_index()
+
+    # Compute difference between proposed and traditional baseline
+    diff_df = best_df.groupby(['Citation', 'Task']).apply(
+                lambda x: x[x['model_type'] == 'Proposed']['Result'].iloc[0] - \
+                          x[x['model_type'] == 'Baseline (traditional)'][
+                              'Result'].iloc[0]).reset_index()
+    diff_df = diff_df.rename(columns={0: 'acc_diff'})
+
+    axes.append(_plot_results_accuracy_diff_scatter(diff_df, save_cfg))
+    axes.append(_plot_results_accuracy_diff_distr(diff_df, save_cfg))
+
+    # Pivot dataframe to plot proposed vs. baseline accuracy as a scatterplot
+    best_df['citation_task'] = best_df[['Citation', 'Task']].apply(
+        lambda x: ' ['.join(x) + ']', axis=1)
+    acc_comparison_df = best_df.pivot(
+        index='citation_task', columns='model_type', values='Result')
+
+    axes.append(_plot_results_accuracy_comparison(acc_comparison_df, save_cfg))
+
+    if data_items_df is not None:
+        domains_df = data_items_df.filter(regex='(?=Domain*|Citation)')
+
+        # Concatenate domains into one string
+        def concat_domains(x):
+            domain = ''
+            for i in x[1:]:
+                if isinstance(i, str):
+                    domain += i + '/'
+            return domain[:-1]
+
+        domains_df['domain'] = data_items_df.filter(regex='(?=Domain*)').apply(
+                                                    concat_domains, axis=1)
+        diff_domain_df = diff_df.merge(domains_df, on='Citation', how='left')
+        diff_domain_df = diff_domain_df.sort_values(by='domain')
+
+        axes.append(_plot_results_accuracy_per_domain(diff_domain_df, save_cfg))
+
+    return axes    
+
+
+def _plot_results_per_citation_task(results_df, save_cfg):
+    """Plot scatter plot of accuracy for each condition and task.
+    """
+    figsize = plt.rcParams.get('figure.figsize')
+    fig, ax = plt.subplots(figsize=(figsize[0], figsize[1] * 4))
+    # Need to make the graph taller otherwise the y axis labels are on top of
+    # each other.
+    sns.catplot(y='citation_task', x='Result', hue='model_type', data=results_df, 
+                ax=ax)
+    ax.set_xlabel('accuracy')
+    ax.set_ylabel('')
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        savename = 'reported_results'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def _plot_results_accuracy_diff_scatter(results_df, save_cfg):
+    """Plot difference in accuracy for each condition/task as a scatter plot.
+    """
+    figsize = plt.rcParams.get('figure.figsize')
+    fig, ax = plt.subplots(figsize=(figsize[0], figsize[1] * 2))
+    sns.catplot(y='Task', x='acc_diff', data=results_df, ax=ax)
+    ax.set_xlabel('Accuracy difference')
+    ax.set_ylabel('')
+    ax.axvline(0, c='k', alpha=0.2)
+
+    if save_cfg is not None:
+        savename = 'reported_accuracy_diff_scatter'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def _plot_results_accuracy_diff_distr(results_df, save_cfg):
+    """Plot the distribution of difference in accuracy.
+    """
+    fig, ax = plt.subplots()
+    sns.distplot(results_df['acc_diff'], kde=False, rug=True, ax=ax)
+    ax.set_xlabel('Accuracy difference')
+    ax.set_ylabel('Number of studies')
+
+    if save_cfg is not None:
+        savename = 'reported_accuracy_diff_distr'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def _plot_results_accuracy_comparison(results_df, save_cfg):
+    """Plot the comparison between the best model and best baseline.
+    """
+    fig, ax = plt.subplots()
+    sns.scatterplot(data=results_df, x='Baseline (traditional)', y='Proposed', 
+                    ax=ax)
+    ax.plot([0, 1.1], [0, 1.1], c='k', alpha=0.2)
+    plt.axis('square')
+    ax.set_xlim([0, 1.1])
+    ax.set_ylim([0, 1.1])
+
+    if save_cfg is not None:
+        savename = 'reported_accuracy_comparison'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def _plot_results_accuracy_per_domain(results_df, save_cfg):
+    """
+    """
+    fig, ax = plt.subplots()
+    sns.catplot(y='domain', x='acc_diff', jitter=True, data=results_df, ax=ax)
+    ax.set_xlabel('Accuracy difference')
+    ax.set_ylabel('')
+    ax.axvline(0, c='k', alpha=0.2)
+
+    if save_cfg is not None:
+        savename = 'reported_accuracy_per_domain'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+
 if __name__ == '__main__':
 
     df = load_data_items()
@@ -374,3 +577,6 @@ if __name__ == '__main__':
     plot_performance_metrics(df)
     plot_performance_metrics(df, cutoff=1, eeg_clf=True)
     plot_performance_metrics(df, cutoff=1, eeg_clf=False)
+
+    results_df = load_reported_results_data()
+    plot_reported_results(results_df, data_items_df=df)

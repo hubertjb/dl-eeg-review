@@ -103,10 +103,6 @@ of EEG signals
 	Monitoringothers [label="Others
 (1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.04]
 	Monitoring -> Monitoringothers
-	"Multi-purpose architecture" [label="Multi-purpose
-architecture
-(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=6.12]
-	"Classification of EEG signals" -> "Multi-purpose architecture"
 	"Personal trait/attribute" [label="Personal
 trait/attribute
 (3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=6.12]
@@ -118,6 +114,10 @@ identification
 	"Personal trait/attributeothers" [label="Others
 (1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=6.04]
 	"Personal trait/attribute" -> "Personal trait/attributeothers"
+	"Multi-purpose architecture" [label="Multi-purpose
+architecture
+(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=6.12]
+	"Classification of EEG signals" -> "Multi-purpose architecture"
 	"Music semantics" [label="Music semantics
 (2)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=6.08]
 	"Classification of EEG signals" -> "Music semantics"
@@ -128,6 +128,9 @@ identification
 processing tools
 (13)" fillcolor="0.6666666666666666 0.4 1" fontsize=6.52]
 	A -> "Improvement of processing tools"
+	"Feature learning" [label="Feature learning
+(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.16]
+	"Improvement of processing tools" -> "Feature learning"
 	"Signal cleaning" [label="Signal cleaning
 (4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.16]
 	"Improvement of processing tools" -> "Signal cleaning"
@@ -135,17 +138,6 @@ processing tools
 handling
 (4)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=6.16]
 	"Signal cleaning" -> "Artifact handling"
-	"Feature learning" [label="Feature learning
-(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.16]
-	"Improvement of processing tools" -> "Feature learning"
-	"Hardware optimization" [label="Hardware
-optimization
-(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.08]
-	"Improvement of processing tools" -> "Hardware optimization"
-	"Neuromorphic chips" [label="Neuromorphic
-chips
-(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=6.08]
-	"Hardware optimization" -> "Neuromorphic chips"
 	"Model interpretability" [label="Model
 interpretability
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.08]
@@ -154,6 +146,14 @@ interpretability
 visualization
 (2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=6.08]
 	"Model interpretability" -> "Model visualization"
+	"Hardware optimization" [label="Hardware
+optimization
+(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.08]
+	"Improvement of processing tools" -> "Hardware optimization"
+	"Neuromorphic chips" [label="Neuromorphic
+chips
+(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=6.08]
+	"Hardware optimization" -> "Neuromorphic chips"
 	"Reduce effect of confounders" [label="Reduce effect of
 confounders
 (1)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=6.04]
