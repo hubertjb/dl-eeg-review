@@ -476,7 +476,8 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
         diff_domain_df = diff_df.merge(domains_df, on='Citation', how='left')
         diff_domain_df = diff_domain_df.sort_values(by='domain')
 
-        axes.append(_plot_results_accuracy_per_domain(diff_domain_df, save_cfg))
+        axes.append(_plot_results_accuracy_per_domain(
+            diff_domain_df, diff_df, save_cfg))
 
     return axes    
 
@@ -555,21 +556,29 @@ def _plot_results_accuracy_comparison(results_df, save_cfg):
     return ax
 
 
-def _plot_results_accuracy_per_domain(results_df, save_cfg):
+def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
     """
     """
-    fig, ax = plt.subplots()
-    sns.catplot(y='domain', x='acc_diff', jitter=True, data=results_df, ax=ax)
-    ax.set_xlabel('Accuracy difference')
-    ax.set_ylabel('')
-    ax.axvline(0, c='k', alpha=0.2)
+    fig, axes = plt.subplots(nrows=2, ncols=1, sharex=True, figsize=(6, 8), 
+                             gridspec_kw = {'height_ratios':[5, 1]})
+
+    sns.catplot(y='domain', x='acc_diff', size=3, jitter=True, 
+                data=results_df, ax=axes[0])
+    axes[0].set_xlabel('')
+    axes[0].set_ylabel('')
+    axes[0].axvline(0, c='k', alpha=0.2)
+
+    sns.boxplot(x='acc_diff', data=diff_df, ax=axes[1])
+    sns.swarmplot(x='acc_diff', data=diff_df, color="0", size=3, ax=axes[1])
+    axes[1].axvline(0, c='k', alpha=0.2)
+    axes[1].set_xlabel('Accuracy difference')
 
     if save_cfg is not None:
         savename = 'reported_accuracy_per_domain'
         fname = os.path.join(save_cfg['savepath'], savename)
         fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
 
-    return ax
+    return axes
 
 
 def generate_wordcloud(df, save_cfg=cfg.saving_config):
@@ -598,10 +607,10 @@ def generate_wordcloud(df, save_cfg=cfg.saving_config):
         fname = os.path.join(save_cfg['savepath'], 'DL-EEG_WordCloud')
         wc.to_file(fname + '.' + save_cfg['format']) #, **save_cfg)
 
-    plt.figure()
-    plt.imshow(wc, interpolation="bilinear")
-    plt.axis("off")
-    plt.show()
+    # plt.figure()
+    # plt.imshow(wc, interpolation="bilinear")
+    # plt.axis("off")
+    # plt.show()
 
 
 if __name__ == '__main__':
