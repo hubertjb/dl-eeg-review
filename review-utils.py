@@ -8,6 +8,8 @@ TODO:
 
 import os
 import re
+import logging
+import logging.config
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -25,8 +27,28 @@ import plt_config as cfg
 sns.set_context(cfg.plotting_context)
 sns.set_style(cfg.axes_styles)
 
+# Initialize logger for saving results and stats. Use `logger.info('message')`
+# to log results.
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': True,
+})
+logger = logging.getLogger()
+log_savename = os.path.join(cfg.saving_config['savepath'], 'results') + '.log'
+handler = logging.FileHandler(log_savename, mode='w')
+formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
-def load_data_items(start_year=2012):
+
+def lstrip(list_of_strs):
+    """Remove left space and make lowercase."""
+    return [a.lstrip().lower() for a in list_of_strs] 
+
+
+def load_data_items(start_year=2010):
     """Load data items table.
 
     TODO:
@@ -37,7 +59,6 @@ def load_data_items(start_year=2012):
     df = pd.read_csv(fname, header=1)
 
     # A little cleaning up
-    df = df.iloc[:195, :]
     df = df.dropna(axis=0, how='all')
     df = df.dropna(axis=1, how='all', thresh=int(df.shape[0] * 0.1))
     df = df[df['Year'] >= start_year]
@@ -209,7 +230,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
     df = df[~df['Domain 1'].isnull()]
 
     n_samples, n_levels = df.shape
-    format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg' 
+    format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
     
     dot = Digraph(format=format)
     dot.attr('graph', rankdir='TB')  # LR (left to right), TB (top to bottom)
@@ -267,7 +288,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
                 make_box(
                     dot, 'Others', max_char, n_others3, n_samples, 2, n_levels,
                     min_sat, max_sat, min_font_size, max_font_size, node2, hue=hue, 
-                    node_name=node2+'others') 
+                    node_name=node2+'others')
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'domains')  # + '.' + save_cfg['format']
@@ -294,6 +315,14 @@ def plot_model_comparison(df, save_cfg=cfg.saving_config):
     sns.countplot(df['Baseline model type'].dropna(axis=0), ax=ax)
     ax.set_ylabel('Number of papers')
     ax.set_xlabel('')
+
+    model_prcts = df['Baseline model type'].value_counts() / df.shape[0] * 100
+    logger.info('% of studies that used at least one traditional baseline: {}'.format(
+        model_prcts['Traditional pipeline'] + model_prcts['DL & Trad.']))
+    logger.info('% of studies that used at least one deep learning baseline: {}'.format(
+        model_prcts['DL'] + model_prcts['DL & Trad.']))
+    logger.info('% of studies that did not report baseline comparisons: {}'.format(
+        model_prcts['None']))
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'model_comparison')
@@ -323,10 +352,6 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
     - Training/testing times have been simplified to "time"
     - Macro f1-score === f1=score
     """
-    def lstrip(list_of_strs):
-        """Remove left space and make lowercase."""
-        return [a.lstrip().lower() for a in list_of_strs] 
-    
     if eeg_clf is True:
         metrics = df[df['Domain 1'] == 'Classification of EEG signals']['Performance metrics (clean)']
     elif eeg_clf is False:
@@ -573,6 +598,19 @@ def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
     axes[1].axvline(0, c='k', alpha=0.2)
     axes[1].set_xlabel('Accuracy difference')
 
+    fig.subplots_adjust(wspace=0, hspace=0.02)
+
+    logger.info('Number of studies included in the accuracy improvement analysis: {}'.format(
+        results_df.shape[0]))
+    median = diff_df['acc_diff'].median()
+    iqr = diff_df['acc_diff'].quantile(.75) - diff_df['acc_diff'].quantile(.25)
+    logger.info('Median gain in accuracy: {:.6f}'.format(median))
+    logger.info('Interquartile range of the gain in accuracy: {:.6f}'.format(iqr))
+    best_improvement = diff_df.nlargest(1, 'acc_diff')
+    logger.info('Best improvement in accuracy: {}, in {}'.format(
+        best_improvement['acc_diff'].values[0], 
+        best_improvement['Citation'].values[0]))
+
     if save_cfg is not None:
         savename = 'reported_accuracy_per_domain'
         fname = os.path.join(save_cfg['savepath'], savename)
@@ -613,16 +651,122 @@ def generate_wordcloud(df, save_cfg=cfg.saving_config):
     # plt.show()
 
 
+def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
+    """Plot bar graph showing the types of method inspection techniques used.
+
+    Args:
+        df (DataFrame)
+
+    Keyword Args:
+        cutoff (int): Metrics with less than this number of papers will be cut
+            off from the bar graph.
+        save_cfg (dict)
+    """
+    df['inspection_list'] = df[
+        'Model inspection (clean)'].str.split(',').apply(lstrip)
+
+    inspection_per_article = list()
+    for i, items in df[['Citation', 'inspection_list']].iterrows():
+        for m in items['inspection_list']:
+            inspection_per_article.append([i, items['Citation'], m])
+            
+    inspection_df = pd.DataFrame(
+        inspection_per_article, 
+        columns=['paper nb', 'Citation', 'inspection method'])
+
+    # Replace "no" by "None"
+    inspection_df['inspection method'][
+        inspection_df['inspection method'] == 'no'] = 'None'
+
+    # Removing low count categories
+    inspection_counts = inspection_df['inspection method'].value_counts()
+    inspection_df = inspection_df[inspection_df['inspection method'].isin(
+        inspection_counts[(inspection_counts >= cutoff)].index)]
+
+    fig, ax = plt.subplots()
+    ax = sns.countplot(y='inspection method', data=inspection_df, 
+                    order=inspection_df['inspection method'].value_counts().index)
+    ax.set_xlabel('Number of papers')
+    ax.set_ylabel('')
+    plt.tight_layout()
+
+    logger.info('% of studies that used model inspection techniques: {}'.format(
+        100 - 100 * (inspection_df['inspection method'].value_counts() / 
+                     inspection_df.shape[0])['None']))
+
+    if save_cfg is not None:
+        savename = 'model_inspection'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_type_of_paper(df, save_cfg=cfg.saving_config):
+    """Plot bar graph showing the type of each paper (journal, conference, etc.).
+    """
+    fig, ax = plt.subplots()
+    sns.countplot(df['Type of paper'], ax=ax)
+    ax.set_xlabel('')
+    ax.set_ylabel('Number of papers')
+
+    counts = df['Type of paper'].value_counts()
+    # alain
+    logger.info('Number of journal papers: {}'.format(counts['Journal']))
+    logger.info('Number of conference papers: {}'.format(counts['Conference']))
+    logger.info('Number of preprints: {}'.format(counts['Preprint']))
+    logger.info('Number of papers that were initially published as preprints: '
+                '{}'.format(df[df['Type of paper'] != 'Preprint'][
+                    'Preprint first'].value_counts()['Yes']))
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'type_of_paper')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_country(df, save_cfg=cfg.saving_config):
+    """Plot bar graph showing the country of the first author's affiliation.
+    """
+    fig, ax = plt.subplots()
+    sns.countplot(y=df['Country'], ax=ax,
+                order=df['Country'].value_counts().index)
+    ax.set_xlabel('Number of papers')
+    ax.set_ylabel('')
+
+    top3 = df['Country'].value_counts().index[:3]
+    logger.info('Top 3 countries of first author affiliation: {}'.format(top3.values))
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'country')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def compute_prct_statistical_test(df):
+    """Compute the number of studies that used statistical tests.
+    """
+    prct = 100 - 100 * df['Statistical analysis of performance'].value_counts()['No'] / df.shape[0]
+    logger.info('% of studies that used statistical test: {}'.format(prct))
+
+
 if __name__ == '__main__':
 
     df = load_data_items()
     check_data_items(df)
-    plot_years(df)
     plot_domain_tree(df)
+
+    plot_years(df)
     plot_model_comparison(df)
     plot_performance_metrics(df)
     plot_performance_metrics(df, cutoff=1, eeg_clf=True)
     plot_performance_metrics(df, cutoff=1, eeg_clf=False)
+    plot_model_inspection(df, cutoff=1)
+    plot_type_of_paper(df)
+    plot_country(df)
+    compute_prct_statistical_test(df)
     generate_wordcloud(df)
 
     results_df = load_reported_results_data()
