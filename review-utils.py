@@ -199,8 +199,8 @@ def make_box(dot, text, max_char, n_instances, max_n_instances, level, n_levels,
     return node_name, hue
 
 
-def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6, 
-                     max_font_size=12, max_char=16, min_n_items=2, 
+def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10, 
+                     max_font_size=14, max_char=16, min_n_items=2, 
                      save_cfg=cfg.saving_config):
     """Plot tree graph showing the breakdown of study domains.
 
@@ -219,12 +219,11 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
     Returns:
         (graphviz.Digraph): graphviz object
 
-    TODO:
-    - Restructure...
-
     NOTES:
     - To unflatten automatically, apply the following on the .dot file:
-        >> unflatten -l 3 -c 10 domains | dot -Teps -o outfile.eps
+        >> unflatten -l 3 -c 10 domains | dot -Teps -o domains_unflattened.eps
+    - To produce a circular version instead (uses space more efficiently), use
+        >> neato -Tps domains -o domains_neato.eps
     """
     df = df[['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4']].copy()
     df = df[~df['Domain 1'].isnull()]
@@ -233,7 +232,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=6,
     format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
     
     dot = Digraph(format=format)
-    dot.attr('graph', rankdir='TB')  # LR (left to right), TB (top to bottom)
+    dot.attr('graph', rankdir='TB', overlap='false')  # LR (left to right), TB (top to bottom)
     dot.attr('node', fontname='Helvetica', fontsize=str(max_font_size), 
              shape='box', style='filled, rounded',  margin='0.2,0.01', 
              penwidth='0.5')
@@ -758,16 +757,16 @@ if __name__ == '__main__':
     check_data_items(df)
     plot_domain_tree(df)
 
-    plot_years(df)
-    plot_model_comparison(df)
-    plot_performance_metrics(df)
-    plot_performance_metrics(df, cutoff=1, eeg_clf=True)
-    plot_performance_metrics(df, cutoff=1, eeg_clf=False)
-    plot_model_inspection(df, cutoff=1)
-    plot_type_of_paper(df)
-    plot_country(df)
-    compute_prct_statistical_test(df)
-    generate_wordcloud(df)
+    # plot_years(df)
+    # plot_model_comparison(df)
+    # plot_performance_metrics(df)
+    # plot_performance_metrics(df, cutoff=1, eeg_clf=True)
+    # plot_performance_metrics(df, cutoff=1, eeg_clf=False)
+    # plot_model_inspection(df, cutoff=1)
+    # plot_type_of_paper(df)
+    # plot_country(df)
+    # compute_prct_statistical_test(df)
+    # generate_wordcloud(df)
 
-    results_df = load_reported_results_data()
-    plot_reported_results(results_df, data_items_df=df)
+    # results_df = load_reported_results_data()
+    # plot_reported_results(results_df, data_items_df=df)
