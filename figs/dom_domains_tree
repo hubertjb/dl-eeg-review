@@ -61,12 +61,12 @@ of EEG signals
 	RSVP [label="RSVP
 (6)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.154838709677419]
 	Reactive -> RSVP
-	SSVEP [label="SSVEP
-(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
-	Reactive -> SSVEP
 	ERP [label="ERP
 (4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
 	Reactive -> ERP
+	SSVEP [label="SSVEP
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
+	Reactive -> SSVEP
 	Reactiveothers [label="Others
 (1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.025806451612903]
 	Reactive -> Reactiveothers
@@ -163,16 +163,16 @@ data
 augmentation
 (3)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.07741935483871]
 	"Generation of data" -> "Data augmentation"
-	"Generating EEG" [label="Generating EEG
-(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Generation of data" -> "Generating EEG"
-	"Generating EEGothers" [label="Others
-(1)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.025806451612903]
-	"Generating EEG" -> "Generating EEGothers"
 	"Generating images conditioned on EEG" [label="Generating
 images
 conditioned on
 EEG
 (2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
 	"Generation of data" -> "Generating images conditioned on EEG"
+	"Generating EEG" [label="Generating EEG
+(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Generation of data" -> "Generating EEG"
+	"Generating EEGothers" [label="Others
+(1)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.025806451612903]
+	"Generating EEG" -> "Generating EEGothers"
 }

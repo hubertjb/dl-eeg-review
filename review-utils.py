@@ -13,6 +13,7 @@ import logging.config
 
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import seaborn as sns
 import numpy as np
 
@@ -46,6 +47,40 @@ logger.setLevel(logging.INFO)
 def lstrip(list_of_strs):
     """Remove left space and make lowercase."""
     return [a.lstrip().lower() for a in list_of_strs] 
+
+    
+def replace_nans_in_column(df, column_name, replace_by=' '):
+    nan_ind = df[column_name].apply(lambda x:
+        np.isnan(x) if isinstance(x, float) else False)
+    df.loc[nan_ind, column_name] = replace_by
+    return df
+
+
+def tex_escape(text):
+    """Add escape character in front of LaTeX special characters in string.
+
+        :param text: a plain text message
+        :return: the message escaped to appear correctly in LaTeX
+        
+        From https://stackoverflow.com/a/25875504
+    """
+    conv = {
+        '&': r'\&',
+        '%': r'\%',
+        '$': r'\$',
+        '#': r'\#',
+        '_': r'\_',
+        '{': r'\{',
+        '}': r'\}',
+        '~': r'\textasciitilde{}',
+        '^': r'\^{}',
+        '\\': r'\textbackslash{}',
+        '<': r'\textless{}',
+        '>': r'\textgreater{}',
+    }
+    regex = re.compile('|'.join(re.escape(str(key)) 
+        for key in sorted(conv.keys(), key = lambda item: - len(item))))
+    return regex.sub(lambda match: conv[match.group()], text)
 
 
 def load_data_items(start_year=2010):
@@ -290,14 +325,15 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
                     node_name=node2+'others')
 
     if save_cfg is not None:
-        fname = os.path.join(save_cfg['savepath'], 'domains')  # + '.' + save_cfg['format']
+        fname = os.path.join(save_cfg['savepath'], 'dom_domains_tree')
         dot.render(filename=fname, cleanup=False)
                 
     return dot
 
 
 def plot_years(df, save_cfg=cfg.saving_config):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
+                                    save_cfg['text_height'] / 3))
     sns.distplot(df['Year'].dropna(axis=0), ax=ax)
 
     if save_cfg is not None:
@@ -310,10 +346,11 @@ def plot_years(df, save_cfg=cfg.saving_config):
 def plot_model_comparison(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the types of baseline models used.
     """
-    fig, ax = plt.subplots()
-    sns.countplot(df['Baseline model type'].dropna(axis=0), ax=ax)
-    ax.set_ylabel('Number of papers')
-    ax.set_xlabel('')
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
+                                    save_cfg['text_height'] / 3))
+    sns.countplot(y=df['Baseline model type'].dropna(axis=0), ax=ax)
+    ax.set_xlabel('Number of papers')
+    ax.set_ylabel('')
 
     model_prcts = df['Baseline model type'].value_counts() / df.shape[0] * 100
     logger.info('% of studies that used at least one traditional baseline: {}'.format(
@@ -401,7 +438,8 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
     metrics_df = metrics_df[metrics_df['metric'].isin(
         metrics_counts[(metrics_counts >= cutoff)].index)]
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
+                                    save_cfg['text_height'] / 3))
     ax = sns.countplot(y='metric', data=metrics_df, 
                        order=metrics_df['metric'].value_counts().index)
     ax.set_xlabel('Number of papers')
@@ -509,8 +547,10 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
 def _plot_results_per_citation_task(results_df, save_cfg):
     """Plot scatter plot of accuracy for each condition and task.
     """
-    figsize = plt.rcParams.get('figure.figsize')
-    fig, ax = plt.subplots(figsize=(figsize[0], figsize[1] * 4))
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'], 
+                                    save_cfg['text_height'] * 1.3))
+    # figsize = plt.rcParams.get('figure.figsize')
+    # fig, ax = plt.subplots(figsize=(figsize[0], figsize[1] * 4))
     # Need to make the graph taller otherwise the y axis labels are on top of
     # each other.
     sns.catplot(y='citation_task', x='Result', hue='model_type', data=results_df, 
@@ -530,8 +570,10 @@ def _plot_results_per_citation_task(results_df, save_cfg):
 def _plot_results_accuracy_diff_scatter(results_df, save_cfg):
     """Plot difference in accuracy for each condition/task as a scatter plot.
     """
-    figsize = plt.rcParams.get('figure.figsize')
-    fig, ax = plt.subplots(figsize=(figsize[0], figsize[1] * 2))
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'], 
+                                    save_cfg['text_height'] * 1.3))
+    # figsize = plt.rcParams.get('figure.figsize')
+    # fig, ax = plt.subplots(figsize=(figsize[0], figsize[1] * 2))
     sns.catplot(y='Task', x='acc_diff', data=results_df, ax=ax)
     ax.set_xlabel('Accuracy difference')
     ax.set_ylabel('')
@@ -548,7 +590,8 @@ def _plot_results_accuracy_diff_scatter(results_df, save_cfg):
 def _plot_results_accuracy_diff_distr(results_df, save_cfg):
     """Plot the distribution of difference in accuracy.
     """
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'], 
+                                    save_cfg['text_height'] * 0.5))
     sns.distplot(results_df['acc_diff'], kde=False, rug=True, ax=ax)
     ax.set_xlabel('Accuracy difference')
     ax.set_ylabel('Number of studies')
@@ -564,7 +607,8 @@ def _plot_results_accuracy_diff_distr(results_df, save_cfg):
 def _plot_results_accuracy_comparison(results_df, save_cfg):
     """Plot the comparison between the best model and best baseline.
     """
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'], 
+                                    save_cfg['text_height'] * 0.5))
     sns.scatterplot(data=results_df, x='Baseline (traditional)', y='Proposed', 
                     ax=ax)
     ax.plot([0, 1.1], [0, 1.1], c='k', alpha=0.2)
@@ -583,8 +627,10 @@ def _plot_results_accuracy_comparison(results_df, save_cfg):
 def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
     """
     """
-    fig, axes = plt.subplots(nrows=2, ncols=1, sharex=True, figsize=(6, 8), 
-                             gridspec_kw = {'height_ratios':[5, 1]})
+    fig, axes = plt.subplots(
+        nrows=2, ncols=1, sharex=True, 
+        figsize=(save_cfg['text_width'], save_cfg['text_height'] * 0.7), 
+        gridspec_kw = {'height_ratios':[5, 1]})
 
     sns.catplot(y='domain', x='acc_diff', size=3, jitter=True, 
                 data=results_df, ax=axes[0])
@@ -673,25 +719,33 @@ def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
         inspection_per_article, 
         columns=['paper nb', 'Citation', 'inspection method'])
 
-    # Replace "no" by "None"
-    inspection_df['inspection method'][
-        inspection_df['inspection method'] == 'no'] = 'None'
+    # Remove "no" entries, because they make it really hard to see the 
+    # actual distribution
+    n_nos = inspection_df['inspection method'].value_counts()['no']
+    n_papers = inspection_df.shape[0]
+    logger.info('Number of papers without model inspection method: {}'.format(n_nos))
+    inspection_df = inspection_df[inspection_df['inspection method'] != 'no']
+
+    # # Replace "no" by "None"
+    # inspection_df['inspection method'][
+    #     inspection_df['inspection method'] == 'no'] = 'None'
 
     # Removing low count categories
     inspection_counts = inspection_df['inspection method'].value_counts()
     inspection_df = inspection_df[inspection_df['inspection method'].isin(
         inspection_counts[(inspection_counts >= cutoff)].index)]
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'], 
+                                    save_cfg['text_height'] / 3))
     ax = sns.countplot(y='inspection method', data=inspection_df, 
                     order=inspection_df['inspection method'].value_counts().index)
     ax.set_xlabel('Number of papers')
     ax.set_ylabel('')
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.tight_layout()
 
     logger.info('% of studies that used model inspection techniques: {}'.format(
-        100 - 100 * (inspection_df['inspection method'].value_counts() / 
-                     inspection_df.shape[0])['None']))
+        100 - 100 * (n_nos / n_papers)))
 
     if save_cfg is not None:
         savename = 'model_inspection'
@@ -704,10 +758,11 @@ def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
 def plot_type_of_paper(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the type of each paper (journal, conference, etc.).
     """
-    fig, ax = plt.subplots()
-    sns.countplot(df['Type of paper'], ax=ax)
-    ax.set_xlabel('')
-    ax.set_ylabel('Number of papers')
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
+                                    save_cfg['text_height'] * 0.5))
+    sns.countplot(y=df['Type of paper'], ax=ax)
+    ax.set_ylabel('')
+    ax.set_xlabel('Number of papers')
 
     counts = df['Type of paper'].value_counts()
     # alain
@@ -728,7 +783,8 @@ def plot_type_of_paper(df, save_cfg=cfg.saving_config):
 def plot_country(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the country of the first author's affiliation.
     """
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
+                                    save_cfg['text_height'] * 0.5))
     sns.countplot(y=df['Country'], ax=ax,
                 order=df['Country'].value_counts().index)
     ax.set_xlabel('Number of papers')
@@ -751,22 +807,45 @@ def compute_prct_statistical_test(df):
     logger.info('% of studies that used statistical test: {}'.format(prct))
 
 
+def make_domain_table(df):
+    """Make domain table that contains every reference.
+    """
+    # Replace NaNs by ' ' in 'Domain 3' and 'Domain 4' columns
+    df = replace_nans_in_column(df, 'Domain 3', replace_by=' ')
+    df = replace_nans_in_column(df, 'Domain 4', replace_by=' ')
+
+    cols = ['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4', 'Architecture (clean)']
+    df[cols] = df[cols].applymap(tex_escape)
+
+    # Make tuple of first 2 domain levels
+    domains_df = df.groupby(cols)['Citation'].apply(list).apply(
+        lambda x: '\cite{' + ', '.join(x) + '}').unstack()
+    domains_df = domains_df.applymap(
+        lambda x: ' ' if isinstance(x, float) and np.isnan(x) else x)
+
+    with open('domains_architecture_table.tex', 'w') as f:
+        with pd.option_context("max_colwidth", 1000):
+            f.write(domains_df.to_latex(
+                escape=False, 
+                column_format='p{1.5cm}' * 4 + 'p{0.6cm}' * domains_df.shape[1]))
+
+
 if __name__ == '__main__':
 
     df = load_data_items()
     check_data_items(df)
     plot_domain_tree(df)
 
-    # plot_years(df)
-    # plot_model_comparison(df)
-    # plot_performance_metrics(df)
-    # plot_performance_metrics(df, cutoff=1, eeg_clf=True)
-    # plot_performance_metrics(df, cutoff=1, eeg_clf=False)
-    # plot_model_inspection(df, cutoff=1)
-    # plot_type_of_paper(df)
-    # plot_country(df)
-    # compute_prct_statistical_test(df)
-    # generate_wordcloud(df)
+    plot_years(df)
+    plot_model_comparison(df)
+    plot_performance_metrics(df)
+    plot_performance_metrics(df, cutoff=1, eeg_clf=True)
+    plot_performance_metrics(df, cutoff=1, eeg_clf=False)
+    plot_model_inspection(df, cutoff=1)
+    plot_type_of_paper(df)
+    plot_country(df)
+    compute_prct_statistical_test(df)
+    generate_wordcloud(df)
 
-    # results_df = load_reported_results_data()
-    # plot_reported_results(results_df, data_items_df=df)
+    results_df = load_reported_results_data()
+    plot_reported_results(results_df, data_items_df=df)
