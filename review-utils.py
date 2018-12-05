@@ -25,8 +25,9 @@ from graphviz import Digraph
 import plt_config as cfg
 
 
-sns.set_context(cfg.plotting_context)
-sns.set_style(cfg.axes_styles)
+sns.set_style(rc=cfg.axes_styles)
+sns.set_context(rc=cfg.plotting_context)
+# sns.set()
 
 # Initialize logger for saving results and stats. Use `logger.info('message')`
 # to log results.
@@ -331,23 +332,11 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
     return dot
 
 
-def plot_years(df, save_cfg=cfg.saving_config):
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
-                                    save_cfg['text_height'] / 3))
-    sns.distplot(df['Year'].dropna(axis=0), ax=ax)
-
-    if save_cfg is not None:
-        fname = os.path.join(save_cfg['savepath'], 'years')
-        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
-
-    return ax
-
-
 def plot_model_comparison(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the types of baseline models used.
     """
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
-                                    save_cfg['text_height'] / 3))
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4, 
+                                    save_cfg['text_height'] / 5))
     sns.countplot(y=df['Baseline model type'].dropna(axis=0), ax=ax)
     ax.set_xlabel('Number of papers')
     ax.set_ylabel('')
@@ -438,8 +427,8 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
     metrics_df = metrics_df[metrics_df['metric'].isin(
         metrics_counts[(metrics_counts >= cutoff)].index)]
 
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
-                                    save_cfg['text_height'] / 3))
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 2, 
+                                    save_cfg['text_height'] / 5))
     ax = sns.countplot(y='metric', data=metrics_df, 
                        order=metrics_df['metric'].value_counts().index)
     ax.set_xlabel('Number of papers')
@@ -629,7 +618,7 @@ def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
     """
     fig, axes = plt.subplots(
         nrows=2, ncols=1, sharex=True, 
-        figsize=(save_cfg['text_width'], save_cfg['text_height'] * 0.7), 
+        figsize=(save_cfg['text_width'], save_cfg['text_height'] / 2), 
         gridspec_kw = {'height_ratios':[5, 1]})
 
     sns.catplot(y='domain', x='acc_diff', size=3, jitter=True, 
@@ -735,8 +724,8 @@ def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
     inspection_df = inspection_df[inspection_df['inspection method'].isin(
         inspection_counts[(inspection_counts >= cutoff)].index)]
 
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'], 
-                                    save_cfg['text_height'] / 3))
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 3, 
+                                    save_cfg['text_height'] / 5))
     ax = sns.countplot(y='inspection method', data=inspection_df, 
                     order=inspection_df['inspection method'].value_counts().index)
     ax.set_xlabel('Number of papers')
@@ -758,8 +747,8 @@ def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
 def plot_type_of_paper(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the type of each paper (journal, conference, etc.).
     """
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
-                                    save_cfg['text_height'] * 0.5))
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4, 
+                                    save_cfg['text_height'] / 5))
     sns.countplot(y=df['Type of paper'], ax=ax)
     ax.set_ylabel('')
     ax.set_xlabel('Number of papers')
@@ -783,12 +772,13 @@ def plot_type_of_paper(df, save_cfg=cfg.saving_config):
 def plot_country(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the country of the first author's affiliation.
     """
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
-                                    save_cfg['text_height'] * 0.5))
-    sns.countplot(y=df['Country'], ax=ax,
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 3, 
+                                    save_cfg['text_height'] / 5))
+    sns.countplot(x=df['Country'], ax=ax,
                 order=df['Country'].value_counts().index)
-    ax.set_xlabel('Number of papers')
-    ax.set_ylabel('')
+    ax.set_ylabel('Number of papers')
+    ax.set_xlabel('')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
 
     top3 = df['Country'].value_counts().index[:3]
     logger.info('Top 3 countries of first author affiliation: {}'.format(top3.values))
@@ -836,11 +826,10 @@ if __name__ == '__main__':
     check_data_items(df)
     plot_domain_tree(df)
 
-    plot_years(df)
     plot_model_comparison(df)
     plot_performance_metrics(df)
-    plot_performance_metrics(df, cutoff=1, eeg_clf=True)
-    plot_performance_metrics(df, cutoff=1, eeg_clf=False)
+    # plot_performance_metrics(df, cutoff=1, eeg_clf=True)
+    # plot_performance_metrics(df, cutoff=1, eeg_clf=False)
     plot_model_inspection(df, cutoff=1)
     plot_type_of_paper(df)
     plot_country(df)

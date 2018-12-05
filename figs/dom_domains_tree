@@ -61,12 +61,12 @@ of EEG signals
 	RSVP [label="RSVP
 (6)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.154838709677419]
 	Reactive -> RSVP
-	ERP [label="ERP
-(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
-	Reactive -> ERP
 	SSVEP [label="SSVEP
 (4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
 	Reactive -> SSVEP
+	ERP [label="ERP
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
+	Reactive -> ERP
 	Reactiveothers [label="Others
 (1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.025806451612903]
 	Reactive -> Reactiveothers
@@ -135,14 +135,6 @@ processing tools
 handling
 (4)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.103225806451613]
 	"Signal cleaning" -> "Artifact handling"
-	"Hardware optimization" [label="Hardware
-optimization
-(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Improvement of processing tools" -> "Hardware optimization"
-	"Neuromorphic chips" [label="Neuromorphic
-chips
-(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.051612903225806]
-	"Hardware optimization" -> "Neuromorphic chips"
 	"Model interpretability" [label="Model
 interpretability
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
@@ -151,6 +143,14 @@ interpretability
 visualization
 (2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.051612903225806]
 	"Model interpretability" -> "Model visualization"
+	"Hardware optimization" [label="Hardware
+optimization
+(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Improvement of processing tools" -> "Hardware optimization"
+	"Neuromorphic chips" [label="Neuromorphic
+chips
+(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.051612903225806]
+	"Hardware optimization" -> "Neuromorphic chips"
 	"Reduce effect of confounders" [label="Reduce effect of
 confounders
 (1)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.025806451612903]

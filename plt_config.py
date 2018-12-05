@@ -39,12 +39,15 @@ axes_styles = {'axes.facecolor': 'white',
                 #                     'Bitstream Vera Sans',
                 #                     'sans-serif'],
 
-plotting_context = {'font.size': 9.600000000000001,
-                    'axes.labelsize': 9.600000000000001,
-                    'axes.titlesize': 9.600000000000001,
-                    'xtick.labelsize': 8.8,
-                    'ytick.labelsize': 8.8,
-                    'legend.fontsize': 8.8,
+font_size = 8  # default for paper: 9.600000000000001
+smaller_font_size = 7 # default for paper: 8.8
+
+plotting_context = {'font.size': font_size,
+                    'axes.labelsize': font_size,
+                    'axes.titlesize': font_size,
+                    'xtick.labelsize': smaller_font_size,
+                    'ytick.labelsize': smaller_font_size,
+                    'legend.fontsize': smaller_font_size,
                     'axes.linewidth': 1.0,
                     'grid.linewidth': 0.8,
                     'lines.linewidth': 1.2000000000000002,
