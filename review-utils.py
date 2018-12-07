@@ -1175,26 +1175,25 @@ def plot_optimizers_per_year(df, save_cfg=cfg.saving_config):
 if __name__ == '__main__':
 
     df = load_data_items()
-    # check_data_items(df)
-    # plot_domain_tree(df)
+    results_df = load_reported_results_data()
+    check_data_items(df)
+    
+    plot_domain_tree(df)
 
-    # plot_model_comparison(df)
-    # plot_performance_metrics(df)
-    # # plot_performance_metrics(df, cutoff=1, eeg_clf=True)
-    # # plot_performance_metrics(df, cutoff=1, eeg_clf=False)
-    # plot_model_inspection(df, cutoff=1)
-    # plot_type_of_paper(df)
-    # plot_country(df)
-    # compute_prct_statistical_test(df)
-    # generate_wordcloud(df)
+    plot_model_comparison(df)
+    plot_performance_metrics(df)
+    plot_model_inspection(df, cutoff=1)
+    plot_type_of_paper(df)
+    plot_country(df)
+    compute_prct_statistical_test(df)
+    generate_wordcloud(df)
 
-    # results_df = load_reported_results_data()
-    # plot_reported_results(results_df, data_items_df=df)
+    plot_reported_results(results_df, data_items_df=df)
 
-    # # Proportion plots
-    # plot_preprocessing_proportions(df)
-    # plot_hyperparams_proportions(df)
-    # plot_reproducibility_proportions(df)
+    # Proportion plots
+    plot_preprocessing_proportions(df)
+    plot_hyperparams_proportions(df)
+    plot_reproducibility_proportions(df)
 
     plot_domains_per_year(df)
     plot_hardware(df)
