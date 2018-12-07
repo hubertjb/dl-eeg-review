@@ -1,6 +1,6 @@
 digraph {
 	graph [overlap=false rankdir=TB]
-	node [fontname=Helvetica fontsize=14 margin="0.2,0.01" penwidth=0.5 shape=box style="filled, rounded"]
+	node [fontname="Liberation Sans" fontsize=14 margin="0.2,0.01" penwidth=0.5 shape=box style="filled, rounded"]
 	A [label="DL + EEG studies
 (156)" fillcolor=azure]
 	"Classification of EEG signals" [label="Classification
@@ -61,12 +61,12 @@ of EEG signals
 	RSVP [label="RSVP
 (6)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.154838709677419]
 	Reactive -> RSVP
-	SSVEP [label="SSVEP
-(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
-	Reactive -> SSVEP
 	ERP [label="ERP
 (4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
 	Reactive -> ERP
+	SSVEP [label="SSVEP
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
+	Reactive -> SSVEP
 	Reactiveothers [label="Others
 (1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.025806451612903]
 	Reactive -> Reactiveothers
@@ -125,9 +125,6 @@ architecture
 processing tools
 (13)" fillcolor="0.6666666666666666 0.4 1" fontsize=10.335483870967742]
 	A -> "Improvement of processing tools"
-	"Feature learning" [label="Feature learning
-(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
-	"Improvement of processing tools" -> "Feature learning"
 	"Signal cleaning" [label="Signal cleaning
 (4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
 	"Improvement of processing tools" -> "Signal cleaning"
@@ -135,6 +132,9 @@ processing tools
 handling
 (4)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.103225806451613]
 	"Signal cleaning" -> "Artifact handling"
+	"Feature learning" [label="Feature learning
+(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
+	"Improvement of processing tools" -> "Feature learning"
 	"Model interpretability" [label="Model
 interpretability
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
@@ -163,16 +163,16 @@ data
 augmentation
 (3)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.07741935483871]
 	"Generation of data" -> "Data augmentation"
-	"Generating images conditioned on EEG" [label="Generating
-images
-conditioned on
-EEG
-(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Generation of data" -> "Generating images conditioned on EEG"
 	"Generating EEG" [label="Generating EEG
 (2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
 	"Generation of data" -> "Generating EEG"
 	"Generating EEGothers" [label="Others
 (1)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.025806451612903]
 	"Generating EEG" -> "Generating EEGothers"
+	"Generating images conditioned on EEG" [label="Generating
+images
+conditioned on
+EEG
+(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Generation of data" -> "Generating images conditioned on EEG"
 }

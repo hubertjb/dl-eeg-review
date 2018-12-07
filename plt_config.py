@@ -22,9 +22,9 @@ axes_styles = {'axes.facecolor': 'white',
                 'patch.edgecolor': 'w',
                 'image.cmap': 'rocket',
                 'font.family': ['sans-serif'],
-                'font.sans-serif': ['Arial'], 
+                'font.sans-serif': ['Liberation Sans'], 
                 'patch.force_edgecolor': True,
-                'xtick.bottom': False,
+                'xtick.bottom': True,
                 'xtick.top': False,
                 'ytick.left': False,
                 'ytick.right': False,
@@ -32,12 +32,6 @@ axes_styles = {'axes.facecolor': 'white',
                 'axes.spines.bottom': True,
                 'axes.spines.right': True,
                 'axes.spines.top': True}
-
-                # 'font.sans-serif': ['Arial',
-                #                     'DejaVu Sans',
-                #                     'Liberation Sans',
-                #                     'Bitstream Vera Sans',
-                #                     'sans-serif'],
 
 font_size = 8  # default for paper: 9.600000000000001
 smaller_font_size = 7 # default for paper: 8.8

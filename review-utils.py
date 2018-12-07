@@ -7,17 +7,18 @@ TODO:
 """
 
 import os
+from os import path
 import re
 import logging
 import logging.config
+from collections import OrderedDict
 
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
+import matplotlib as mpl
 import seaborn as sns
 import numpy as np
-
-from os import path
 from PIL import Image
 from wordcloud import WordCloud, STOPWORDS
 from graphviz import Digraph
@@ -27,7 +28,10 @@ import plt_config as cfg
 
 sns.set_style(rc=cfg.axes_styles)
 sns.set_context(rc=cfg.plotting_context)
-# sns.set()
+for key, val in cfg.axes_styles.items():
+    mpl.rcParams[key] = val
+for key, val in cfg.plotting_context.items():
+    mpl.rcParams[key] = val
 
 # Initialize logger for saving results and stats. Use `logger.info('message')`
 # to log results.
@@ -45,9 +49,9 @@ logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 
-def lstrip(list_of_strs):
+def lstrip(list_of_strs, lower=True):
     """Remove left space and make lowercase."""
-    return [a.lstrip().lower() for a in list_of_strs] 
+    return [a.lstrip().lower() if lower else a.lstrip() for a in list_of_strs] 
 
     
 def replace_nans_in_column(df, column_name, replace_by=' '):
@@ -269,7 +273,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
     
     dot = Digraph(format=format)
     dot.attr('graph', rankdir='TB', overlap='false')  # LR (left to right), TB (top to bottom)
-    dot.attr('node', fontname='Helvetica', fontsize=str(max_font_size), 
+    dot.attr('node', fontname='Liberation Sans', fontsize=str(max_font_size), 
              shape='box', style='filled, rounded',  margin='0.2,0.01', 
              penwidth='0.5')
     dot.node('A', '{}\n({})'.format(first_box, len(df)), 
@@ -335,11 +339,12 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
 def plot_model_comparison(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the types of baseline models used.
     """
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4, 
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 2, 
                                     save_cfg['text_height'] / 5))
     sns.countplot(y=df['Baseline model type'].dropna(axis=0), ax=ax)
     ax.set_xlabel('Number of papers')
     ax.set_ylabel('')
+    plt.tight_layout()
 
     model_prcts = df['Baseline model type'].value_counts() / df.shape[0] * 100
     logger.info('% of studies that used at least one traditional baseline: {}'.format(
@@ -567,6 +572,7 @@ def _plot_results_accuracy_diff_scatter(results_df, save_cfg):
     ax.set_xlabel('Accuracy difference')
     ax.set_ylabel('')
     ax.axvline(0, c='k', alpha=0.2)
+    plt.tight_layout()
 
     if save_cfg is not None:
         savename = 'reported_accuracy_diff_scatter'
@@ -584,6 +590,7 @@ def _plot_results_accuracy_diff_distr(results_df, save_cfg):
     sns.distplot(results_df['acc_diff'], kde=False, rug=True, ax=ax)
     ax.set_xlabel('Accuracy difference')
     ax.set_ylabel('Number of studies')
+    plt.tight_layout()
 
     if save_cfg is not None:
         savename = 'reported_accuracy_diff_distr'
@@ -604,6 +611,7 @@ def _plot_results_accuracy_comparison(results_df, save_cfg):
     plt.axis('square')
     ax.set_xlim([0, 1.1])
     ax.set_ylim([0, 1.1])
+    plt.tight_layout()
 
     if save_cfg is not None:
         savename = 'reported_accuracy_comparison'
@@ -633,6 +641,7 @@ def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
     axes[1].set_xlabel('Accuracy difference')
 
     fig.subplots_adjust(wspace=0, hspace=0.02)
+    plt.tight_layout()
 
     logger.info('Number of studies included in the accuracy improvement analysis: {}'.format(
         results_df.shape[0]))
@@ -749,9 +758,11 @@ def plot_type_of_paper(df, save_cfg=cfg.saving_config):
     """
     fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4, 
                                     save_cfg['text_height'] / 5))
-    sns.countplot(y=df['Type of paper'], ax=ax)
-    ax.set_ylabel('')
-    ax.set_xlabel('Number of papers')
+    sns.countplot(x=df['Type of paper'], ax=ax)
+    ax.set_xlabel('')
+    ax.set_ylabel('Number of papers')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    plt.tight_layout()
 
     counts = df['Type of paper'].value_counts()
     # alain
@@ -779,6 +790,7 @@ def plot_country(df, save_cfg=cfg.saving_config):
     ax.set_ylabel('Number of papers')
     ax.set_xlabel('')
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    plt.tight_layout()
 
     top3 = df['Country'].value_counts().index[:3]
     logger.info('Top 3 countries of first author affiliation: {}'.format(top3.values))
@@ -820,21 +832,285 @@ def make_domain_table(df):
                 column_format='p{1.5cm}' * 4 + 'p{0.6cm}' * domains_df.shape[1]))
 
 
+def plot_multiple_proportions(data, height=0.3, print_count=True, 
+                              respect_order=None, figsize=None, xlabel=None, 
+                              ylabel=None, title=None):
+    """Horizontal stacked bar plot for multiple proportions.
+
+    Horizontal stacked bar plot used to display many simple proportions with
+    potentially different categories.
+
+    Args:
+        data (dict): dictionary containing the different items, categories 
+            and counts per item. E.g.,
+
+            data = {'item1': {'cat1': 100, 'cat2': 56},
+                    'item2': {'cat3': 60, 'cat4': 46, 'cat5': 50},
+                    'item3': {'cat6': 50, 'cat7': 53, 'cat8': 53}}
+
+    Keyword Args:
+        height (float): height of bars
+        print_count (bool or int): if True, print the count (number of elements)
+            of each category in the middle of the bars. If False, don't print
+            the counts. If provided as an int, it defines the smaller number 
+            that will be printed on a bar (that way small numbers that wouldn't
+            fit in a bar because it's too small won't be printed). 
+        respect_order (list or None): if provided, the categories of each item 
+            should respect the given order. E.g., `['Yes', 'No', 'N/M']` means
+            that whenever the categories 'Yes', 'No' or 'N/M' are found for an
+            item, they should appear in that order in the bar.
+        figisize (tuple or None): size of the figure.
+        xlabel (str or None): x-axis label.
+        ylabel (str of None): y-axis label.
+
+    Returns:
+        (fig)
+        (ax)
+    """
+    df = pd.DataFrame(data=list(data.keys()), columns=['items'])
+    df['counts'] = np.zeros(len(data))
+    df['items'] = df['items'].apply(wrap_text, max_char=20)
+
+    fig, ax = plt.subplots(figsize=figsize)
+    sns.barplot(x='counts', y='items', data=df, ax=ax)
+    ax.set_ylabel('' if ylabel is None else ylabel)
+
+    ylabels = ax.get_yticklabels()
+    ax.set_yticklabels(ylabels, ha='right')
+
+    ax.set_xlabel('Percentage (%)' if xlabel is None else xlabel)
+    ax.set_xlim([0, 100])
+    if title is not None:
+        ax.set_title(title)
+
+    sns.set_palette(sns.color_palette('Paired'))
+
+    for ind, (item, values) in enumerate(data.items()):
+        bottom = 0
+        n_values = sum(list(values.values()))
+        ax.set_prop_cycle(None)  # reset color cycle
+        bars = list()
+
+        if respect_order is not None:
+            ordered_values = OrderedDict()
+            for ordered_cat in respect_order:
+                if ordered_cat in values:
+                    ordered_values[ordered_cat] = values.pop(ordered_cat)
+            ordered_values.update(values)
+            values = ordered_values
+
+        for cat, val in values.items():
+            width = val / n_values * 100
+            bar = ax.barh(
+                ind, width=width, height=height, left=bottom, label=cat)
+            bars.append(bar)
+
+            if (print_count is True) or (isinstance(print_count, int) and 
+                                         val >= print_count):
+                w = bar[0].get_width()
+                ax.text(bottom + w / 2, ind, str(val), ha='center', va='center')
+
+            bottom += width
+
+        legend = plt.legend(handles=bars, bbox_to_anchor=(105, ind),
+                            bbox_transform=ax.transData, loc='center left',
+                            frameon=False)
+        ax.add_artist(legend)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+
+    plt.tight_layout()
+
+    return fig, ax
+
+
+def plot_preprocessing_proportions(df, save_cfg=cfg.saving_config):
+    """Plot proportions for preprocessing-related data items.
+    """
+    data = dict()
+    data['(a) Preprocessing of EEG data'] = df[
+         'Preprocessing (clean)'].value_counts().to_dict()
+    data['(b) Artifact handling'] = df[
+         'Artefact handling (clean)'].value_counts().to_dict()
+    data['(c) Extracted features'] = df[
+         'Features (clean)'].value_counts().to_dict()
+
+    fig, ax = plot_multiple_proportions(
+        data, print_count=5, respect_order=['Yes', 'No', 'Other', 'N/M'],
+        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
+    
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'preprocessing')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_hyperparams_proportions(df, save_cfg=cfg.saving_config):
+    """Plot proportions for hyperparameter-related data items.
+    """
+    data = dict()
+    data['(a) Training procedure'] = df[
+         'Training procedure (clean)'].value_counts().to_dict()
+    data['(b) Regularization'] = df[
+         'Regularization (clean)'].value_counts().to_dict()
+    data['(c) Optimizer'] = df[
+         'Optimizer (clean)'].value_counts().to_dict()
+
+    fig, ax = plot_multiple_proportions(
+        data, print_count=5, respect_order=['Yes', 'No', 'Other', 'N/M'],
+        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
+    
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'hyperparams')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
+    """Plot proportions for reproducibility-related data items.
+    """
+    df['Code hosted on'] = df['Code hosted on'].replace(np.nan, 'N/M', regex=True)
+
+    data = dict()
+    data['(a) Dataset availability'] = df[
+         'Dataset accessibility'].value_counts().to_dict()
+    data['(b) Code availability'] = df[
+         'Code hosted on'].value_counts().to_dict()
+
+    df['reproducibility'] = 'Hard'
+    df.loc[(df['Code available'] == 'Yes') & 
+           (df['Dataset accessibility'] == 'Public'), 'reproducibility'] = 'Easy' 
+    df.loc[(df['Code available'] == 'Yes') & 
+           (df['Dataset accessibility'] == 'Both'), 'reproducibility'] = 'Medium' 
+    df.loc[(df['Code available'] == 'No') & 
+           (df['Dataset accessibility'] == 'Private'), 'reproducibility'] = 'Impossible' 
+
+    data['(c) Reproducibility'] = df[
+         'reproducibility'].value_counts().to_dict()
+
+    fig, ax = plot_multiple_proportions(
+        data, print_count=5, respect_order=['Easy', 'Medium', 'Hard', 'Impossible'],
+        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
+    
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'reproducibility')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_domains_per_year(df, save_cfg=cfg.saving_config):
+    """Plot stacked bar graph of domains per year.
+    """
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
+
+    df['Year'] = df['Year'].astype('int32')
+    main_domains = ['Epilepsy', 'Sleep', 'BCI', 'Affective', 'Cognitive', 
+                    'Improvement of processing tools', 'Generation of data']
+    domains_df = df[['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4']]
+    df['Main domain'] = [row[row.isin(main_domains)].values[0] 
+        if any(row.isin(main_domains)) else 'Others' 
+        for ind, row in domains_df.iterrows()]
+    df.groupby(['Year', 'Main domain']).size().unstack('Main domain').plot(
+        kind='bar', stacked=True, title='', ax=ax)
+    ax.set_ylabel('Number of papers')
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'domains_per_year')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_hardware(df, save_cfg=cfg.saving_config):
+    """Plot bar graph showing the hardware used in the study.
+    """
+    hardware = df['EEG Hardware'].str.split(',').apply(lstrip, lower=False)
+
+    hardware_per_article = list()
+    for i, hardware_list in hardware.iteritems():
+        for m in hardware_list:
+            hardware_per_article.append([i, m])
+
+    hardware_df = pd.DataFrame(hardware_per_article, 
+                               columns=['paper nb', 'hardware'])
+    
+    # Remove N/Ms because they make it hard to see anything
+    hardware_df = hardware_df[hardware_df['hardware'] != 'N/M']
+    
+    # Add low cost column
+    hardware_df['Low-cost'] = False
+    low_cost_devices = ['EPOC (Emotiv)', 'OpenBCI', 'Muse', 
+                        'Mindwave Mobile (Neurosky)', 'Mindset (NeuroSky)']
+    hardware_df.loc[hardware_df['hardware'].isin(low_cost_devices), 
+                    'Low-cost'] = True
+
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 2, 
+                                    save_cfg['text_height'] / 5 * 2))
+    sns.countplot(hue=hardware_df['Low-cost'], y=hardware_df['hardware'], ax=ax,
+                  order=hardware_df['hardware'].value_counts().index, 
+                  dodge=False)
+    # sns.catplot(row=hardware_df['low_cost'], y=hardware_df['hardware'])
+    ax.set_xlabel('Number of papers')
+    ax.set_ylabel('')
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'hardware')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_architectures(df, save_cfg=cfg.saving_config):
+    """Plot bar graph showing the architectures used in the study.
+    """
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 2, 
+                                    save_cfg['text_width'] / 4 * 2))
+    colors = sns.color_palette('Paired')
+    counts = df['Architecture (clean)'].value_counts()
+    ax.pie(counts.values, labels=counts.index, autopct='%1.1f%%',
+           wedgeprops=dict(width=0.3, edgecolor='w'), colors=colors)
+    ax.axis('equal')
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'architectures')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
 if __name__ == '__main__':
 
     df = load_data_items()
-    check_data_items(df)
-    plot_domain_tree(df)
+    # check_data_items(df)
+    # plot_domain_tree(df)
 
-    plot_model_comparison(df)
-    plot_performance_metrics(df)
-    # plot_performance_metrics(df, cutoff=1, eeg_clf=True)
-    # plot_performance_metrics(df, cutoff=1, eeg_clf=False)
-    plot_model_inspection(df, cutoff=1)
-    plot_type_of_paper(df)
-    plot_country(df)
-    compute_prct_statistical_test(df)
-    generate_wordcloud(df)
+    # plot_model_comparison(df)
+    # plot_performance_metrics(df)
+    # # plot_performance_metrics(df, cutoff=1, eeg_clf=True)
+    # # plot_performance_metrics(df, cutoff=1, eeg_clf=False)
+    # plot_model_inspection(df, cutoff=1)
+    # plot_type_of_paper(df)
+    # plot_country(df)
+    # compute_prct_statistical_test(df)
+    # generate_wordcloud(df)
 
-    results_df = load_reported_results_data()
-    plot_reported_results(results_df, data_items_df=df)
+    # results_df = load_reported_results_data()
+    # plot_reported_results(results_df, data_items_df=df)
+
+    # # Proportion plots
+    # plot_preprocessing_proportions(df)
+    # plot_hyperparams_proportions(df)
+    # plot_reproducibility_proportions(df)
+
+    plot_domains_per_year(df)
+    plot_hardware(df)
+
+    plot_architectures(df)
+

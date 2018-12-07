@@ -9,7 +9,7 @@ Test: N/A
 
 (for each of the 4 channels)",,"Each of the two types of session was recorded for an interval
 of 15 to 30 minutes on a span of one month. The number of sessions for the experiments is 24 where 12 is for high workload and 12 is for low workload. Hence, the data in one second consist of 256 samples, and that of 15 to 30 minutes session consist of 230,000 to 460,000 samples for each of the 4 channels. Thus, over 6 million samples for each of the 4 channels are used for the training and 460 thousand for the evaluation. The slicing windows are overlapped with 1/256[sec] step",N/M*,-1,-1,1,Accuracy,accuracy,N/M,,N/M,95.31%,No,None,No,No,No,"""This study does not impose in any way a direct comparison with the distinguished previous works because the used data, experimental conditions, classification targets are different in each, but rather explore and introduce the potential of using deep CNN architecture in classifying raw EEG signals without any pre-processing.""",,No,N/A,No,24 sessions of 15 to 30 minutes over 1 month on 1 subject. Balanced dataset / classes. (is that important to report?),,Yannick,Isabela,,Almogbel2018
-,Automatic ocular artifacts removal in EEG using deep learning,2018,"Yang, Duan, Fan, Hu & Wang",Biomedical Signal Processing and Control,No,Journal,"Key Laboratory of Power Station Automation Technology, Shanghai University",China,11,,Improvement of processing tools,Signal cleaning,Artifact handling,,Novel,,Motor Imagery,,,Wireless EEG (Neuracle),No,Clean EEG / Ocular artefacts,"BCI Competition IV - I;
+,Automatic ocular artifacts removal in EEG using deep learning,2018,"Yang, Duan, Fan, Hu & Wang",Biomedical Signal Processing and Control,No,Journal,"Key Laboratory of Power Station Automation Technology, Shanghai University",China,11,,Improvement of processing tools,Signal cleaning,Artifact handling,,Novel,,Motor Imagery,,,WirelessEEG (Neuracle),No,Clean EEG / Ocular artefacts,"BCI Competition IV - I;
 Internal Recordings",Public,"4 (of 7 in public dataset)
 + 3 (internal)","59;
 32",100,200 per subject * 7 = 1400,,,1) Band-Pass Filter: 0.05-200Hz,Yes,No,No,Raw EEG,Raw EEG,min-max,,MATLAB,SAE,AE,N/M*,,Yes,100x1,3,3,,L1,Yes,,,100x1,N/M*,Standard,Greedy Layer-wise training,N/M*,N/M,,,N/M,N/M,No,RMSE,Inter,No,No,"16520 training samples
@@ -648,8 +648,7 @@ Euclidean distance
 Sliced Wassertein distance","inception score, frechet inception distance, euclidean distance, sliced Wasserstein distance",N/M,,N/M,[Many values],WGAN with gradient penalty,DL,No,"Visual inspection of generated segments (time series distribution, spectrum distribution, examples)",Analysis of generated outputs,"The metrics did not correlate with visual performance, and so the authors recommend using many metrics to obtain a balanced view",Mode collapse in GANs,No,N/A,No,Very descriptive on the DL side.,,Hubert,Isabela,,Hartmann2018
 ,Know Your Mind: Adaptive Brain Signal Classification with Reinforced Attentive Convolutional Neural Networks,2018,"Zhang, Yao, Wang, Zhang, Zhang & Liu",Arxiv,Yes,Preprint,"University of New South Wales, Tsinghua University, Michigan State University",Australia,,,Classification of EEG signals,Multi-purpose architecture,,,Make general framework for EEG classification,Apply a single architecture (reinforced attentive CNN) to EEG classification,"1 & 2: Motor imagery
 3: Person identification
-4: Pathology (seizure detection)",Skip time-consuming feature engineering and no task-specific classifier.,,"EPOC (Emotiv);
-N/M",No,"1 & 2) Motor Imagery
+4: Pathology (seizure detection)",Skip time-consuming feature engineering and no task-specific classifier.,,"EPOC (Emotiv), N/M",No,"1 & 2) Motor Imagery
 3) None
  4) Seizures","eegmmidb;
 Internal Recordings;
@@ -1286,7 +1285,7 @@ Mixed Imagery Dataset",Both,"1) 9
 4) ELU","Dropout (0.5)
 Early stopping",Yes,,,2 or 4,N/M,Standard,Standard optimization,Adam,Adam,Batch norm,N/M,N/M,N/M,"Crops 
 (sliding windows within 1 trial)","Categorical cross-entropy
-For cropped training: ""Tied loss function""",[DO ME !],No,No,"1) 288 - 288
+For cropped training: ""Tied loss function""",Intra,No,No,"1) 288 - 288
 2) 880 - 160
 3) 400 - 320
 4) Variable per subject",,[DO ME !],"1) 9 * 2 * 288 = 5184
@@ -1331,8 +1330,7 @@ Macquarie University
 RMIT University",Australia,10,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,Joint CNN & LSTM + AE for Motor Imagery (5 classes),"Motor Imagery (5 classes)
 (see eegmmidb dataset)","EEG processing is time-consuming and depend on human expertise.
 SOTA models achieve 70-80% which is not enough.
-",,"N/M;
-EPOC (Emotiv)",No,Motor Imagery,"eegmmidb;
+",,"N/M, EPOC (Emotiv)",No,Motor Imagery,"eegmmidb;
 Internal Recordings",Public,"1) 10
 2) 7","64;
 14","160;
@@ -1509,8 +1507,7 @@ RCNN",DL & Trad.,No,No,No,"On 1000 held-out testing patients, the best performin
 ,MindID: Person Identification from Brain Waves through Attention-based Recurrent Neural Network,2017,"Zhang, Yao, Kanhere, Liu, Gu & Chen",Arxiv,Yes,Preprint,"University of New South Wales, Australia
 Tsinghua University
 RMIT University, Australia",Australia,20,,Classification of EEG signals,Personal trait/attribute,Person identification,,Improve SOTA: EEG for Person Identification,Use RNN on EEG for Person Indentification,"3 Different Datasets.
-(they claim that Delta has the most personal info)",The DL motivation is not clear. They want to improve SOTA.,,"EPOC (Emotiv);
-N/M",No,Delta Band*,"Internal Recordings;
+(they claim that Delta has the most personal info)",The DL motivation is not clear. They want to improve SOTA.,,"EPOC (Emotiv), N/M",No,Delta Band*,"Internal Recordings;
 eegmmidb",Both,"1) 8
 2) 8
 3) 8","14;
@@ -1611,8 +1608,7 @@ Test: 30%",,"eegmidb
 We used EEGs for 103 subjects in the study. Out of the 14 tasks, we considered 12 tasks which involved the subject to either perform a movement or imagine a movement. input trial with time segments of length 0.8 sec and sliding window of 0.05 sec
 The prepared data consisted of 17,232 samples",1500 trials / subject,-1,-1,103,Accuracy,accuracy,"N/M
 (Cloud)",,N/M,Best accuracy: 63.4%,PCA-SVM,Traditional pipeline,No,No,No,"As part of our next steps, we plan to use this framework on a dataset aimed at classification of epileptic seizures and/or pathological/normal EEG. We would also like to see how the framework performs using other hyperparameter optimization techniques including Bayesian optimization.",N/M,No,N/A,No,Nothing really new... DL with CNN on the cloud from eegmmidb,,Yannick,[TBD],,Dharamsi2017
-,Deep Architectures for Automated Seizure Detection in Scalp EEGs,2017,"Golmohammadi, Ziyabari, Shah, de Diego, Obeid, Picone",Arxiv,Yes,Preprint,"Neural Engineering Data Consortium, Temple University",USA,8,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA: Comparing different deep architectures,"Compare HMM+sAE, HMM+LSTM, IPCA+LSTM, CNN+MLP, CNN+LSTM","Ongoing EEG recording, with and without seizures.",With big EEG corpus now available we can explore deep learning.,,"(Natus);
-(Nihon Kohden)",No,Seizures,"TUH;
+,Deep Architectures for Automated Seizure Detection in Scalp EEGs,2017,"Golmohammadi, Ziyabari, Shah, de Diego, Obeid, Picone",Arxiv,Yes,Preprint,"Neural Engineering Data Consortium, Temple University",USA,8,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA: Comparing different deep architectures,"Compare HMM+sAE, HMM+LSTM, IPCA+LSTM, CNN+MLP, CNN+LSTM","Ongoing EEG recording, with and without seizures.",With big EEG corpus now available we can explore deep learning.,,"(Natus), (Nihon Kohden)",No,Seizures,"TUH;
 Duke Seizure Corpus",Both,"1) Train: 64 
 1) Eval: 50
 2) Eval: 45","22;
@@ -2047,7 +2043,7 @@ However, our neural model turns out to be significantly more robust to missing c
 Nice Graphs
 Compared with results from 2009...
 I'm he could have compared with more recent",,Yannick,[TBD],,Thodoroff2016
-,Single-trial EEG RSVP classification using convolutional neural networks,2016,"Shamwell, Lee, Kwon, Marathe, Lawhern & Nothwang","Proc. SPIE 9836, Micro- and Nanotechnology Sensors, Systems and Applications",No,Conference,"Army Research Laboratory, USA",USA,10,,Classification of EEG signals,BCI,Active,RSVP,Improve state-of-the-art,Using CNN for Single-Trial RSVP from raw EEG,RSVP blocks of 5 images and the participant press a button if an image is part of a specific class,"Low SNR + High Dimensionality, Deep Learning with Large Dataset can find patterns. As opposed to pre-defined ones.",,ActiveTwo (BioSemi),No,"Raw EEG
+,Single-trial EEG RSVP classification using convolutional neural networks,2016,"Shamwell, Lee, Kwon, Marathe, Lawhern & Nothwang","Proc. SPIE 9836, Micro- and Nanotechnology Sensors, Systems and Applications",No,Conference,"Army Research Laboratory, USA",USA,10,,Classification of EEG signals,BCI,Reactive,RSVP,Improve state-of-the-art,Using CNN for Single-Trial RSVP from raw EEG,RSVP blocks of 5 images and the participant press a button if an image is part of a specific class,"Low SNR + High Dimensionality, Deep Learning with Large Dataset can find patterns. As opposed to pre-defined ones.",,ActiveTwo (BioSemi),No,"Raw EEG
 (RSVP)",Internal Recordings,Private,18,64,1024,N/M,,,"1) Downsampled to 256Hz
 2) Bandpass filter: 0.5 - 50Hz",Yes,No,No,None,Raw EEG,N/M,,N/M,CNN,CNN,Local response normalization (LRN) layers are included after each convolutional layer to normalize each layer’s filter responses.,"1) The first layer was thus chosen to span a 250 ms window to allow the network to learn feature maps over an extended temporal window
 2) 2nd conv layer is another a temporal filter
@@ -2732,8 +2728,7 @@ Seizure",1,N/M,N/M,N/M,"Levenberg-Marquard ??
 Test: 50",,"Bonn University: using only A,C, E  
 (300 segments of 23.6-sec)",CX: 300,300,118,5,Accuracy,accuracy,N/M,,N/M,94%,None,None,No,No,No,"The most important advantage of the proposed method is the reduction of data size as well indicating and recognizing the main characteristics of signal. Furthermore, it can reduce memory space, shorten pre-processing needs, the network size and increase computation speed for the classification of an EEG signal.",N/M,No,N/A,No,-,,Yannick,[TBD],,Omerhodzic2013
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,Sleep stage classification using unsupervised feature learning,2012,"Langkvist, Karlsson & Loutfi",Advanced Artificial Neural Systems,No,Journal,Orebro University,Sweden,9,,Classification of EEG signals,Clinical,Sleep,Staging,New Approach: Explore DL & Unsupervised learning for Sleep Stage Scoring,Explore DL & Unsupervised learning for Sleep Stage Scoring,Sleep,Unsupervised learning for sleep stage scoring from raw EEG signal,,"N/M;
-Embla Titanium PSG",No,Sleep,"UCDDB;
+,Sleep stage classification using unsupervised feature learning,2012,"Langkvist, Karlsson & Loutfi",Advanced Artificial Neural Systems,No,Journal,Orebro University,Sweden,9,,Classification of EEG signals,Clinical,Sleep,Staging,New Approach: Explore DL & Unsupervised learning for Sleep Stage Scoring,Explore DL & Unsupervised learning for Sleep Stage Scoring,Sleep,Unsupervised learning for sleep stage scoring from raw EEG signal,,"N/M, Embla Titanium PSG",No,Sleep,"UCDDB;
 Internal Recordings",Public,"1) 25
 2) 1","1;
 8","128;
