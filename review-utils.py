@@ -1069,17 +1069,104 @@ def plot_hardware(df, save_cfg=cfg.saving_config):
 def plot_architectures(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the architectures used in the study.
     """
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 2, 
-                                    save_cfg['text_width'] / 4 * 2))
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 3, 
+                                    save_cfg['text_width'] / 3))
     colors = sns.color_palette('Paired')
     counts = df['Architecture (clean)'].value_counts()
-    ax.pie(counts.values, labels=counts.index, autopct='%1.1f%%',
-           wedgeprops=dict(width=0.3, edgecolor='w'), colors=colors)
+    _, _, pct = ax.pie(counts.values, labels=counts.index, autopct='%1.1f%%',
+           wedgeprops=dict(width=0.3, edgecolor='w'), colors=colors,
+           pctdistance=0.55)
+    for i in pct:
+        i.set_fontsize(5)
+
     ax.axis('equal')
     plt.tight_layout()
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'architectures')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+    
+
+def plot_architectures_per_year(df, save_cfg=cfg.saving_config):
+    """Plot stacked bar graph of architectures per year.
+    """
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_width'] / 3))
+    colors = sns.color_palette('Paired')
+
+    df['Year'] = df['Year'].astype('int32')
+    col_name = 'Architecture (clean)'
+    df['Arch'] = df[col_name]
+    order = df[col_name].value_counts().index
+    counts = df.groupby(['Year', 'Arch']).size().unstack('Arch')
+    counts = counts[order]
+
+    counts.plot(kind='bar', stacked=True, title='', ax=ax, color=colors)
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    ax.set_ylabel('Number of papers')
+
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'architectures_per_year')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_architectures_vs_input(df, save_cfg=cfg.saving_config):
+    """Plot stacked bar graph of architectures vs input type.
+    """
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_width'] / 3))
+    colors = sns.color_palette('Paired')
+
+    df['Input'] = df['Features (clean)']
+    col_name = 'Architecture (clean)'
+    df['Arch'] = df[col_name]
+    order = df[col_name].value_counts().index
+    counts = df.groupby(['Input', 'Arch']).size().unstack('Input')
+    counts = counts.loc[order, :]
+
+    counts.plot(kind='bar', stacked=True, title='', ax=ax)
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    ax.set_ylabel('Number of papers')
+    ax.set_xlabel('')
+
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'architectures_vs_input')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_optimizers_per_year(df, save_cfg=cfg.saving_config):
+    """Plot stacked bar graph of optimizers per year.
+    """
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_width'] / 5 * 2))
+    colors = sns.color_palette('Paired')
+
+    df['Input'] = df['Features (clean)']
+    col_name = 'Optimizer (clean)'
+    df['Opt'] = df[col_name]
+    order = df[col_name].value_counts().index
+    counts = df.groupby(['Year', 'Opt']).size().unstack('Opt')
+    counts = counts[order]
+
+    counts.plot(kind='bar', stacked=True, title='', ax=ax, color=colors)
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    ax.set_ylabel('Number of papers')
+    ax.set_xlabel('')
+
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'optimizers_per_year')
         fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
 
     return ax
@@ -1113,4 +1200,7 @@ if __name__ == '__main__':
     plot_hardware(df)
 
     plot_architectures(df)
+    plot_architectures_per_year(df)
+    plot_architectures_vs_input(df)
+    plot_optimizers_per_year(df)
 
