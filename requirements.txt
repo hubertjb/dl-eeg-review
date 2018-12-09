@@ -1,0 +1,6 @@
+matplotlib
+seaborn>=0.9
+pandas
+Pillow
+wordcloud
+graphviz

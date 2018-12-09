@@ -41,7 +41,7 @@ of EEG signals
 (46)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=11.187096774193549]
 	"Classification of EEG signals" -> BCI
 	Active [label="Active
-(29)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.748387096774193]
+(28)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.72258064516129]
 	BCI -> Active
 	"Motor imagery" [label="Motor imagery
 (21)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.541935483870969]
@@ -53,13 +53,13 @@ of EEG signals
 (2)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.051612903225806]
 	Active -> "Speech decoding"
 	Activeothers [label="Others
-(3)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.07741935483871]
+(2)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.051612903225806]
 	Active -> Activeothers
 	Reactive [label="Reactive
-(15)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.387096774193548]
+(16)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.412903225806451]
 	BCI -> Reactive
 	RSVP [label="RSVP
-(6)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.154838709677419]
+(7)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.180645161290322]
 	Reactive -> RSVP
 	ERP [label="ERP
 (4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
@@ -103,6 +103,10 @@ of EEG signals
 	Monitoringothers [label="Others
 (2)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.051612903225806]
 	Monitoring -> Monitoringothers
+	"Multi-purpose architecture" [label="Multi-purpose
+architecture
+(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
+	"Classification of EEG signals" -> "Multi-purpose architecture"
 	"Personal trait/attribute" [label="Personal
 trait/attribute
 (3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
@@ -114,10 +118,6 @@ identification
 	"Personal trait/attributeothers" [label="Others
 (1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.025806451612903]
 	"Personal trait/attribute" -> "Personal trait/attributeothers"
-	"Multi-purpose architecture" [label="Multi-purpose
-architecture
-(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
-	"Classification of EEG signals" -> "Multi-purpose architecture"
 	"Music semantics" [label="Music semantics
 (1)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.025806451612903]
 	"Classification of EEG signals" -> "Music semantics"
@@ -125,6 +125,9 @@ architecture
 processing tools
 (13)" fillcolor="0.6666666666666666 0.4 1" fontsize=10.335483870967742]
 	A -> "Improvement of processing tools"
+	"Feature learning" [label="Feature learning
+(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
+	"Improvement of processing tools" -> "Feature learning"
 	"Signal cleaning" [label="Signal cleaning
 (4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
 	"Improvement of processing tools" -> "Signal cleaning"
@@ -132,9 +135,6 @@ processing tools
 handling
 (4)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.103225806451613]
 	"Signal cleaning" -> "Artifact handling"
-	"Feature learning" [label="Feature learning
-(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
-	"Improvement of processing tools" -> "Feature learning"
 	"Model interpretability" [label="Model
 interpretability
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]

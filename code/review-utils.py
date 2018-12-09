@@ -2,6 +2,7 @@
 Utilities for making literature review figures.
 
 TODO:
+- Make sure the data will be loaded correctly wherever the code is run from.
 - Make a CLI for creating all figures at once.
 - Make sure that the seaborn parameters will apply to pure matplotlib figures.
 """
@@ -1130,8 +1131,8 @@ def plot_architectures_vs_input(df, save_cfg=cfg.saving_config):
     counts = df.groupby(['Input', 'Arch']).size().unstack('Input')
     counts = counts.loc[order, :]
 
-    counts.plot(kind='bar', stacked=True, title='', ax=ax)
-    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    counts.plot(kind='bar', stacked=True, title='', ax=ax, color=colors)
+    # ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
     ax.set_ylabel('Number of papers')
     ax.set_xlabel('')
 
@@ -1140,6 +1141,10 @@ def plot_architectures_vs_input(df, save_cfg=cfg.saving_config):
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'architectures_vs_input')
         fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+        save_cfg2 = save_cfg.copy()
+        save_cfg2['format'] = 'png'
+        fig.savefig(fname + '.png', **save_cfg2)
 
     return ax
 
@@ -1170,6 +1175,33 @@ def plot_optimizers_per_year(df, save_cfg=cfg.saving_config):
         fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
 
     return ax
+
+
+def plot_number_layers(df, save_cfg=cfg.saving_config):
+    """
+    """
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_width'] / 3))
+
+    n_layers_df = df['Layers (clean)'].value_counts().reindex(
+        [str(i) for i in range(1, 32)] + ['N/M'])
+    n_layers_df = n_layers_df.dropna().astype(int)
+
+    n_layers_df.plot(kind='bar', width=0.8, rot=0, colormap='Dark2', ax=ax)
+    ax.set_xlabel('Number of layers')
+    ax.set_ylabel('Number of papers')
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'number_layers')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+        save_cfg2 = save_cfg.copy()
+        save_cfg2['format'] = 'png'
+        save_cfg2['dpi'] = 300
+        fig.savefig(fname + '.png', **save_cfg2)
+
+    return ax   
 
 
 if __name__ == '__main__':
@@ -1203,3 +1235,4 @@ if __name__ == '__main__':
     plot_architectures_vs_input(df)
     plot_optimizers_per_year(df)
 
+    plot_number_layers(df)
