@@ -1,15 +1,7 @@
-"""
-Utilities for making literature review figures.
-
-TODO:
-- Make sure the data will be loaded correctly wherever the code is run from.
-- Make a CLI for creating all figures at once.
-- Make sure that the seaborn parameters will apply to pure matplotlib figures.
+"""Functions to plot and compute results for the literature review.
 """
 
 import os
-from os import path
-import re
 import logging
 import logging.config
 from collections import OrderedDict
@@ -25,14 +17,19 @@ from wordcloud import WordCloud, STOPWORDS
 from graphviz import Digraph
 
 import plt_config as cfg
+import utils as ut
 
 
+# Set style, context and palette
 sns.set_style(rc=cfg.axes_styles)
 sns.set_context(rc=cfg.plotting_context)
+sns.set_palette(cfg.palette)
+
 for key, val in cfg.axes_styles.items():
     mpl.rcParams[key] = val
 for key, val in cfg.plotting_context.items():
     mpl.rcParams[key] = val
+
 
 # Initialize logger for saving results and stats. Use `logger.info('message')`
 # to log results.
@@ -48,135 +45,6 @@ formatter = logging.Formatter(
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
-
-
-def lstrip(list_of_strs, lower=True):
-    """Remove left space and make lowercase."""
-    return [a.lstrip().lower() if lower else a.lstrip() for a in list_of_strs] 
-
-    
-def replace_nans_in_column(df, column_name, replace_by=' '):
-    nan_ind = df[column_name].apply(lambda x:
-        np.isnan(x) if isinstance(x, float) else False)
-    df.loc[nan_ind, column_name] = replace_by
-    return df
-
-
-def tex_escape(text):
-    """Add escape character in front of LaTeX special characters in string.
-
-        :param text: a plain text message
-        :return: the message escaped to appear correctly in LaTeX
-        
-        From https://stackoverflow.com/a/25875504
-    """
-    conv = {
-        '&': r'\&',
-        '%': r'\%',
-        '$': r'\$',
-        '#': r'\#',
-        '_': r'\_',
-        '{': r'\{',
-        '}': r'\}',
-        '~': r'\textasciitilde{}',
-        '^': r'\^{}',
-        '\\': r'\textbackslash{}',
-        '<': r'\textless{}',
-        '>': r'\textgreater{}',
-    }
-    regex = re.compile('|'.join(re.escape(str(key)) 
-        for key in sorted(conv.keys(), key = lambda item: - len(item))))
-    return regex.sub(lambda match: conv[match.group()], text)
-
-
-def load_data_items(start_year=2010):
-    """Load data items table.
-
-    TODO:
-    - Normalize column names?
-    - Double check all the required columns are there?
-    """
-    fname = 'data/data_items.csv'
-    df = pd.read_csv(fname, header=1)
-
-    # A little cleaning up
-    df = df.dropna(axis=0, how='all')
-    df = df.dropna(axis=1, how='all', thresh=int(df.shape[0] * 0.1))
-    df = df[df['Year'] >= start_year]
-
-    return df
-
-
-def load_reported_results_data():
-    """Load table of reported results (second tab on spreadsheet).
-    """
-    fname = 'data/reporting_results.csv'
-    df = pd.read_csv(fname, header=0)
-    df = df.drop(columns=['Unnamed: 0', 'Title', 'Comment'])
-    df['Result'] = pd.to_numeric(df['Result'], errors='coerce')
-    df = df.dropna()
-
-    def extract_model_type(x):
-        if 'arch' in x:
-            out = 'Proposed'
-        elif 'trad' in x:
-            out = 'Baseline (traditional)'
-        elif 'dl' in x:
-            out = 'Baseline (deep learning)'
-        else:
-            raise ValueError('Model type {} not supported.'.format(x))
-        
-        return out
-
-    df['model_type'] = df['Model'].apply(extract_model_type)
-
-    return df
-
-
-def check_data_items(df):
-    """Check data items to make sure it contains the right stuff. 
-
-    - Years
-    - Number of layers
-    - Domains
-    - Checked by 2 people
-    - Invasive
-
-    TODO:
-    - Should this be some kind of unit test?
-    """
-    pass
-    # assert(df['Year'].dropna(axis=0) > 2010)
-
-
-def wrap_text(string, max_char=25):
-    """Wrap string at `max_char` per line.
-
-    Args:
-        string (str): string to be wrapped.
-
-    Keyword Args:
-        max_char (int): maximum number of characters per line.
-
-    Returns:
-        (str): wrapped string.
-    """
-    string_parts = string.split()
-    if len(string) > max_char and len(string_parts) > 1:
-        out_string = string_parts[0]
-        line_len = len(out_string)
-        for i in string_parts[1:]:
-            if line_len + 1 + len(i) > max_char:
-                out_string += '\n'
-                line_len = len(i)
-            else:
-                out_string += ' '
-                line_len += len(i) + 1
-            out_string += i
-    else:
-        out_string = string
-        
-    return out_string
 
 
 def get_saturation(level, min_s, max_s, n_levels):
@@ -220,7 +88,7 @@ def make_box(dot, text, max_char, n_instances, max_n_instances, level, n_levels,
         (str): node name
         (float): hue of the box
     """
-    node_text = wrap_text(text, max_char=max_char)
+    node_text = ut.wrap_text(text, max_char=max_char)
     if node_name is None:
         node_name = text
     
@@ -238,6 +106,45 @@ def make_box(dot, text, max_char, n_instances, max_n_instances, level, n_levels,
     dot.edge(parent_name, node_name)
     
     return node_name, hue
+
+
+def plot_prisma_diagram(save_cfg=cfg.saving_config):
+    """Plot diagram showing the number of selected articles.
+    """
+    # save_format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
+    save_format = 'pdf'
+    dot = Digraph(format=save_format)
+    dot.attr('graph', rankdir='TB', overlap='false')
+    dot.attr('node', fontname='Liberation Sans', fontsize=str(9), shape='box', 
+             style='filled', margin='0.15,0.07', penwidth='0.5')
+
+    fillcolor = 'gray98'
+
+    dot.node('A', 'PubMed (n=39)\nGoogle Scholar (n=409)\narXiv (n=105)', 
+             fillcolor='gray95')
+    dot.node('B', 'Articles identified\nthrough database\nsearching\n(n=553)', 
+             fillcolor=fillcolor)
+    # dot.node('B2', 'Excluded\n(n=446)', fillcolor=fillcolor)
+    dot.node('C', 'Articles after content\nscreening and\nduplicate removal\n(n=107) ', 
+             fillcolor=fillcolor)
+    dot.node('D', 'Articles included in\nthe analysis\n(n=156)', 
+             fillcolor=fillcolor)
+    dot.node('E', 'Additional articles\nidentified through\nbibliography search\n(n=49)', 
+             fillcolor=fillcolor)
+
+    dot.edge('B', 'C')
+    # dot.edge('B', 'B2')
+    dot.edge('C', 'D')
+    dot.edge('E', 'D')
+
+    # dot = Digraph('G', filename='hello.gv')
+    # dot.edge('Hello', 'World')
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'prisma_diagram')
+        dot.render(filename=fname, view=False, cleanup=False)
+                
+    return dot
 
 
 def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10, 
@@ -271,9 +178,10 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
 
     n_samples, n_levels = df.shape
     format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
+    size = '{},{}!'.format(save_cfg['page_width'], save_cfg['page_height'])
     
     dot = Digraph(format=format)
-    dot.attr('graph', rankdir='TB', overlap='false')  # LR (left to right), TB (top to bottom)
+    dot.attr('graph', rankdir='TB', overlap='false', ratio='fill', size=size)  # LR (left to right), TB (top to bottom)
     dot.attr('node', fontname='Liberation Sans', fontsize=str(max_font_size), 
              shape='box', style='filled, rounded',  margin='0.2,0.01', 
              penwidth='0.5')
@@ -384,13 +292,15 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
     - Macro f1-score === f1=score
     """
     if eeg_clf is True:
-        metrics = df[df['Domain 1'] == 'Classification of EEG signals']['Performance metrics (clean)']
+        metrics = df[df['Domain 1'] == 'Classification of EEG signals'][
+            'Performance metrics (clean)']
     elif eeg_clf is False:
-        metrics = df[df['Domain 1'] != 'Classification of EEG signals']['Performance metrics (clean)']
+        metrics = df[df['Domain 1'] != 'Classification of EEG signals'][
+            'Performance metrics (clean)']
     elif eeg_clf is None:
         metrics = df['Performance metrics (clean)']
 
-    metrics = metrics.str.split(',').apply(lstrip)
+    metrics = metrics.str.split(',').apply(ut.lstrip)
 
     metric_per_article = list()
     for i, metric_list in metrics.iteritems():
@@ -433,7 +343,7 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
     metrics_df = metrics_df[metrics_df['metric'].isin(
         metrics_counts[(metrics_counts >= cutoff)].index)]
 
-    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 2, 
+    fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 2, 
                                     save_cfg['text_height'] / 5))
     ax = sns.countplot(y='metric', data=metrics_df, 
                        order=metrics_df['metric'].value_counts().index)
@@ -695,8 +605,8 @@ def generate_wordcloud(df, save_cfg=cfg.saving_config):
     # plt.show()
 
 
-def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
-    """Plot bar graph showing the types of method inspection techniques used.
+def plot_model_inspection_and_table(df, cutoff=1, save_cfg=cfg.saving_config):
+    """Make bar graph and table listing method inspection techniques.
 
     Args:
         df (DataFrame)
@@ -707,7 +617,7 @@ def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
         save_cfg (dict)
     """
     df['inspection_list'] = df[
-        'Model inspection (clean)'].str.split(',').apply(lstrip)
+        'Model inspection (clean)'].str.split(',').apply(ut.lstrip)
 
     inspection_per_article = list()
     for i, items in df[['Citation', 'inspection_list']].iterrows():
@@ -734,8 +644,20 @@ def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
     inspection_df = inspection_df[inspection_df['inspection method'].isin(
         inspection_counts[(inspection_counts >= cutoff)].index)]
 
+    # Making table
+    inspection_table = inspection_df.groupby(['inspection method'])[
+        'Citation'].apply(list)
+    order = inspection_df['inspection method'].value_counts().index
+    inspection_table = inspection_table.reindex(order)
+    inspection_table = inspection_table.apply(lambda x: r'\cite{' + ', '.join(x) + '}')
+
+    with open(os.path.join(save_cfg['savepath'], 'inspection_methods.tex'), 'w') as f:
+        with pd.option_context("max_colwidth", 1000):
+            f.write(inspection_table.to_latex(escape=False))
+
+
     fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 3, 
-                                    save_cfg['text_height'] / 5))
+                                    save_cfg['text_height'] / 2))
     ax = sns.countplot(y='inspection method', data=inspection_df, 
                     order=inspection_df['inspection method'].value_counts().index)
     ax.set_xlabel('Number of papers')
@@ -757,9 +679,14 @@ def plot_model_inspection(df, cutoff=1, save_cfg=cfg.saving_config):
 def plot_type_of_paper(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the type of each paper (journal, conference, etc.).
     """
+    # Move supplements to journal paper category for the plot (a value of one is
+    # not visible on a bar graph).
+    df_plot = df.copy()
+    df_plot.loc[df['Type of paper'] == 'Supplement', :] = 'Journal'
+
     fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4, 
                                     save_cfg['text_height'] / 5))
-    sns.countplot(x=df['Type of paper'], ax=ax)
+    sns.countplot(x=df_plot['Type of paper'], ax=ax)
     ax.set_xlabel('')
     ax.set_ylabel('Number of papers')
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
@@ -814,11 +741,11 @@ def make_domain_table(df):
     """Make domain table that contains every reference.
     """
     # Replace NaNs by ' ' in 'Domain 3' and 'Domain 4' columns
-    df = replace_nans_in_column(df, 'Domain 3', replace_by=' ')
-    df = replace_nans_in_column(df, 'Domain 4', replace_by=' ')
+    df = ut.replace_nans_in_column(df, 'Domain 3', replace_by=' ')
+    df = ut.replace_nans_in_column(df, 'Domain 4', replace_by=' ')
 
     cols = ['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4', 'Architecture (clean)']
-    df[cols] = df[cols].applymap(tex_escape)
+    df[cols] = df[cols].applymap(ut.tex_escape)
 
     # Make tuple of first 2 domain levels
     domains_df = df.groupby(cols)['Citation'].apply(list).apply(
@@ -870,7 +797,7 @@ def plot_multiple_proportions(data, height=0.3, print_count=True,
     """
     df = pd.DataFrame(data=list(data.keys()), columns=['items'])
     df['counts'] = np.zeros(len(data))
-    df['items'] = df['items'].apply(wrap_text, max_char=20)
+    df['items'] = df['items'].apply(ut.wrap_text, max_char=20)
 
     fig, ax = plt.subplots(figsize=figsize)
     sns.barplot(x='counts', y='items', data=df, ax=ax)
@@ -980,6 +907,8 @@ def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
          'Dataset accessibility'].value_counts().to_dict()
     data['(b) Code availability'] = df[
          'Code hosted on'].value_counts().to_dict()
+    data['(c) Type of baseline'] = df[
+         'Baseline model type'].value_counts().to_dict()
 
     df['reproducibility'] = 'Hard'
     df.loc[(df['Code available'] == 'Yes') & 
@@ -989,12 +918,12 @@ def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
     df.loc[(df['Code available'] == 'No') & 
            (df['Dataset accessibility'] == 'Private'), 'reproducibility'] = 'Impossible' 
 
-    data['(c) Reproducibility'] = df[
+    data['(d) Reproducibility'] = df[
          'reproducibility'].value_counts().to_dict()
 
     fig, ax = plot_multiple_proportions(
         data, print_count=5, respect_order=['Easy', 'Medium', 'Hard', 'Impossible'],
-        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
+        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 3))
     
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'reproducibility')
@@ -1007,7 +936,7 @@ def plot_domains_per_year(df, save_cfg=cfg.saving_config):
     """Plot stacked bar graph of domains per year.
     """
     fig, ax = plt.subplots(
-        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
+        figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_height'] / 4))
 
     df['Year'] = df['Year'].astype('int32')
     main_domains = ['Epilepsy', 'Sleep', 'BCI', 'Affective', 'Cognitive', 
@@ -1019,6 +948,11 @@ def plot_domains_per_year(df, save_cfg=cfg.saving_config):
     df.groupby(['Year', 'Main domain']).size().unstack('Main domain').plot(
         kind='bar', stacked=True, title='', ax=ax)
     ax.set_ylabel('Number of papers')
+    ax.set_xlabel('')
+
+    legend = plt.legend()
+    for l in legend.get_texts():
+        l.set_text(ut.wrap_text(l.get_text(), max_char=14))
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'domains_per_year')
@@ -1030,30 +964,24 @@ def plot_domains_per_year(df, save_cfg=cfg.saving_config):
 def plot_hardware(df, save_cfg=cfg.saving_config):
     """Plot bar graph showing the hardware used in the study.
     """
-    hardware = df['EEG Hardware'].str.split(',').apply(lstrip, lower=False)
+    col = 'EEG Hardware'
+    hardware_df = ut.split_column_with_multiple_entries(
+        df, col, ref_col='Citation', sep=',', lower=False)
 
-    hardware_per_article = list()
-    for i, hardware_list in hardware.iteritems():
-        for m in hardware_list:
-            hardware_per_article.append([i, m])
-
-    hardware_df = pd.DataFrame(hardware_per_article, 
-                               columns=['paper nb', 'hardware'])
-    
     # Remove N/Ms because they make it hard to see anything
-    hardware_df = hardware_df[hardware_df['hardware'] != 'N/M']
+    hardware_df = hardware_df[hardware_df[col] != 'N/M']
     
     # Add low cost column
     hardware_df['Low-cost'] = False
     low_cost_devices = ['EPOC (Emotiv)', 'OpenBCI', 'Muse', 
                         'Mindwave Mobile (Neurosky)', 'Mindset (NeuroSky)']
-    hardware_df.loc[hardware_df['hardware'].isin(low_cost_devices), 
+    hardware_df.loc[hardware_df[col].isin(low_cost_devices), 
                     'Low-cost'] = True
 
     fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 2, 
                                     save_cfg['text_height'] / 5 * 2))
-    sns.countplot(hue=hardware_df['Low-cost'], y=hardware_df['hardware'], ax=ax,
-                  order=hardware_df['hardware'].value_counts().index, 
+    sns.countplot(hue=hardware_df['Low-cost'], y=hardware_df[col], ax=ax,
+                  order=hardware_df[col].value_counts().index, 
                   dodge=False)
     # sns.catplot(row=hardware_df['low_cost'], y=hardware_df['hardware'])
     ax.set_xlabel('Number of papers')
@@ -1107,6 +1035,7 @@ def plot_architectures_per_year(df, save_cfg=cfg.saving_config):
     counts.plot(kind='bar', stacked=True, title='', ax=ax, color=colors)
     ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
     ax.set_ylabel('Number of papers')
+    ax.set_xlabel('')
 
     plt.tight_layout()
 
@@ -1121,8 +1050,7 @@ def plot_architectures_vs_input(df, save_cfg=cfg.saving_config):
     """Plot stacked bar graph of architectures vs input type.
     """
     fig, ax = plt.subplots(
-        figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_width'] / 3))
-    colors = sns.color_palette('Paired')
+        figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_width'] / 3))
 
     df['Input'] = df['Features (clean)']
     col_name = 'Architecture (clean)'
@@ -1131,7 +1059,10 @@ def plot_architectures_vs_input(df, save_cfg=cfg.saving_config):
     counts = df.groupby(['Input', 'Arch']).size().unstack('Input')
     counts = counts.loc[order, :]
 
-    counts.plot(kind='bar', stacked=True, title='', ax=ax, color=colors)
+    # To reduce the height of the figure, wrap long xticklabels
+    counts = counts.rename({'CNN+RNN': 'CNN+\nRNN'}, axis='index')
+
+    counts.plot(kind='bar', stacked=True, title='', ax=ax)
     # ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
     ax.set_ylabel('Number of papers')
     ax.set_xlabel('')
@@ -1154,7 +1085,6 @@ def plot_optimizers_per_year(df, save_cfg=cfg.saving_config):
     """
     fig, ax = plt.subplots(
         figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_width'] / 5 * 2))
-    colors = sns.color_palette('Paired')
 
     df['Input'] = df['Features (clean)']
     col_name = 'Optimizer (clean)'
@@ -1163,7 +1093,7 @@ def plot_optimizers_per_year(df, save_cfg=cfg.saving_config):
     counts = df.groupby(['Year', 'Opt']).size().unstack('Opt')
     counts = counts[order]
 
-    counts.plot(kind='bar', stacked=True, title='', ax=ax, color=colors)
+    counts.plot(kind='bar', stacked=True, title='', ax=ax)
     ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
     ax.set_ylabel('Number of papers')
     ax.set_xlabel('')
@@ -1177,17 +1107,49 @@ def plot_optimizers_per_year(df, save_cfg=cfg.saving_config):
     return ax
 
 
-def plot_number_layers(df, save_cfg=cfg.saving_config):
-    """
+def plot_intra_inter_per_year(df, save_cfg=cfg.saving_config):
+    """Plot stacked bar graph of intra-/intersubject studies per year.
     """
     fig, ax = plt.subplots(
-        figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_width'] / 3))
+        figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_height'] / 6))
+
+    df['Year'] = df['Year'].astype(int)
+    col_name = 'Intra/Inter subject'
+    order = df[col_name].value_counts().index
+    counts = df.groupby(['Year', col_name]).size().unstack(col_name)
+    counts = counts[order]
+
+    logger.info('Stats on inter/intra subjects: {}'.format(
+        df[col_name].value_counts() / df.shape[0] * 100))
+
+    counts.plot(kind='bar', stacked=True, title='', ax=ax)
+    # ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    ax.set_ylabel('Number of papers')
+    ax.set_xlabel('')
+
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'intra_inter_per_year')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_number_layers(df, save_cfg=cfg.saving_config):
+    """Plot histogram of number of layers.
+    """
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_width'] / 3))
 
     n_layers_df = df['Layers (clean)'].value_counts().reindex(
         [str(i) for i in range(1, 32)] + ['N/M'])
     n_layers_df = n_layers_df.dropna().astype(int)
 
-    n_layers_df.plot(kind='bar', width=0.8, rot=0, colormap='Dark2', ax=ax)
+    from matplotlib.colors import ListedColormap
+    cmap = ListedColormap(sns.color_palette(None).as_hex())
+
+    n_layers_df.plot(kind='bar', width=0.8, rot=0, colormap=cmap, ax=ax)
     ax.set_xlabel('Number of layers')
     ax.set_ylabel('Number of papers')
     plt.tight_layout()
@@ -1204,35 +1166,156 @@ def plot_number_layers(df, save_cfg=cfg.saving_config):
     return ax   
 
 
-if __name__ == '__main__':
+def plot_number_subjects_by_domain(df, save_cfg=cfg.saving_config):
+    """Plot number of subjects in studies by domain.
+    """
+    # Extract main domains
+    main_domains = ['Epilepsy', 'Sleep', 'BCI', 'Affective', 'Cognitive', 
+                    'Improvement of processing tools', 'Generation of data']
+    domains_df = df[['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4']]
+    df['Main domain'] = [row[row.isin(main_domains)].values[0] 
+        if any(row.isin(main_domains)) else 'Others' 
+        for ind, row in domains_df.iterrows()]
 
-    df = load_data_items()
-    results_df = load_reported_results_data()
-    check_data_items(df)
+    # Split values into separate rows and remove invalid values
+    col = 'Data - subjects'
+    nb_subj_df = ut.split_column_with_multiple_entries(
+        df, col, ref_col='Main domain')
+    nb_subj_df = nb_subj_df.loc[nb_subj_df[col] != 'n/m']
+    nb_subj_df[col] = nb_subj_df[col].astype(int)
+    nb_subj_df = nb_subj_df.loc[nb_subj_df[col] > 0, :]
+
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_height'] / 3))
+    ax.set(xscale='log', yscale='linear')
+    sns.swarmplot(
+        y='Main domain', x=col, data=nb_subj_df, 
+        ax=ax, size=3, order=nb_subj_df.groupby(['Main domain'])[
+            col].median().sort_values().index)
+    ax.set_xlabel('Number of subjects')
+    ax.set_ylabel('')
+
     
-    plot_domain_tree(df)
+    logger.info('Stats on number of subjects per model: {}'.format(nb_subj_df[col].describe()))
 
-    plot_model_comparison(df)
-    plot_performance_metrics(df)
-    plot_model_inspection(df, cutoff=1)
-    plot_type_of_paper(df)
-    plot_country(df)
-    compute_prct_statistical_test(df)
-    generate_wordcloud(df)
+    plt.tight_layout()
 
-    plot_reported_results(results_df, data_items_df=df)
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'nb_subject_per_domain')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
 
-    # Proportion plots
-    plot_preprocessing_proportions(df)
-    plot_hyperparams_proportions(df)
-    plot_reproducibility_proportions(df)
+    return ax 
 
-    plot_domains_per_year(df)
-    plot_hardware(df)
 
-    plot_architectures(df)
-    plot_architectures_per_year(df)
-    plot_architectures_vs_input(df)
-    plot_optimizers_per_year(df)
+def plot_number_channels(df, save_cfg=cfg.saving_config):
+    """Plot histogram of number of channels.
+    """
+    nb_channels_df = ut.split_column_with_multiple_entries(
+        df, 'Nb Channels', ref_col='Citation', sep=';\n', lower=False)
+    nb_channels_df['Nb Channels'] = nb_channels_df['Nb Channels'].astype(int)
+    nb_channels_df = nb_channels_df.loc[nb_channels_df['Nb Channels'] > 0, :]
 
-    plot_number_layers(df)
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 2, save_cfg['text_height'] / 4))
+    sns.distplot(nb_channels_df['Nb Channels'], kde=False, norm_hist=False, ax=ax)
+    ax.set_xlabel('Number of EEG channels')
+    ax.set_ylabel('Number of papers')
+
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'nb_channels')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def compute_stats_sampling_rate(df):
+    """Compute the statistics for hardware sampling rate.
+    """
+    fs_df = ut.split_column_with_multiple_entries(
+    df, 'Sampling rate', ref_col='Citation', sep=';\n', lower=False)
+    fs_df['Sampling rate'] = fs_df['Sampling rate'].astype(float)
+    fs_df = fs_df.loc[fs_df['Sampling rate'] > 0, :]
+
+    logger.info('Stats for EEG sampling rate: {}'.format(
+        fs_df['Sampling rate'].describe()))
+
+
+def plot_cross_validation(df, save_cfg=cfg.saving_config):
+    """Plot bar graph of cross validation approaches.
+    """
+    col = 'Cross validation (clean)'
+    df[col] = df[col].fillna('N/M')
+    cv_df = ut.split_column_with_multiple_entries(
+        df, col, ref_col='Citation', sep=';\n', lower=False)
+    
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 2, save_cfg['text_height'] / 5))
+    sns.countplot(y=cv_df[col], order=cv_df[col].value_counts().index, ax=ax)
+    ax.set_xlabel('Number of papers')
+    ax.set_ylabel('')
+    
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'cross_validation')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def make_dataset_table(df, min_n_articles=2, save_cfg=cfg.saving_config):
+    """Make table that reports most used datasets.
+
+    Args:
+        df
+
+    Keyword Args:
+        min_n_articles (int): minimum number of times a dataset must have been
+            used to be listed in the table. If under that number, will appear as
+            'Other' in the table.
+        save_cfg (dict)
+    """
+    def merge_dataset_names(s):
+        if 'bci comp' in s.lower():
+            s = 'BCI Competition'
+        elif 'tuh' in s.lower():
+            s = 'TUH'
+        elif 'mahnob' in s.lower():
+            s = 'MAHNOB'
+        return s
+
+    col = 'Dataset name'
+    datasets_df = ut.split_column_with_multiple_entries(
+        df, col, ref_col=['Main domain', 'Citation'], sep=';\n', lower=False)
+
+    # Remove not mentioned and internal recordings, as readers won't be able to 
+    # use these datasets anyway
+    datasets_df = datasets_df.loc[~datasets_df[col].isin(
+        ['N/M', 'Internal Recordings', 'TBD'])]
+
+    datasets_df['Dataset'] = datasets_df[col].apply(merge_dataset_names).apply(
+        ut.tex_escape)
+
+    # Replace datasets that were used rarely by 'Other'
+    counts = datasets_df['Dataset'].value_counts()
+    datasets_df.loc[datasets_df['Dataset'].isin(
+        counts[counts < min_n_articles].index), 'Dataset'] = 'Other'
+
+    # Group by dataset and order by number of articles
+    dataset_table = datasets_df.groupby(
+        ['Main domain', 'Dataset'], as_index=True)['Citation'].apply(list)
+    dataset_table = pd.concat([dataset_table.apply(len), dataset_table], axis=1)
+    dataset_table.columns = [r'\# articles', 'References']
+
+    dataset_table = dataset_table.sort_values(
+        by=['Main domain', r'\# articles'], ascending=[True, False])
+    dataset_table['References'] = dataset_table['References'].apply(
+        lambda x: r'\cite{' + ', '.join(x) + '}')
+
+    tex_table = dataset_table.to_latex(escape=False, multicolumn=False)
+    
+    with open(os.path.join(save_cfg['savepath'], 'dataset_table.tex'), 'w') as f:
+        with pd.option_context("max_colwidth", 1000):
+            f.write(dataset_table.to_latex(escape=False, multicolumn=False))

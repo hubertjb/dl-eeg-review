@@ -1,0 +1,25 @@
+digraph {
+	graph [overlap=false rankdir=TB]
+	node [fontname="Liberation Sans" fontsize=9 margin="0.15,0.07" penwidth=0.5 shape=box style=filled]
+	A [label="PubMed (n=39)
+Google Scholar (n=409)
+arXiv (n=105)" fillcolor=gray95]
+	B [label="Articles identified
+through database
+searching
+(n=553)" fillcolor=gray98]
+	C [label="Articles after content
+screening and
+duplicate removal
+(n=107) " fillcolor=gray98]
+	D [label="Articles included in
+the analysis
+(n=156)" fillcolor=gray98]
+	E [label="Additional articles
+identified through
+bibliography search
+(n=49)" fillcolor=gray98]
+	B -> C
+	C -> D
+	E -> D
+}

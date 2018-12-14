@@ -56,7 +56,7 @@ plotting_context = {'font.size': font_size,
                     'xtick.minor.size': 3.2,
                     'ytick.minor.size': 3.2}
 
-saving_config = {'savepath': 'figs/',
+saving_config = {'savepath': '../figs/',
                  'dpi': None,
                  'facecolor': 'w',
                  'edgecolor': 'w',
@@ -72,3 +72,5 @@ saving_config = {'savepath': 'figs/',
                  'page_height': 11,
                  'text_width': 6.5,
                  'text_height': 9}
+
+palette = 'Paired'
