@@ -7,6 +7,7 @@ import logging.config
 from collections import OrderedDict
 
 import pandas as pd
+import geopandas as gpd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import matplotlib as mpl
@@ -725,6 +726,58 @@ def plot_country(df, save_cfg=cfg.saving_config):
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'country')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax
+
+
+def plot_countrymap(df, save_cfg=cfg.saving_config):
+    """Plot bar graph showing the country of the first author's affiliation.
+    """
+    #fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 3, 
+    #                                save_cfg['text_height'] / 5))
+
+    shapefile = os.path.expanduser('../countries/ne_10m_admin_0_countries.shp')
+
+    gdf = gpd.read_file(shapefile)[['ADMIN', 'geometry']].to_crs('+proj=robin')
+    #gdf.head()
+
+    dfx = df
+    dfx = dfx.Country.value_counts().reset_index().rename(columns={'index': 'Country', 'Country': 'Count'})
+    #dfx.head()
+
+    #print("Renaming Exceptions!")
+    #print(dfx.loc[~dfx['Country'].isin(gdf['ADMIN'])])
+
+    # Exception #1 - USA: United States of America
+    dfx.loc[dfx['Country'] == 'USA', 'Country'] = 'United States of America'
+
+    # Exception #2 - UK: United Kingdom
+    dfx.loc[dfx['Country'] == 'UK', 'Country'] = 'United Kingdom'
+
+    # Exception #3 - Bosnia: Bosnia and Herzegovina
+    dfx.loc[dfx['Country'] == 'Bosnia', 'Country'] = 'Bosnia and Herzegovina'
+
+    if len(dfx.loc[~dfx['Country'].isin(gdf['ADMIN'])]) > 0:
+        print("## ERROR ## - Unhandled Countries!")
+
+    # Adding 0 to all other countries!
+    for c in gdf['ADMIN']:
+        if any(dfx['Country'].str.contains(c)):
+            gdf.loc[gdf['ADMIN'] == c, 'Count'] = dfx[dfx['Country'].str.contains(c)]['Count'].values[0]
+        else:
+            gdf.loc[gdf['ADMIN'] == c, 'Count'] = 0
+
+    figsize = (16, 10)
+    ax = gdf.plot(column='Count', figsize=figsize, cmap='Blues', scheme='Fisher_Jenks', k=10, legend=True, axes=None)
+    
+    ax.set_axis_off()
+    #ax.set_xlim([-1.5e7, 1.7e7])
+    #ax.get_legend().set_bbox_to_anchor((.12, .4))
+    fig = ax.get_figure()
+    
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'countrymap')
         fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
 
     return ax
