@@ -428,7 +428,8 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
     axes.append(_plot_results_accuracy_comparison(acc_comparison_df, save_cfg))
 
     if data_items_df is not None:
-        domains_df = data_items_df.filter(regex='(?=Domain*|Citation)')
+        domains_df = data_items_df.filter(
+            regex='(?=Domain*|Citation|Main domain|Journal / Origin)')
 
         # Concatenate domains into one string
         def concat_domains(x):
@@ -442,6 +443,7 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
                                                     concat_domains, axis=1)
         diff_domain_df = diff_df.merge(domains_df, on='Citation', how='left')
         diff_domain_df = diff_domain_df.sort_values(by='domain')
+        diff_domain_df['arxiv'] = diff_domain_df['Journal / Origin'] == 'Arxiv'
 
         axes.append(_plot_results_accuracy_per_domain(
             diff_domain_df, diff_df, save_cfg))
@@ -533,21 +535,24 @@ def _plot_results_accuracy_comparison(results_df, save_cfg):
 
 
 def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
-    """
+    """Make scatterplot + boxplot to show accuracy difference by domain.
     """
     fig, axes = plt.subplots(
         nrows=2, ncols=1, sharex=True, 
-        figsize=(save_cfg['text_width'], save_cfg['text_height'] / 2), 
+        figsize=(save_cfg['text_width'], save_cfg['text_height'] / 3), 
         gridspec_kw = {'height_ratios':[5, 1]})
 
-    sns.catplot(y='domain', x='acc_diff', size=3, jitter=True, 
+    results_df['Main domain'] = results_df['Main domain'].apply(
+        ut.wrap_text, max_char=20)
+
+    sns.catplot(y='Main domain', x='acc_diff', s=3, jitter=True, 
                 data=results_df, ax=axes[0])
     axes[0].set_xlabel('')
     axes[0].set_ylabel('')
     axes[0].axvline(0, c='k', alpha=0.2)
 
     sns.boxplot(x='acc_diff', data=diff_df, ax=axes[1])
-    sns.swarmplot(x='acc_diff', data=diff_df, color="0", size=3, ax=axes[1])
+    sns.swarmplot(x='acc_diff', data=diff_df, color="0", size=2, ax=axes[1])
     axes[1].axvline(0, c='k', alpha=0.2)
     axes[1].set_xlabel('Accuracy difference')
 
@@ -693,7 +698,6 @@ def plot_type_of_paper(df, save_cfg=cfg.saving_config):
     plt.tight_layout()
 
     counts = df['Type of paper'].value_counts()
-    # alain
     logger.info('Number of journal papers: {}'.format(counts['Journal']))
     logger.info('Number of conference papers: {}'.format(counts['Conference']))
     logger.info('Number of preprints: {}'.format(counts['Preprint']))
@@ -973,7 +977,7 @@ def plot_hardware(df, save_cfg=cfg.saving_config):
     
     # Add low cost column
     hardware_df['Low-cost'] = False
-    low_cost_devices = ['EPOC (Emotiv)', 'OpenBCI', 'Muse', 
+    low_cost_devices = ['EPOC (Emotiv)', 'OpenBCI (OpenBCI)', 'Muse (InteraXon)', 
                         'Mindwave Mobile (Neurosky)', 'Mindset (NeuroSky)']
     hardware_df.loc[hardware_df[col].isin(low_cost_devices), 
                     'Low-cost'] = True

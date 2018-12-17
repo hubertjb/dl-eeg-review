@@ -22,11 +22,11 @@ pip install -r requirements.txt
 
 `Graphviz` also needs to be installed: see [instructions](https://www.graphviz.org/download/).
 
-Then, run the `review-utils.py` script:
+Then, run the `generate_results.py` script:
 
 ```
-cd dl-eeg-review
-python code/review-utils.py
+cd dl-eeg-review/code/
+python generate_results.py
 ```
 
 This will generate the figures and a log file containing the results under `figs/`.
