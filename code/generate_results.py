@@ -31,6 +31,7 @@ if __name__ == '__main__':
     anl.plot_hardware(df)
     anl.plot_number_channels(df)
     anl.plot_data_quantity(df)
+    anl.compute_stats_sampling_rate(df)
 
     # EEG methodology
     anl.plot_preprocessing_proportions(df)
