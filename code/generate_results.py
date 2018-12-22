@@ -30,6 +30,7 @@ if __name__ == '__main__':
     anl.plot_number_subjects_by_domain(df)
     anl.plot_hardware(df)
     anl.plot_number_channels(df)
+    anl.plot_data_quantity(df)
 
     # EEG methodology
     anl.plot_preprocessing_proportions(df)

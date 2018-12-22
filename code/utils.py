@@ -7,6 +7,7 @@ TODO:
 """
 
 import re
+import warnings
 
 import pandas as pd
 import numpy as np
@@ -51,8 +52,11 @@ def tex_escape(text):
     return regex.sub(lambda match: conv[match.group()], text)
 
 
+import warnings
+
+
 def split_column_with_multiple_entries(df, col, ref_col='Citation', sep=';\n', 
-                                       lower=True):
+                                       lower=True, mismatch='drop'):
     """Split the content of a column that contains more than one value per cell.
     
     Split the content of cells that contain more than one value. Some cells 
@@ -64,28 +68,61 @@ def split_column_with_multiple_entries(df, col, ref_col='Citation', sep=';\n',
     
     Args:
         df (pd.DataFrame)
-        col (str): name of the column to split
+        col (str or list of str): name of the column(s) to split.
         
     Keyword Args:
         ref_col (str or list of str): identifier column(s) to use to identify 
             the row of origin of a splitted value.
         sep (str): separator between multiple values
         lower (bool): if True, make all values lowercase
+        mismatch (str): [NOT IMPLEMENTED YET]
+            only applies if `col` is a list and the cells of the
+            different columns do not contain the same number of elements.
+            If `drop`, remove rows for which there is a missing value.
+            If `fill`, fill missing values with NaNs.
         
     Returns:
         (pd.DataFrame)
     """
-    df['temp'] = df[col].str.split(sep).apply(lstrip, lower=lower)
-    
     if not isinstance(ref_col, list):
         ref_col = [ref_col]
+            
+    if isinstance(col, list):
+        # Find rows for which there is a mismatch
+        cell_counts = list()
+        for c in col:
+            cell_counts.append(df[c].str.split(sep).apply(len))
+        cell_counts_df = pd.concat(cell_counts, axis=1)
+        inds_to_remove = cell_counts_df.loc[
+            cell_counts_df.apply(lambda x: min(x) != max(x), 1)].index
+        warnings.warn('{} rows had incompatible numbers of elements in the '
+              'columns of interest and were dropped:'.format(len(inds_to_remove)))
+        if 'Citation' in ref_col:
+            for i in inds_to_remove:
+                warnings.warn('\t{}'.format(df.iloc[i].loc['Citation']))
+        df = df.drop(inds_to_remove)
+        
+        # Aggregate split columns
+        temp_df = list()
+        for i, c in enumerate(col):
+            inds = [c] + ref_col if i != 0 else c
+            temp_df.append(
+                split_column_with_multiple_entries(
+                    df, c, ref_col=ref_col, sep=sep, lower=lower)[inds])
+            
+        return pd.concat(temp_df, axis=1)
     
-    value_per_row = list()
-    for i, items in df[[*ref_col, 'temp']].iterrows():
-        for m in items['temp']:
-            value_per_row.append([i, *items[ref_col].tolist(), m])
+    else:
+        df['temp'] = df[col].str.split(sep).apply(lstrip, lower=lower)
 
-    return pd.DataFrame(value_per_row, columns=['paper nb', *ref_col, col])
+        value_per_row = list()
+        for i, items in df[[*ref_col, 'temp']].iterrows():
+            for m in items['temp']:
+                value_per_row.append([i, *items[ref_col].tolist(), m])
+
+        df = df.drop(['temp'], axis=1)
+
+        return pd.DataFrame(value_per_row, columns=['paper nb', *ref_col, col])
 
 
 def extract_main_domains(df):
@@ -100,6 +137,32 @@ def extract_main_domains(df):
     df['Main domain'] = [row[row.isin(main_domains)].values[0] 
         if any(row.isin(main_domains)) else 'Others' 
         for ind, row in domains_df.iterrows()]
+
+    return df
+
+
+def extract_ref_numbers_from_bbl(df, filename=None):
+    """Extract reference numbers from .bbl file and add them to df.
+    
+    Args:
+        df (pd.DataFrame): dataframe containing the data items
+            spreadsheet.
+    
+    Keyword Args:
+        filename (str): path to the .bbl file (created when compiling
+            the main tex file).
+            
+    Returns:
+        (pd.DataFrame): dataframe with new column 'ref_nb'.
+    """
+    filename = '../data/output.bbl'
+    with open(filename, 'r', encoding = 'ISO-8859-1') as f:
+        text = ''.join(f.readlines())
+
+    ref_nbs = re.findall(r'\\bibitem\{(.*)\}', text)
+    ref_dict = {ref: i + 1 for i, ref in enumerate(ref_nbs)}
+
+    df['ref_nb'] = df['Citation'].apply(lambda x: '[{}]'.format(ref_dict[x]))
 
     return df
 
@@ -120,6 +183,7 @@ def load_data_items(start_year=2010):
     df = df[df['Year'] >= start_year]
 
     df = extract_main_domains(df)
+    df = extract_ref_numbers_from_bbl(df)
 
     return df
 

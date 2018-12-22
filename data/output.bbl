@@ -1,0 +1,1244 @@
+\begin{thebibliography}{100}
+
+\bibitem{}
+{No Title}.
+\newblock 1287--1290.
+
+\bibitem{Acharya2017}
+{\sc Acharya, U.~R., Oh, S.~L., Hagiwara, Y., Tan, J.~H., and Adeli, H.}
+\newblock {Deep convolutional neural network for the automated detection and
+  diagnosis of seizure using EEG signals}.
+\newblock {\em Computers in Biology and Medicine}, August (2017), 1--9.
+
+\bibitem{Ahmedt-Aristizabal2018}
+{\sc Ahmedt-Aristizabal, D., Fookes, C., Nguyen, K., and Sridharan, S.}
+\newblock {Deep Classification of Epileptic Signals}.
+\newblock {\em Arxiv\/} (2018), 1--4.
+
+\bibitem{Alhagry2017}
+{\sc Alhagry, S., Fahmy, A.~A., and El-Khoribi, R.~A.}
+\newblock {Emotion Recognition based on EEG using LSTM Recurrent Neural
+  Network}.
+\newblock {\em IJACSA) International Journal of Advanced Computer Science and
+  Applications 8}, 10 (2017), 8--11.
+
+\bibitem{Almogbel2018}
+{\sc Almogbel, M.~A., Dang, A.~H., and Kameyama, W.}
+\newblock Eeg-signals based cognitive workload detection of vehicle driver
+  using deep learning.
+\newblock In {\em Advanced Communication Technology (ICACT), 2018 20th
+  International Conference on\/} (2018), IEEE, pp.~256--259.
+
+\bibitem{Alomari2013}
+{\sc Alomari, M.~H., Samaha, A., and AlKamha, K.}
+\newblock {Automated Classification of L/R Hand Movement EEG Signals using
+  Advanced Feature Extraction and Machine Learning}.
+\newblock {\em International Journal of Advanced Computer Science and
+  Applications 4}, 6 (2013), 6.
+
+\bibitem{An2016}
+{\sc An, J., and Cho, S.}
+\newblock {Hand motion identification of grasp-and-lift task from
+  electroencephalography recordings using recurrent neural networks}.
+\newblock {\em 2016 International Conference on Big Data and Smart Computing,
+  BigComp 2016\/} (2016), 427--429.
+
+\bibitem{An2014}
+{\sc An, X., Kuang, D.~P., Guo, X.~J., Zhao, Y.~L., and He, L.~H.}
+\newblock {A Deep Learning Method for Classification of EEG Data Based on Motor
+  Imagery}.
+\newblock {\em Intelligent Computing in Bioinformatics 8590\/} (2014),
+  203--210.
+
+\bibitem{Aznan2018}
+{\sc Aznan, N. K.~N., Bonner, S., Connolly, J.~D., Moubayed, N.~A., and
+  Breckon, T.~P.}
+\newblock {On the Classification of SSVEP-Based Dry-EEG Signals via
+  Convolutional Neural Networks}.
+\newblock {\em arXiv preprint arXiv:1805.04157\/} (2018).
+
+\bibitem{bai2018empirical}
+{\sc Bai, S., Kolter, J.~Z., and Koltun, V.}
+\newblock An empirical evaluation of generic convolutional and recurrent
+  networks for sequence modeling.
+\newblock {\em arXiv preprint arXiv:1803.01271\/} (2018).
+
+\bibitem{Baltatzis2017}
+{\sc Baltatzis, V., Bintsi, K.-M., Apostolidis, G.~K., and Hadjileontiadis,
+  L.~J.}
+\newblock {Bullying incidences identification within an immersive environment
+  using HD EEG-based analysis: A Swarm Decomposition and Deep Learning
+  approach}.
+\newblock {\em Scientific Reports 7}, 1 (2017), 17292.
+
+\bibitem{Bashivan2016b}
+{\sc Bashivan, P., Rish, I., and Heisig, S.}
+\newblock Mental state recognition via wearable eeg.
+\newblock {\em arXiv preprint arXiv:1602.00985\/} (2016).
+
+\bibitem{Bashivan2016a}
+{\sc Bashivan, P., Rish, I., Yeasin, M., and Codella, N.}
+\newblock {Learning Representations from EEG with Deep Recurrent-Convolutional
+  Neural Networks}.
+\newblock {\em arXiv preprint arXiv:1511.06448\/} (2016), 1--15.
+
+\bibitem{Behncke2017}
+{\sc Behncke, J., Schirrmeister, R.~T., Burgard, W., and Ball, T.}
+\newblock {The signature of robot action success in EEG signals of a human
+  observer: Decoding and visualization using deep convolutional neural
+  networks}.
+\newblock {\em arXiv\/} (2017).
+
+\bibitem{BenSaid2017a}
+{\sc {Ben Said}, A., Mohamed, A., Elfouly, T., Harras, K., and Wang, Z.~J.}
+\newblock {Multimodal deep learning approach for Joint EEG-EMG Data compression
+  and classification}.
+\newblock {\em IEEE Wireless Communications and Networking Conference, WCNC\/}
+  (2017).
+
+\bibitem{bergstra2012random}
+{\sc Bergstra, J., and Bengio, Y.}
+\newblock Random search for hyper-parameter optimization.
+\newblock {\em Journal of Machine Learning Research 13}, Feb (2012), 281--305.
+
+\bibitem{Bigdely-Shamlo-etal:16}
+{\sc Bigdely-Shamlo, N., Mullen, T., Kothe, C., Su, K.-M., and Robbins, K.~A.}
+\newblock The {PREP} pipeline: standardized preprocessing for large-scale {EEG}
+  analysis.
+\newblock {\em Frontiers in Neuroinformatics 9\/} (2015), 16.
+
+\bibitem{bishop1995neural}
+{\sc Bishop, C.~M., et~al.}
+\newblock {\em Neural networks for pattern recognition}.
+\newblock Oxford university press, 1995.
+
+\bibitem{Biswal2017}
+{\sc Biswal, S., Kulas, J., Sun, H., Goparaju, B., Westover, M.~B., Bianchi,
+  M.~T., and Sun, J.}
+\newblock {SLEEPNET: Automated Sleep Staging System via Deep Learning}.
+\newblock 1--17.
+
+\bibitem{Bu2010}
+{\sc Bu, N., Shima, K., and Tsuji, T.}
+\newblock {EEG discrimination using wavelet packet transform and a
+  reduced-dimensional recurrent neural network}.
+\newblock {\em Proceedings of the 10th IEEE International Conference on
+  Information Technology and Applications in Biomedicine 0}, 2 (2010), 1--4.
+
+\bibitem{Cecotti2014}
+{\sc Cecotti, H., Eckstein, M.~P., and Giesbrecht, B.}
+\newblock {\em {}IEEE\/}.
+
+\bibitem{Cecotti2011}
+{\sc Cecotti, H., and Gr{\"{a}}ser, A.}
+\newblock {Convolutional neural networks for P300 detection with application to
+  brain-computer interfaces}.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence
+  33}, 3 (2011), 433--445.
+
+\bibitem{Chambon2018}
+{\sc Chambon, S., Galtier, M.~N., Arnal, P.~J., Wainrib, G., and Gramfort, A.}
+\newblock A deep learning architecture for temporal sleep stage classification
+  using multivariate and multimodal time series.
+\newblock {\em IEEE Transactions on Neural Systems and Rehabilitation
+  Engineering\/} (2018).
+
+\bibitem{Chiarelli2018}
+{\sc Chiarelli, A.~M., Croce, P., Merla, A., and Zappasodi, F.}
+\newblock {Deep Learning for hybrid EEG-fNIRS Brain-Computer Interface:
+  application to Motor Imagery Classification.}
+\newblock {\em Journal of Neural Engineering\/} (2018), 0--17.
+
+\bibitem{Chu2017}
+{\sc Chu, L., Qiu, R., Liu, H., Ling, Z., Zhang, T., and Wang, J.}
+\newblock {Individual Recognition in Schizophrenia using Deep Learning Methods
+  with Random Forest and Voting Classifiers: Insights from Resting State EEG
+  Streams}.
+\newblock {\em arXiv preprint arXiv:1707.03467\/} (2017), 1--7.
+
+\bibitem{clerc2016brain}
+{\sc Clerc, M., Bougrain, L., and Lotte, F.}
+\newblock {\em Brain-Computer Interfaces 1: Methods and Perspectives}.
+\newblock Wiley, 2016.
+
+\bibitem{Cole302000}
+{\sc Cole, S.~R., and Voytek, B.}
+\newblock Cycle-by-cycle analysis of neural oscillations.
+\newblock {\em bioRxiv\/} (2018).
+
+\bibitem{comstock1992multi}
+{\sc Comstock~Jr, J.~R., and Arnegard, R.~J.}
+\newblock The multi-attribute task battery for human operator workload and
+  strategic behavior research.
+
+\bibitem{congedo2017riemannian}
+{\sc Congedo, M., Barachant, A., and Bhatia, R.}
+\newblock Riemannian geometry for {EEG}-based brain-computer interfaces; a
+  primer and a review.
+\newblock {\em Brain-Computer Interfaces 4}, 3 (2017), 155--174.
+
+\bibitem{Corley2018}
+{\sc Corley, I.~A., and Huang, Y.}
+\newblock {Deep EEG Super-resolution: Upsampling EEG Spatial Resolution with
+  Generative Adversarial Networks}.
+\newblock In {\em IEEE EMBS International Conference on Biomedical {\&} Health
+  Informatics (BHI)\/} (2018), no.~March, pp.~4--7.
+
+\bibitem{Deiss2018}
+{\sc Deiss, O., Biswal, S., Jin, J., Sun, H., Westover, M.~B., and Sun, J.}
+\newblock {HAMLET: Interpretable Human And Machine co-LEarning Technique}.
+\newblock {\em arXiv preprint arXiv:1803.09702\/} (2018).
+
+\bibitem{deng2012ilsvrc}
+{\sc Deng, J., Berg, A., Satheesh, S., Su, H., Khosla, A., and Fei-Fei, L.}
+\newblock Ilsvrc-2012, 2012.
+\newblock {\em URL http://www. image-net. org/challenges/LSVRC\/} (2012).
+
+\bibitem{Dharamsi2017}
+{\sc Dharamsi, T., Das, P., Pedapati, T., Bramble, G., Muthusamy, V.,
+  Samulowitz, H., Varshney, K.~R., Rajamanickam, Y., Thomas, J., and Dauwels,
+  J.}
+\newblock {Neurology-as-a-Service for the Developing World}.
+\newblock {\em arXiv preprint arXiv:1711.06195}, Nips (2017), 1--5.
+
+\bibitem{Ding2015}
+{\sc Ding, S., Zhang, N., Xu, X., Guo, L., and Zhang, J.}
+\newblock {Deep Extreme Learning Machine and Its Application in EEG
+  Classification}.
+\newblock {\em Mathematical Problems in Engineering 2015\/} (2015).
+
+\bibitem{dong2018mixed}
+{\sc Dong, H., Supratak, A., Pan, W., Wu, C., Matthews, P.~M., and Guo, Y.}
+\newblock Mixed neural network approach for temporal sleep stage
+  classification.
+\newblock {\em IEEE Transactions on Neural Systems and Rehabilitation
+  Engineering 26}, 2 (2018), 324--333.
+
+\bibitem{drouin2016using}
+{\sc Drouin-Picaro, A., and Falk, T.~H.}
+\newblock Using deep neural networks for natural saccade classification from
+  electroencephalograms.
+\newblock In {\em Student Conference (ISC), 2016 IEEE EMBS International\/}
+  (2016), IEEE, pp.~1--4.
+
+\bibitem{duchi2011adaptive}
+{\sc Duchi, J., Hazan, E., and Singer, Y.}
+\newblock Adaptive subgradient methods for online learning and stochastic
+  optimization.
+\newblock {\em Journal of Machine Learning Research 12}, Jul (2011),
+  2121--2159.
+
+\bibitem{Frydenlund2015}
+{\sc Frydenlund, A., and Rudzicz, F.}
+\newblock {Emotional Affect Estimation Using Video and EEG Data in Deep Neural
+  Networks}.
+\newblock In {\em Lecture Notes in Computer Science (including subseries
+  Lecture Notes in Artificial Intelligence and Lecture Notes in
+  Bioinformatics)}, vol.~9091. 2015, pp.~273--280.
+
+\bibitem{Gao2018}
+{\sc Gao, G., Shang, L., Xiong, K., Fang, J., Zhang, C., and Gu, X.}
+\newblock Eeg classification based on sparse representation and deep learning.
+\newblock {\em NeuroQuantology 16}, 6 (2018).
+
+\bibitem{gao2015deep}
+{\sc Gao, Y., Lee, H.~J., and Mehmood, R.~M.}
+\newblock Deep learninig of eeg signals for emotion recognition.
+\newblock In {\em Multimedia \& Expo Workshops (ICMEW), 2015 IEEE International
+  Conference on\/} (2015), IEEE, pp.~1--5.
+
+\bibitem{Ghosh2018}
+{\sc Ghosh, A., {Dal Maso}, F., Roig, M., Mitsis, G.~D., and Boudrias, M.-H.}
+\newblock {Deep Semantic Architecture with discriminative feature visualization
+  for neuroimage analysis}.
+\newblock {\em arXiv preprint arXiv:1805.11704\/} (2018).
+
+\bibitem{Giri2016}
+{\sc Giri, E.~P., Fanany, M.~I., and Arymurthy, A.~M.}
+\newblock {Combining Generative and Discriminative Neural Networks for Sleep
+  Stages Classification}.
+\newblock {\em arXiv preprint arXiv:1610.01741\/} (2016), 1--13.
+
+\bibitem{Giri2016a}
+{\sc Giri, E.~P., Fanany, M.~I., and Arymurthy, A.~M.}
+\newblock {Ischemic Stroke Identification Based on EEG and EOG using 1D
+  Convolutional Neural Network and Batch Normalization}.
+\newblock 484--491.
+
+\bibitem{Golmohammadi2017}
+{\sc Golmohammadi, M., Hossein, A., Torbati, H.~N., {Lopez De Diego}, S.,
+  Obeid, I., and Picone, J.}
+\newblock {Automatic Analysis of Eegs Using Big Data and Hybrid Deep Learning
+  Architectures}.
+\newblock {\em arXiv\/} (2017).
+
+\bibitem{Golmohammadi2017a}
+{\sc Golmohammadi, M., Ziyabari, S., Shah, V., de~Diego, S.~L., Obeid, I., and
+  Picone, J.}
+\newblock {Deep Architectures for Automated Seizure Detection in Scalp EEGs}.
+
+\bibitem{Golmohammadi2017b}
+{\sc Golmohammadi, M., Ziyabari, S., Shah, V., {Von Weltin}, E., Campbell, C.,
+  Obeid, I., and Picone, J.}
+\newblock {Gated recurrent networks for seizure detection}.
+\newblock {\em 2017 IEEE Signal Processing in Medicine and Biology Symposium
+  (SPMB)\/} (2017), 1--5.
+
+\bibitem{goodfellow2016deep}
+{\sc Goodfellow, I., Bengio, Y., Courville, A., and Bengio, Y.}
+\newblock {\em Deep learning}, vol.~1.
+\newblock MIT press Cambridge, 2016.
+
+\bibitem{Gordienko2017}
+{\sc Gordienko, Y., Stirenko, S., Kochura, Y., Alienin, O., Novotarskiy, M.,
+  and Gordienko, N.}
+\newblock {Deep Learning for Fatigue Estimation on the Basis of Multimodal
+  Human-Machine Interactions}.
+
+\bibitem{gramfort-etal:2013}
+{\sc Gramfort, A., Strohmeier, D., Haueisen, J., H{\"a}m{\"a}l{\"a}inen, M.~S.,
+  and Kowalski, M.}
+\newblock Time-frequency mixed-norm estimates: {S}parse {M/EEG} imaging with
+  non-stationary source activations.
+\newblock {\em NeuroImage 70\/} (2013), 410--422.
+
+\bibitem{gulrajani2017improved}
+{\sc Gulrajani, I., Ahmed, F., Arjovsky, M., Dumoulin, V., and Courville,
+  A.~C.}
+\newblock Improved training of wasserstein gans.
+\newblock In {\em Advances in Neural Information Processing Systems\/} (2017),
+  pp.~5767--5777.
+
+\bibitem{haixiang2017learning}
+{\sc Haixiang, G., Yijing, L., Shang, J., Mingyun, G., Yuanyue, H., and Bing,
+  G.}
+\newblock Learning from class-imbalanced data: Review of methods and
+  applications.
+\newblock {\em Expert Systems with Applications 73\/} (2017), 220--239.
+
+\bibitem{Hajinoroozi2015}
+{\sc Hajinoroozi, M., Mao, Z., and Huang, Y.}
+\newblock {Prediction of driver's drowsy and alert states from EEG signals with
+  deep learning}.
+\newblock {\em 2015 IEEE 6th International Workshop on Computational Advances
+  in Multi-Sensor Adaptive Processing, CAMSAP 2015\/} (2015), 493--496.
+
+\bibitem{Hajinoroozi2016}
+{\sc Hajinoroozi, M., Mao, Z., Jung, T.~P., Lin, C.~T., and Huang, Y.}
+\newblock {EEG-based prediction of driver's cognitive performance by deep
+  convolutional neural network}.
+\newblock {\em Signal Processing: Image Communication 47\/} (2016), 549--555.
+
+\bibitem{Hajinoroozi2017}
+{\sc Hajinoroozi, M., Mao, Z., and Lin, Y.-p.}
+\newblock {Deep Transfer Learning for Cross-subject and Cross-experiment
+  Prediction of Image Rapid Serial Visual Presentation Events from EEG Data}.
+\newblock 45--55.
+
+\bibitem{Hao2018}
+{\sc Hao, Y., Khoo, H.~M., von Ellenrieder, N., Zazubovits, N., and Gotman, J.}
+\newblock {DeepIED: An epileptic discharge detector for EEG-fMRI based on deep
+  learning}.
+\newblock {\em NeuroImage: Clinical 17}, November 2017 (2018), 962--975.
+
+\bibitem{harati2014tuh}
+{\sc Harati, A., Lopez, S., Obeid, I., Picone, J., Jacobson, M., and Tobochnik,
+  S.}
+\newblock The {TUH EEG CORPUS}: A big data resource for automated {EEG}
+  interpretation.
+\newblock In {\em Signal Processing in Medicine and Biology Symposium (SPMB),
+  2014 IEEE\/} (2014), IEEE, pp.~1--5.
+
+\bibitem{Hartmann2018}
+{\sc Hartmann, K.~G., Schirrmeister, R.~T., and Ball, T.}
+\newblock {EEG-GAN: Generative adversarial networks for electroencephalograhic
+  (EEG) brain signals}.
+
+\bibitem{Hartmann2018b}
+{\sc Hartmann, K.~G., Schirrmeister, R.~T., and Ball, T.}
+\newblock Hierarchical internal representation of spectral features in deep
+  convolutional networks trained for eeg decoding.
+\newblock In {\em Brain-Computer Interface (BCI), 2018 6th International
+  Conference on\/} (2018), IEEE, pp.~1--6.
+
+\bibitem{Hasib2018}
+{\sc Hasib, M., Nayak, T., and Huang, Y.}
+\newblock {A Hierarchical LSTM Model with Attention for Modeling EEG
+  Non-stationarity for Human Decision Prediction}.
+\newblock 4--7.
+
+\bibitem{he2008learning}
+{\sc He, H., and Garcia, E.~A.}
+\newblock Learning from imbalanced data.
+\newblock {\em IEEE Transactions on Knowledge \& Data Engineering}, 9 (2008),
+  1263--1284.
+
+\bibitem{he2016deep}
+{\sc He, K., Zhang, X., Ren, S., and Sun, J.}
+\newblock Deep residual learning for image recognition.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition\/} (2016), pp.~770--778.
+
+\bibitem{Hefron2018}
+{\sc Hefron, R., Borghetti, B., {Schubert Kabban}, C., Christensen, J., and
+  Estepp, J.}
+\newblock {Cross-Participant EEG-Based Assessment of Cognitive Workload Using
+  Multi-Path Convolutional Recurrent Neural Networks}.
+\newblock {\em Sensors 18}, 5 (apr 2018), 1339.
+
+\bibitem{Hefron2017}
+{\sc Hefron, R.~G., Borghetti, B.~J., Christensen, J.~C., and Kabban, C. M.~S.}
+\newblock {Deep long short-term memory structures model temporal dependencies
+  improving cognitive workload estimation}.
+\newblock {\em Pattern Recognition Letters 94\/} (2017), 96--104.
+
+\bibitem{heilmeyer2018large}
+{\sc {Heilmeyer}, F.~A., {Schirrmeister}, R.~T., {Fiederer}, L.~D.~J.,
+  {V{\"o}lker}, M., {Behncke}, J., and {Ball}, T.}
+\newblock {A large-scale evaluation framework for {EEG} deep learning
+  architectures}.
+\newblock {\em ArXiv e-prints\/} (June 2018).
+
+\bibitem{hohman2018visual}
+{\sc Hohman, F.~M., Kahng, M., Pienta, R., and Chau, D.~H.}
+\newblock Visual analytics in deep learning: An interrogative survey for the
+  next frontiers.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics\/}
+  (2018).
+
+\bibitem{hornik1989multilayer}
+{\sc Hornik, K., Stinchcombe, M., and White, H.}
+\newblock Multilayer feedforward networks are universal approximators.
+\newblock {\em Neural networks 2}, 5 (1989), 359--366.
+
+\bibitem{Hussein2018}
+{\sc Hussein, R., Palangi, H., Ward, R., and Wang, Z.~J.}
+\newblock {Epileptic Seizure Detection: A Deep Learning Approach}.
+\newblock {\em Arxiv\/} (2018), 1--12.
+
+\bibitem{jas-etal:17}
+{\sc Jas, M., Engemann, D.~A., Bekhti, Y., Raimondo, F., and Gramfort, A.}
+\newblock Autoreject: Automated artifact rejection for {MEG} and {EEG} data.
+\newblock {\em NeuroImage 159\/} (2017), 417 -- 429.
+
+\bibitem{jayaram2018moabb}
+{\sc Jayaram, V., and Barachant, A.}
+\newblock {MOABB}: Trustworthy algorithm benchmarking for {BCIs}.
+\newblock {\em arXiv preprint arXiv:1805.06427\/} (2018).
+
+\bibitem{Jirayucharoensak2014}
+{\sc Jirayucharoensak, S., Pan-Ngum, S., and Israsena, P.}
+\newblock {EEG-Based Emotion Recognition Using Deep Learning Network with
+  Principal Component Based Covariate Shift Adaptation}.
+\newblock {\em Scientific World Journal 2014\/} (2014).
+
+\bibitem{kingma2014adam}
+{\sc Kingma, D.~P., and Ba, J.}
+\newblock Adam: A method for stochastic optimization.
+\newblock {\em arXiv preprint arXiv:1412.6980\/} (2014).
+
+\bibitem{Kuanar2018}
+{\sc Kuanar, S., Athitsos, V., Pradhan, N., Mishra, A., and Rao, K.}
+\newblock {Cognitive Analysis of Working Memory Load from EEG, by a Deep
+  Recurrent Neural Network}.
+\newblock In {\em IEEE Signal Processing Society\/} (2018).
+
+\bibitem{kwak2017}
+{\sc Kwak, N.~S., M{\"{u}}ller, K.~R., and Lee, S.~W.}
+\newblock {A convolutional neural network for steady state visual evoked
+  potential classification under ambulatory environment}.
+\newblock {\em PLoS ONE 12}, 2 (2017), 1--20.
+
+\bibitem{Kwon2017}
+{\sc Kwon, Y., Nan, Y., and Kim, S.-D.}
+\newblock Transformation of eeg signal for emotion analysis and dataset
+  construction for dnn learning.
+\newblock In {\em Advances in Computer Science and Ubiquitous Computing}.
+  Springer, 2017, pp.~96--101.
+
+\bibitem{Langkvist2012}
+{\sc L{\"{a}}ngkvist, M., Karlsson, L., and Loutfi, A.}
+\newblock {Sleep Stage Classification Using Unsupervised Feature Learning}.
+\newblock {\em Advances in Artificial Neural Systems 2012\/} (2012), 1--9.
+
+\bibitem{Langkvist2018}
+{\sc L{\"{a}}ngkvist, M., and Loutfi, A.}
+\newblock {A Deep Learning Approach with an Attention Mechanism for Automatic
+  Sleep Stage Classification}.
+\newblock {\em Arxiv\/} (2018), 1--18.
+
+\bibitem{Lawhern2018}
+{\sc Lawhern, V., Solon, A., Waytowich, N., Gordon, S.~M., Hung, C., and Lance,
+  B.~J.}
+\newblock Eegnet: a compact convolutional neural network for eeg-based
+  brain--computer interfaces.
+\newblock {\em Journal of neural engineering\/} (2018).
+
+\bibitem{lecun2015deep}
+{\sc LeCun, Y., Bengio, Y., and Hinton, G.}
+\newblock Deep learning.
+\newblock {\em Nature 521}, 7553 (2015), 436.
+
+\bibitem{Lee2018a}
+{\sc Lee, W.-H., Ortiz, J., Ko, B., and Lee, R.}
+\newblock {Time Series Segmentation through Automatic Feature Learning}.
+
+\bibitem{Lee2018}
+{\sc Lee, Y., and Huang, Y.}
+\newblock {Generating Target / non-Target Images of an RSVP Experiment from
+  Brain Signals in by Conditional Generative Adversarial Network}.
+\newblock 4--7.
+
+\bibitem{Li2017}
+{\sc Li, F., Zhang, G., Wang, W., Xu, R., Schnell, T., Wen, J., McKenzie, F.,
+  and Li, J.}
+\newblock {Deep Models for Engagement Assessment with Scarce Label
+  Information}.
+\newblock {\em IEEE Transactions on Human-Machine Systems 47}, 4 (2017),
+  598--605.
+
+\bibitem{Li2014}
+{\sc Li, J., and Cichocki, A.}
+\newblock {Deep Learning of Multifractal Attributes from Motor Imagery Induced
+  EEG}.
+\newblock {\em Neural Information Processing\/} (2014), 503--510.
+
+\bibitem{Li2015}
+{\sc Li, J., Struzik, Z., Zhang, L., and Cichocki, A.}
+\newblock {Feature learning from incomplete EEG with denoising autoencoder}.
+\newblock {\em Neurocomputing 165\/} (2015), 23--31.
+
+\bibitem{Li2013}
+{\sc Li, K., Li, X., Zhang, Y., and Zhang, A.}
+\newblock {Affective state recognition from EEG with deep belief networks}.
+\newblock {\em Proceedings - 2013 IEEE International Conference on
+  Bioinformatics and Biomedicine, IEEE BIBM 2013\/} (2013), 305--310.
+
+\bibitem{li2018explicit}
+{\sc Li, X., Grandvalet, Y., and Davoine, F.}
+\newblock Explicit inductive bias for transfer learning with convolutional
+  networks.
+\newblock {\em arXiv preprint arXiv:1802.01483\/} (2018).
+
+\bibitem{li2015eeg}
+{\sc Li, X., Zhang, P., Song, D., Yu, G., Hou, Y., and Hu, B.}
+\newblock Eeg based emotion identification using unsupervised deep feature
+  learning.
+
+\bibitem{li2017dualing}
+{\sc Li, Y., Schwing, A., Wang, K.-C., and Zemel, R.}
+\newblock Dualing gans.
+\newblock In {\em Advances in Neural Information Processing Systems\/} (2017),
+  pp.~5606--5616.
+
+\bibitem{Li2018}
+{\sc Li, Z., Tian, X., Shu, L., Xu, X., and Hu, B.}
+\newblock {Emotion Recognition from EEG Using RASM and LSTM}.
+\newblock vol.~819. 2018, pp.~310--318.
+
+\bibitem{Liao2018}
+{\sc Liao, C.-y., Chen, R.-c., and Tai, S.-k.}
+\newblock {Emotion stress detection using EEG signal and deep learning
+  technologies}.
+\newblock {\em 2018 IEEE International Conference on Applied System Invention
+  (ICASI)}, 2 (2018), 90--93.
+
+\bibitem{Lin2017}
+{\sc Lin, W., Li, C., and Sun, S.}
+\newblock {Deep Convolutional Neural Network for Emotion Recognition Using EEG
+  and Peripheral Physiological Signal}.
+\newblock In {\em International Conference on Image and Graphics\/} (2017),
+  pp.~385--394.
+
+\bibitem{Liu2016}
+{\sc Liu, W., Zheng, W.-L., and Lu, B.-L.}
+\newblock Multimodal emotion recognition using multimodal deep learning.
+\newblock {\em arXiv preprint arXiv:1602.08225\/} (2016).
+
+\bibitem{Loshchilov2017}
+{\sc Loshchilov, I., and Hutter, F.}
+\newblock Sgdr: Stochastic gradient descent with warm restarts.
+\newblock {\em arXiv preprint arXiv:1608.03983\/} (2016).
+
+\bibitem{lotte2018review}
+{\sc Lotte, F., Bougrain, L., Cichocki, A., Clerc, M., Congedo, M.,
+  Rakotomamonjy, A., and Yger, F.}
+\newblock A review of classification algorithms for {EEG}-based brain--computer
+  interfaces: a 10 year update.
+\newblock {\em Journal of Neural Engineering 15}, 3 (2018), 031005.
+
+\bibitem{Major2017}
+{\sc Major, T.~C., and Conrad, J.~M.}
+\newblock {The effects of pre-filtering and individualizing components for
+  electroencephalography neural network classification}.
+\newblock {\em Conference Proceedings - IEEE SOUTHEASTCON\/} (2017).
+
+\bibitem{makeig1996independent}
+{\sc Makeig, S., Bell, A.~J., Jung, T.-P., and Sejnowski, T.~J.}
+\newblock Independent component analysis of electroencephalographic data.
+\newblock In {\em Advances in neural information processing systems\/} (1996),
+  pp.~145--151.
+
+\bibitem{Manor2015}
+{\sc Manor, R., and Geva, A.~B.}
+\newblock {Convolutional Neural Network for Multi-Category Rapid Serial Visual
+  Presentation BCI}.
+\newblock {\em Frontiers in Computational Neuroscience 9}, December (2015),
+  1--12.
+
+\bibitem{Manzano2017a}
+{\sc Manzano, M., Guill{\'{e}}n, A., Rojas, I., and Herrera, L.~J.}
+\newblock {Deep Learning Using EEG Data in Time and Frequency Domains for Sleep
+  Stage Classification}.
+\newblock In {\em International Work-Conference on Artificial Neural Networks},
+  vol.~2. 2017, pp.~132--141.
+
+\bibitem{Mehmood2017}
+{\sc Mehmood, R.~M., Du, R., and Lee, H.~J.}
+\newblock {Optimal feature selection and deep learning ensembles method for
+  emotion recognition from human brain EEG sensors}.
+\newblock {\em IEEE Access 5\/} (2017), 14797--14806.
+
+\bibitem{Mohamed2011}
+{\sc Mohamed, A.~K., Marwala, T., and John, L.~R.}
+\newblock {Single-trial EEG discrimination between wrist and finger movement
+  imagery and execution in a sensorimotor BCI}.
+\newblock {\em Proceedings of the Annual International Conference of the IEEE
+  Engineering in Medicine and Biology Society, EMBS\/} (2011), 6289--6293.
+
+\bibitem{Moinnereau2018}
+{\sc Moinnereau, M.-A., Brienne, T., Brodeur, S., Rouat, J., Whittingstall, K.,
+  and Plourde, E.}
+\newblock {Classification of Auditory Stimuli from EEG Signals with a Regulated
+  Recurrent Neural Network Reservoir}.
+\newblock {\em Arxiv\/} (2018).
+
+\bibitem{Morabito2016}
+{\sc Morabito, F.~C., Campolo, M., Ieracitano, C., Ebadi, J.~M., Bonanno, L.,
+  Bramanti, A., Desalvo, S., Mammone, N., and Bramanti, P.}
+\newblock Deep convolutional neural networks for classification of mild
+  cognitive impaired and alzheimer's disease patients from scalp eeg
+  recordings.
+\newblock In {\em Research and Technologies for Society and Industry Leveraging
+  a better tomorrow (RTSI), 2016 IEEE 2nd International Forum on\/} (2016),
+  IEEE, pp.~1--6.
+
+\bibitem{Morabito2017}
+{\sc Morabito, F.~C., Campolo, M., Mammone, N., Versaci, M., Franceschetti, S.,
+  Tagliavini, F., Sofia, V., Fatuzzo, D., Gambardella, A., Labate, A., Mumoli,
+  L., Tripodi, G.~G., Gasparini, S., Cianci, V., Sueri, C., Ferlazzo, E., and
+  Aguglia, U.}
+\newblock {Deep Learning Representation from Electroencephalography of
+  Early-Stage Creutzfeldt-Jakob Disease and Features for Differentiation from
+  Rapidly Progressive Dementia}.
+\newblock {\em International Journal of Neural Systems 27}, 02 (2017), 1650039.
+
+\bibitem{Ioannidis2017}
+{\sc Munaf{\`o}, M.~R., Nosek, B.~A., Bishop, D. V.~M., Button, K.~S.,
+  Chambers, C.~D., Percie~du Sert, N., Simonsohn, U., Wagenmakers, E.-J., Ware,
+  J.~J., and Ioannidis, J. P.~A.}
+\newblock A manifesto for reproducible science.
+\newblock {\em Nature Human Behaviour 1\/} (01 2017), 0021 EP --.
+
+\bibitem{Naderi2010}
+{\sc Naderi, M.~A., and Mahdavi-Nasab, H.}
+\newblock {Analysis and classification of EEG signals using spectral analysis
+  and recurrent neural networks}.
+\newblock In {\em 2010 17th Iranian Conference of Biomedical Engineering
+  (ICBME)\/} (nov 2010), no.~November, IEEE, pp.~1--4.
+
+\bibitem{Narejo2016}
+{\sc Narejo, S., Pasero, E., and Kulsoom, F.}
+\newblock {EEG based eye state classification using deep belief network and
+  stacked autoencoder}.
+\newblock {\em International Journal of Electrical and Computer Engineering 6},
+  6 (2016), 3131--3141.
+
+\bibitem{nolan2010faster}
+{\sc Nolan, H., Whelan, R., and Reilly, R.}
+\newblock Faster: fully automated statistical thresholding for eeg artifact
+  rejection.
+\newblock {\em Journal of neuroscience methods 192}, 1 (2010), 152--162.
+
+\bibitem{Normand2015}
+{\sc Normand, R., and Ferreira, H.~A.}
+\newblock {Superchords: the atoms of thought}.
+\newblock 1--5.
+
+\bibitem{Nurse2016}
+{\sc Nurse, E., Mashford, B.~S., Yepes, A.~J., Kiral-Kornek, I., Harrer, S.,
+  and Freestone, D.~R.}
+\newblock {Decoding EEG and LFP signals using deep learning: heading
+  TrueNorth}.
+\newblock {\em Proceedings of the ACM International Conference on Computing
+  Frontiers - CF '16\/} (2016), 259--266.
+
+\bibitem{Oshea2017}
+{\sc {O 'shea}, A., Lightbody, G., Boylan, G., and Temko, A.}
+\newblock {Neonatal Seizure Detection Using Convolutional Neural Networks}.
+\newblock {\em arXiv\/} (2017).
+
+\bibitem{Omerhodzic2013}
+{\sc Omerhodzic, I., Avdakovic, S., Nuhanovic, A., and Dizdarevic, K.}
+\newblock {Energy Distribution of EEG Signals: EEG Signal Wavelet-Neural
+  Network Classifier}.
+
+\bibitem{Padmanabh2017}
+{\sc Padmanabh, L., Shastri, R., and Biradar, S.}
+\newblock {Mental Tasks Classification using EEG signal, Discrete Wavelet
+  Transform and Neural Network}.
+\newblock {\em Discovery 48}, December 2015 (2017), 38--41.
+
+\bibitem{paez2017gray}
+{\sc Paez, A.}
+\newblock Gray literature: An important resource in systematic reviews.
+\newblock {\em Journal of Evidence-Based Medicine 10}, 3 (2017), 233--240.
+
+\bibitem{Page2016}
+{\sc Page, A., Shea, C., and Mohsenin, T.}
+\newblock {Wearable seizure detection using convolutional neural networks with
+  transfer learning}.
+\newblock {\em 2016 IEEE International Symposium on Circuits and Systems
+  (ISCAS)\/} (2016), 1086--1089.
+
+\bibitem{Palazzo2017}
+{\sc Palazzo, S., Spampinato, C., Kavasidis, I., Giordano, D., and Shah, M.}
+\newblock {Generative Adversarial Networks Conditioned by Brain Signals}.
+\newblock 3410--3418.
+
+\bibitem{Pardede2015}
+{\sc Pardede, J., Turnip, M., Manalu, D.~R., and Turnip, A.}
+\newblock Adaptive recurrent neural network for reduction of noise and
+  estimation of source from recorded eeg signals.
+\newblock {\em ARPN Journal of Engineering and Applied Sciences 10}, 3 (2015).
+
+\bibitem{Parekh2018}
+{\sc Parekh, V., Subramanian, R., Roy, D., and Jawahar, C.~V.}
+\newblock {An EEG-based image annotation system}.
+\newblock {\em Communications in Computer and Information Science 841\/}
+  (2018), 303--313.
+
+\bibitem{Patanaik2018}
+{\sc Patanaik, A., Ong, J.~L., Gooley, J.~J., Ancoli-Israel, S., and Chee,
+  M.~W.}
+\newblock {An end-to-end framework for real-time automatic sleep stage
+  classification}.
+\newblock {\em Sleep 41}, 5 (2018), 1--11.
+
+\bibitem{Patnaik2017}
+{\sc Patnaik, S., Moharkar, L., and Chaudhari, A.}
+\newblock {Deep RNN Learning for EEG based Functional Brain State Inference}.
+\newblock In {\em International Conference on Advances in Computing,
+  Communication and Control (ICAC3)\/} (2017).
+
+\bibitem{perez2017}
+{\sc Perez, L., and Wang, J.}
+\newblock The effectiveness of data augmentation in image classification using
+  deep learning.
+\newblock {\em arXiv preprint arXiv:1712.04621\/} (2017).
+
+\bibitem{Perez-Benitez2018}
+{\sc Perez-Benitez, J., Perez-Benitez, J., and Espina-Hernandez, J.~H.}
+\newblock {Development of a Brain Computer Interface Interface using
+  multi-frequency visual stimulation and deep neural networks .}
+\newblock {\em 2018 International Conference on Electronics, Communications and
+  Computers (CONIELECOMP)\/} (2018), 18--24.
+
+\bibitem{Phan2018}
+{\sc Phan, H., Andreotti, F., Cooray, N., Ch{\'{e}}n, O.~Y., and {De Vos}, M.}
+\newblock {Joint Classification and Prediction CNN Framework for Automatic
+  Sleep Stage Classification}.
+\newblock {\em arXiv preprint arXiv:1805.06546\/} (2018), 1--11.
+
+\bibitem{Pramod2015}
+{\sc Pramod, S., Page, A., Mohsenin, T., and Oates, T.}
+\newblock {Detecting epilectic seizures from EEG data using neural networks}.
+\newblock {\em Iclr 2015}, 2014 (2015), 1--4.
+
+\bibitem{prechelt1998automatic}
+{\sc Prechelt, L.}
+\newblock Automatic early stopping using cross validation: quantifying the
+  criteria.
+\newblock {\em Neural Networks 11}, 4 (1998), 761--767.
+
+\bibitem{Raposo2017}
+{\sc Raposo, F., de~Matos, D.~M., Ribeiro, R., Tang, S., and Yu, Y.}
+\newblock Towards deep modeling of music semantics using eeg regularizers.
+\newblock {\em arXiv preprint arXiv:1712.05197\/} (2017).
+
+\bibitem{Roy2018}
+{\sc Roy, S., Kiral-Kornek, I., and Harrer, S.}
+\newblock {ChronoNet: A Deep Recurrent Neural Network for Abnormal EEG
+  Identification}.
+\newblock 1--10.
+
+\bibitem{Ruffini2018a}
+{\sc Ruffini, G., Ibanez, D., Castellano, M., Dubreuil, L., Gagnon, J.-F.,
+  Montplaisir, J., and Soria-Frisch, A.}
+\newblock {Deep learning with EEG spectrograms in rapid eye movement behavior
+  disorder}.
+\newblock {\em bioRxiv\/} (2018), 1--14.
+
+\bibitem{Sakhavi2017}
+{\sc Sakhavi, S., and Guan, C.}
+\newblock {Convolutional neural network-based transfer learning and knowledge
+  distillation using multi-subject data in motor imagery BCI}.
+\newblock {\em International IEEE/EMBS Conference on Neural Engineering, NER\/}
+  (2017), 588--591.
+
+\bibitem{Sakhavi2015}
+{\sc Sakhavi, S., Guan, C., and Yan, S.}
+\newblock {Parallel convolutional-linear neural network for motor imagery
+  classification}.
+\newblock {\em 2015 23rd European Signal Processing Conference, EUSIPCO 2015\/}
+  (2015), 2736--2740.
+
+\bibitem{Schirrmeister2017a}
+{\sc Schirrmeister, R.~T., Gemein, L., Eggensperger, K., Hutter, F., and Ball,
+  T.}
+\newblock {Deep learning with convolutional neural networks for decoding and
+  visualization of EEG pathology}.
+
+\bibitem{Schirrmeister2017}
+{\sc Schirrmeister, R.~T., Springenberg, J.~T., Fiederer, L. D.~J.,
+  Glasstetter, M., Eggensperger, K., Tangermann, M., Hutter, F., Burgard, W.,
+  and Ball, T.}
+\newblock {Deep learning with convolutional neural networks for EEG decoding
+  and visualization}.
+\newblock {\em Human Brain Mapping 38}, 11 (2017), 5391--5420.
+
+\bibitem{schmidhuber2015deep}
+{\sc Schmidhuber, J.}
+\newblock Deep learning in neural networks: An overview.
+\newblock {\em Neural networks 61\/} (2015), 85--117.
+
+\bibitem{Schwabedal2018}
+{\sc Schwabedal, J. T.~C., Snyder, J.~C., Cakmak, A., Nemati, S., and Clifford,
+  G.~D.}
+\newblock {Addressing Class Imbalance in Classification Problems of Noisy
+  Signals by using Fourier Transform Surrogates}.
+\newblock 1--7.
+
+\bibitem{Shah2017}
+{\sc Shah, V., Golmohammadi, M., Ziyabari, S., Von~Weltin, E., Obeid, I., and
+  Picone, J.}
+\newblock Optimizing channel selection for seizure detection.
+\newblock In {\em Signal Processing in Medicine and Biology Symposium (SPMB),
+  2017 IEEE\/} (2017), IEEE, pp.~1--5.
+
+\bibitem{Shamwell2016}
+{\sc Shamwell, J., Lee, H., Kwon, H., Marathe, A.~R., Lawhern, V., and
+  Nothwang, W.}
+\newblock {Single-trial EEG RSVP classification using convolutional neural
+  networks}.
+\newblock 983622.
+
+\bibitem{Shea2018}
+{\sc Shea, A.~O., Lightbody, G., Boylan, G., and Temko, A.}
+\newblock {Investigating the Impact of CNN Depth on Neonatal Seizure Detection
+  Performance}.
+\newblock {\em Arxiv\/} (2018), 15--18.
+
+\bibitem{simonyan2014very}
+{\sc Simonyan, K., and Zisserman, A.}
+\newblock Very deep convolutional networks for large-scale image recognition.
+\newblock {\em arXiv preprint arXiv:1409.1556\/} (2014).
+
+\bibitem{snoek2012practical}
+{\sc Snoek, J., Larochelle, H., and Adams, R.~P.}
+\newblock Practical bayesian optimization of machine learning algorithms.
+\newblock In {\em Advances in neural information processing systems\/} (2012),
+  pp.~2951--2959.
+
+\bibitem{Sors2018}
+{\sc Sors, A., Bonnet, S., Mirek, S., Vercueil, L., and Payen, J.~F.}
+\newblock {A convolutional neural network for sleep stage scoring from raw
+  single-channel EEG}.
+\newblock {\em Biomedical Signal Processing and Control 42}, April 2018 (2018),
+  107--114.
+
+\bibitem{Spampinato2017}
+{\sc Spampinato, C., Palazzo, S., Kavasidis, I., Giordano, D., Souly, N., and
+  Shah, M.}
+\newblock {Deep learning human mind for automated visual classification}.
+\newblock {\em Proceedings - 30th IEEE Conference on Computer Vision and
+  Pattern Recognition, CVPR 2017 2017-Janua\/} (2017), 4503--4511.
+
+\bibitem{Sree2017}
+{\sc Sree, R.~A., and Kavitha, A.}
+\newblock Vowel classification from imagined speech using sub-band eeg
+  frequencies and deep belief networks.
+\newblock In {\em Signal Processing, Communication and Networking (ICSCN), 2017
+  Fourth International Conference on\/} (2017), IEEE, pp.~1--4.
+
+\bibitem{srivastava2014dropout}
+{\sc Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., and
+  Salakhutdinov, R.}
+\newblock Dropout: a simple way to prevent neural networks from overfitting.
+\newblock {\em The Journal of Machine Learning Research 15}, 1 (2014),
+  1929--1958.
+
+\bibitem{Stober2014}
+{\sc Stober, S., Cameron, D.~J., and Grahn, J.~A.}
+\newblock Using convolutional neural networks to recognize rhythm￼ stimuli
+  from electroencephalography recordings.
+\newblock In {\em Advances in neural information processing systems\/} (2014),
+  pp.~1449--1457.
+
+\bibitem{Stober2015}
+{\sc Stober, S., Sternin, A., Owen, A.~M., and Grahn, J.~A.}
+\newblock {Deep Feature Learning for EEG Recordings}.
+
+\bibitem{Sturm2016}
+{\sc Sturm, I., Bach, S., Samek, W., and M{\"{u}}ller, K.-R.}
+\newblock {Interpretable Deep Neural Networks for Single-Trial EEG
+  Classification}.
+\newblock 1--5.
+
+\bibitem{Sun2016}
+{\sc Sun, P., and Qin, J.}
+\newblock {Neural networks based EEG-Speech Models}.
+\newblock 1--10.
+
+\bibitem{Supratak2017}
+{\sc Supratak, A., Dong, H., Wu, C., and Guo, Y.}
+\newblock {DeepSleepNet: a Model for Automatic Sleep Stage Scoring based on Raw
+  Single-Channel EEG}.
+\newblock 1998--2008.
+
+\bibitem{Tabar2016a}
+{\sc Tabar, Y.~R., and Halici, U.}
+\newblock {A novel deep learning approach for classification of EEG motor
+  imagery signals}.
+\newblock {\em Journal of Neural Engineering 14}, 1 (2016), 16003.
+
+\bibitem{Talathi2017}
+{\sc Talathi, S.~S.}
+\newblock {Deep Recurrent Neural Networks for seizure detection and early
+  seizure detection systems}.
+
+\bibitem{Tang2017}
+{\sc Tang, Z., Li, C., and Sun, S.}
+\newblock {Single-trial EEG classification of motor imagery using deep
+  convolutional neural networks}.
+\newblock {\em Optik 130\/} (2017), 11--18.
+
+\bibitem{Taqi2017}
+{\sc Taqi, A.~M., Al-Azzo, F., Mariofanna, M., and Al-Saadi, J.~M.}
+\newblock {Classification and discrimination of focal and non-focal EEG signals
+  based on deep neural network}.
+\newblock {\em 2017 International Conference on Current Research in Computer
+  Science and Information Technology (ICCIT)\/} (2017), 86--92.
+
+\bibitem{Teo2018}
+{\sc Teo, J., Hou, C.~L., and Mountstephens, J.}
+\newblock {Preference Classification Using Electroencephalography ( EEG ) and
+  Deep Learning}.
+\newblock {\em Journal of Telecommunication, Electronic and Computer
+  Engineering (JTEC) 10}, 1 (2018), 87--91.
+
+\bibitem{Thodoroff2016}
+{\sc Thodoroff, P., Pineau, J., and Lim, A.}
+\newblock {Learning Robust Features using Deep Learning for Automatic Seizure
+  Detection}.
+\newblock 1--12.
+
+\bibitem{tieleman2012lecture}
+{\sc Tieleman, T., and Hinton, G.}
+\newblock Lecture 6.5-rmsprop: Divide the gradient by a running average of its
+  recent magnitude.
+\newblock {\em COURSERA: Neural networks for machine learning 4}, 2 (2012),
+  26--31.
+
+\bibitem{Tripathy2018}
+{\sc Tripathy, R., and {Rajendra Acharya}, U.}
+\newblock {Use of features from RR-time series and EEG signals for automated
+  classification of sleep stages in deep neural network framework}.
+\newblock {\em Biocybernetics and Biomedical Engineering\/} (2018), 1--13.
+
+\bibitem{Truong2018a}
+{\sc Truong, N.~D., Kuhlmann, L., Bonyadi, M.~R., and Kavehei, O.}
+\newblock {Semi-supervised Seizure Prediction with Generative Adversarial
+  Networks}.
+\newblock 1--6.
+
+\bibitem{Truong2018}
+{\sc Truong, N.~D., Nguyen, A.~D., Kuhlmann, L., Bonyadi, M.~R., Yang, J.,
+  Ippolito, S., and Kavehei, O.}
+\newblock {Convolutional neural networks for seizure prediction using
+  intracranial and scalp electroencephalogram}.
+\newblock {\em Neural Networks 105\/} (2018), 104--111.
+
+\bibitem{Tsinalis2016a}
+{\sc Tsinalis, O., Matthews, P.~M., Guo, Y., and Zafeiriou, S.}
+\newblock {Automatic Sleep Stage Scoring with Single-Channel EEG Using
+  Convolutional Neural Networks}.
+
+\bibitem{Tsiouris2018}
+{\sc Tsiouris, �., Pezoulas, V.~C., Zervakis, M., Konitsiotis, S., Koutsouris,
+  D.~D., and Fotiadis, D.~I.}
+\newblock {A Long Short-Term Memory deep learning network for the prediction of
+  epileptic seizures using EEG signals}.
+\newblock {\em Computers in Biology and Medicine 99\/} (2018), 24--37.
+
+\bibitem{Turner2014}
+{\sc Turner, J.~T., Page, A., Mohsenin, T., and Oates, T.}
+\newblock {Deep Belief Networks used on High Resolution Multichannel
+  Electroencephalography Data for Seizure Detection}.
+\newblock {\em AAAI Spring Symposium Series\/} (2014), 75--81.
+
+\bibitem{Ullah2018}
+{\sc Ullah, I., Hussain, M., Qazi, E.-U.-H., and Aboalsamh, H.}
+\newblock {An Automated System for Epilepsy Detection using EEG Brain Signals
+  based on Deep Learning Approach}.
+\newblock {\em Arxiv\/} (2018).
+
+\bibitem{uriguen2015eeg}
+{\sc Urig{\"u}en, J.~A., and Garcia-Zapirain, B.}
+\newblock Eeg artifact removal—state-of-the-art and guidelines.
+\newblock {\em Journal of neural engineering 12}, 3 (2015), 031001.
+
+\bibitem{VanPutten2018a}
+{\sc van Putten, M.~J., de~Carvalho, R., and Tjepkema-Cloostermans, M.~C.}
+\newblock {Deep learning for detection of epileptiform discharges from scalp
+  EEG recordings}.
+\newblock {\em Clinical Neurophysiology 129}, 2018 (2018), e98--e99.
+
+\bibitem{VanPutten2018b}
+{\sc {Van Putten}, M.~J., Olbrich, S., and Arns, M.}
+\newblock {Predicting sex from brain rhythms with deep learning}.
+\newblock {\em Scientific Reports 8}, 1 (2018), 1--7.
+
+\bibitem{OpenML2013}
+{\sc Vanschoren, J., van Rijn, J.~N., Bischl, B., and Torgo, L.}
+\newblock {OpenML}: Networked science in machine learning.
+\newblock {\em SIGKDD Explorations 15}, 2 (2013), 49--60.
+
+\bibitem{Vilamala2017}
+{\sc Vilamala, A., Madsen, K.~H., and Hansen, L.~K.}
+\newblock {Deep Convolutional Neural Networks for Interpretable Analysis of EEG
+  Sleep Stage Scoring}.
+
+\bibitem{Volker2018}
+{\sc V{\"o}lker, M., Schirrmeister, R.~T., Fiederer, L.~D., Burgard, W., and
+  Ball, T.}
+\newblock Deep transfer learning for error decoding from non-invasive eeg.
+\newblock In {\em Brain-Computer Interface (BCI), 2018 6th International
+  Conference on\/} (2018), IEEE, pp.~1--6.
+
+\bibitem{Wang2018}
+{\sc Wang, F., Zhong, S.-h., Peng, J., Jiang, J., and Liu, Y.}
+\newblock {Data Augmentation for EEG-Based Emotion Recognition with Deep
+  Convolutional Neural Networks}.
+\newblock vol.~10704. 2018, pp.~82--93.
+
+\bibitem{Wang2018a}
+{\sc Wang, S., Guo, B., Zhang, C., Bai, X., and Wang, Z.}
+\newblock {EEG detection and de-noising based on convolution neural network and
+  Hilbert-Huang transform}.
+\newblock {\em Proceedings - 2017 10th International Congress on Image and
+  Signal Processing, BioMedical Engineering and Informatics, CISP-BMEI 2017
+  2018-Janua}, 2 (2018), 1--6.
+
+\bibitem{Waytowich2018}
+{\sc Waytowich, N.~R., Lawhern, V., Garcia, J.~O., Cummings, J., Faller, J.,
+  Sajda, P., and Vettel, J.~M.}
+\newblock {Compact Convolutional Neural Networks for Classification of
+  Asynchronous Steady-state Visual Evoked Potentials}.
+\newblock 1--21.
+
+\bibitem{Wen2018}
+{\sc Wen, T., and Zhang, Z.}
+\newblock {Deep Convolution Neural Network and Autoencoders-Based Unsupervised
+  Feature Learning of EEG Signals}.
+\newblock {\em IEEE Access 6\/} (2018), 25399--25410.
+
+\bibitem{wilkinson2016fair}
+{\sc Wilkinson, M.~D., Dumontier, M., Aalbersberg, I.~J., Appleton, G., Axton,
+  M., Baak, A., Blomberg, N., Boiten, J.-W., da~Silva~Santos, L.~B., Bourne,
+  P.~E., et~al.}
+\newblock The fair guiding principles for scientific data management and
+  stewardship.
+\newblock {\em Scientific data 3\/} (2016).
+
+\bibitem{Wu2018}
+{\sc Wu, Z., Wang, H., Cao, M., Chen, Y., and Xing, E.~P.}
+\newblock {Fair Deep Learning Prediction for Healthcare Applications with
+  Confounder Filtering}.
+\newblock {\em arXiv preprint arXiv:1803.07276\/} (2018), 1--17.
+
+\bibitem{Wulsin2011}
+{\sc Wulsin, D.~F., Gupta, J.~R., Mani, R., Blanco, J.~A., and Litt, B.}
+\newblock {Modeling electroencephalography waveforms with semi-supervised deep
+  belief nets: Fast classification and anomaly measurement}.
+\newblock {\em Journal of Neural Engineering 8}, 3 (2011).
+
+\bibitem{Xie2017}
+{\sc Xie, S., Li, Y., Xie, X., Wang, W., and Duan, X.}
+\newblock {The Analysis and Classify of Sleep Stage Using Deep Learning Network
+  from Single-Channel EEG Signal}.
+\newblock 752--758.
+
+\bibitem{Xu2016}
+{\sc Xu, H., and Plataniotis, K.~N.}
+\newblock {Affective states classification using EEG and semi-supervised deep
+  learning approaches}.
+\newblock {\em 2016 IEEE 18th International Workshop on Multimedia Signal
+  Processing (MMSP)\/} (2016), 1--6.
+
+\bibitem{Yan2018}
+{\sc Yan, P., Wang, F., and Grinspan, Z.}
+\newblock : Spectrographic seizure detection using deep learning with
+  convolutional neural networks (s19. 004), 2018.
+
+\bibitem{Yang2018}
+{\sc Yang, B., Duan, K., Fan, C., Hu, C., and Wang, J.}
+\newblock {Automatic ocular artifacts removal in EEG using deep learning}.
+\newblock {\em Biomedical Signal Processing and Control 43\/} (2018), 148--158.
+
+\bibitem{Yang2016a}
+{\sc Yang, B., Duan, K., and Zhang, T.}
+\newblock Removal of eog artifacts from eeg using a cascade of sparse
+  autoencoder and recursive least squares adaptive filter.
+\newblock {\em Neurocomputing 214\/} (2016), 1053--1060.
+
+\bibitem{Yang2015a}
+{\sc Yang, H., Sakhavi, S., Ang, K.~K., and Guan, C.}
+\newblock {On the use of convolutional neural networks and augmented CSP
+  features for multi-class motor imagery of EEG signals classification}.
+\newblock {\em Proceedings of the Annual International Conference of the IEEE
+  Engineering in Medicine and Biology Society, EMBS 2015-Novem\/} (2015),
+  2620--2623.
+
+\bibitem{Yang2016b}
+{\sc Yang, S., Golmohammadi, M., Obeid, I., and Picone, J.}
+\newblock {SEMI-AUTOMATED ANNOTATION OF SIGNAL EVENTS IN CLINICAL EEG DATA
+  Neural Engineering Data Consortium , Temple University , Philadelphia ,
+  Pennsylvania , USA}.
+\newblock {\em Signal Processing in Medicine and Biology Symposium\/} (2016),
+  1--5.
+
+\bibitem{Yepes2017}
+{\sc Yepes, A.~J., Tang, J., and Mashford, B.~S.}
+\newblock {Improving classification accuracy of feedforward neural networks for
+  spiking neuromorphic chips}.
+\newblock 1973--1979.
+
+\bibitem{Yin2016b}
+{\sc Yin, Z., and Zhang, J.}
+\newblock {Recognition of Cognitive Task Load levels using single channel EEG
+  and Stacked Denoising Autoencoder}.
+\newblock In {\em 2016 35th Chinese Control Conference (CCC)\/} (jul 2016),
+  IEEE, pp.~3907--3912.
+
+\bibitem{Yin2017a}
+{\sc Yin, Z., and Zhang, J.}
+\newblock {Cross-session classification of mental workload levels using EEG and
+  an adaptive deep learning model}.
+\newblock {\em Biomedical Signal Processing and Control 33\/} (2017), 30--47.
+
+\bibitem{Yin2017}
+{\sc Yin, Z., and Zhang, J.}
+\newblock {Cross-subject recognition of operator functional states via EEG and
+  switching deep belief networks with adaptive weights}.
+\newblock {\em Neurocomputing 260\/} (2017), 349--366.
+
+\bibitem{Yoon2018}
+{\sc Yoon, J., Lee, J., and Whang, M.}
+\newblock {Spatial and Time Domain Feature of ERP Speller System Extracted via
+  Convolutional Neural Network}.
+\newblock {\em Computational Intelligence and Neuroscience 2018\/} (2018).
+
+\bibitem{Yuan2018a}
+{\sc Yuan, Y., Xun, G., Ma, F., Suo, Q., Xue, H., Jia, K., and Zhang, A.}
+\newblock {A Novel Channel-aware Attention Framework for Multi-channel EEG
+  Seizure Detection via Multi-view Deep Learning}.
+\newblock 4--7.
+
+\bibitem{Zafar2017}
+{\sc Zafar, R., Dass, S.~C., and Malik, A.~S.}
+\newblock {Electroencephalogram-based decoding cognitive states using
+  convolutional neural network and likelihood ratio based score fusion}.
+\newblock 1--23.
+
+\bibitem{zeiler2012adadelta}
+{\sc Zeiler, M.~D.}
+\newblock Adadelta: an adaptive learning rate method.
+\newblock {\em arXiv preprint arXiv:1212.5701\/} (2012).
+
+\bibitem{zhang2016understanding}
+{\sc Zhang, C., Bengio, S., Hardt, M., Recht, B., and Vinyals, O.}
+\newblock Understanding deep learning requires rethinking generalization.
+\newblock {\em arXiv preprint arXiv:1611.03530\/} (2016).
+
+\bibitem{Zhang2018c}
+{\sc Zhang, D., Yao, L., Zhang, X., Wang, S., Chen, W., Boots, R., and
+  Benatallah, B.}
+\newblock Cascade and parallel convolutional recurrent neural networks on
+  eeg-based intention recognition for brain computer interface, 2018.
+
+\bibitem{Zhang2017}
+{\sc Zhang, J., Li, S., and Wang, R.}
+\newblock {Pattern Recognition of Momentary Mental Workload Based on
+  Multi-Channel Electrophysiological Data and Ensemble Convolutional Neural
+  Networks}.
+\newblock {\em Frontiers in Neuroscience 11}, May (2017), 1--16.
+
+\bibitem{Zhang2018b}
+{\sc Zhang, Q.}
+\newblock {Improving brain computer interface performance by data augmentation
+  with conditional Deep Convolutional Generative Adversarial Networks}.
+
+\bibitem{Zhang2018}
+{\sc Zhang, T., Zheng, W., Cui, Z., Zong, Y., and Li, Y.}
+\newblock {Spatial–Temporal Recurrent Neural Network for Emotion
+  Recognition}.
+\newblock {\em Ieee Transactions on Cybernetics 1\/} (2018), 1--9.
+
+\bibitem{Zhang2017c}
+{\sc Zhang, X., Yao, L., Chen, K., Wang, X., Sheng, Q., and Gu, T.}
+\newblock {DeepKey: An EEG and Gait Based Dual-Authentication System}.
+\newblock 1--20.
+
+\bibitem{Zhang2017d}
+{\sc Zhang, X., Yao, L., Huang, C., Sheng, Q.~Z., and Wang, X.}
+\newblock {Intent Recognition in Smart Living Through Deep Recurrent Neural
+  Networks}.
+\newblock 1--11.
+
+\bibitem{Zhang2017e}
+{\sc Zhang, X., Yao, L., Kanhere, S.~S., Liu, Y., Gu, T., and Chen, K.}
+\newblock {MindID: Person Identification from Brain Waves through
+  Attention-based Recurrent Neural Network}.
+\newblock 1--20.
+
+\bibitem{Zhang2017g}
+{\sc Zhang, X., Yao, L., Sheng, Q.~Z., Kanhere, S.~S., Gu, T., and Zhang, D.}
+\newblock {Converting Your Thoughts to Texts: Enabling Brain Typing via Deep
+  Feature Learning of EEG Signals}.
+\newblock {\em arXiv\/} (2017).
+
+\bibitem{Zhang2018a}
+{\sc Zhang, X., Yao, L., Wang, X., Zhang, W., Zhang, S., and Liu, Y.}
+\newblock {Know Your Mind: Adaptive Brain Signal Classification with Reinforced
+  Attentive Convolutional Neural Networks}.
+\newblock {\em arXiv\/} (2018).
+
+\bibitem{Zhang2017a}
+{\sc Zhang, X., Yao, L., Zhang, D., Wang, X., Sheng, Q.~Z., and Gu, T.}
+\newblock {Multi-Person Brain Activity Recognition via Comprehensive EEG Signal
+  Analysis}.
+
+\bibitem{Zheng2015}
+{\sc Zheng, W.~L., and Lu, B.~L.}
+\newblock {Investigating Critical Frequency Bands and Channels for EEG-Based
+  Emotion Recognition with Deep Neural Networks}.
+\newblock {\em IEEE Transactions on Autonomous Mental Development 7}, 3 (2015),
+  162--175.
+
+\bibitem{Zheng2014}
+{\sc Zheng, W.-L., Zhu, J.-Y., Peng, Y., and Lu, B.-L.}
+\newblock {EEG-Based Emotion Classification Using Deep Belief Networks}.
+\newblock {\em Multimedia and Expo (ICME)\/} (2014), 1--6.
+
+\end{thebibliography}

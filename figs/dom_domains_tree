@@ -5,7 +5,7 @@ digraph {
 (156)" fillcolor=azure]
 	"Classification of EEG signals" [label="Classification
 of EEG signals
-(136)" fillcolor="0.3333333333333333 0.4 1" fontsize=13.509677419354839]
+(135)" fillcolor="0.3333333333333333 0.4 1" fontsize=13.483870967741936]
 	A -> "Classification of EEG signals"
 	Clinical [label="Clinical
 (49)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=11.264516129032257]
@@ -41,7 +41,7 @@ of EEG signals
 (5)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.129032258064516]
 	Clinical -> Clinicalothers
 	BCI [label="BCI
-(46)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=11.187096774193549]
+(45)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=11.161290322580646]
 	"Classification of EEG signals" -> BCI
 	Active [label="Active
 (28)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.72258064516129]
@@ -74,7 +74,7 @@ of EEG signals
 (1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.025806451612903]
 	Reactive -> Reactiveothers
 	BCIothers [label="Others
-(2)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.051612903225806]
+(1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.025806451612903]
 	BCI -> BCIothers
 	Monitoring [label="Monitoring
 (34)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.87741935483871]
@@ -106,19 +106,6 @@ of EEG signals
 	Monitoringothers [label="Others
 (2)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.051612903225806]
 	Monitoring -> Monitoringothers
-	"Multi-purpose architecture" [label="Multi-purpose
-architecture
-(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
-	"Classification of EEG signals" -> "Multi-purpose architecture"
-	" " [label=" 
-(3)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.07741935483871]
-	"Multi-purpose architecture" -> " "
-	" " [label=" 
-(15)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.387096774193548]
-	" " -> " "
-	" others" [label="Others
-(1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.025806451612903]
-	" " -> " others"
 	"Personal trait/attribute" [label="Personal
 trait/attribute
 (3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
@@ -133,6 +120,16 @@ identification
 	"Personal trait/attributeothers" [label="Others
 (1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.025806451612903]
 	"Personal trait/attribute" -> "Personal trait/attributeothers"
+	"Multi-purpose architecture" [label="Multi-purpose
+architecture
+(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
+	"Classification of EEG signals" -> "Multi-purpose architecture"
+	" " [label=" 
+(3)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.07741935483871]
+	"Multi-purpose architecture" -> " "
+	" " [label=" 
+(15)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.387096774193548]
+	" " -> " "
 	"Music semantics" [label="Music semantics
 (1)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.025806451612903]
 	"Classification of EEG signals" -> "Music semantics"
@@ -141,8 +138,18 @@ identification
 	"Music semantics" -> "Music semanticsothers"
 	"Improvement of processing tools" [label="Improvement of
 processing tools
-(13)" fillcolor="0.6666666666666666 0.4 1" fontsize=10.335483870967742]
+(14)" fillcolor="0.6666666666666666 0.4 1" fontsize=10.361290322580645]
 	A -> "Improvement of processing tools"
+	"Signal cleaning" [label="Signal cleaning
+(5)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.129032258064516]
+	"Improvement of processing tools" -> "Signal cleaning"
+	"Artifact handling" [label="Artifact
+handling
+(5)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.129032258064516]
+	"Signal cleaning" -> "Artifact handling"
+	" " [label=" 
+(5)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.129032258064516]
+	"Artifact handling" -> " "
 	"Feature learning" [label="Feature learning
 (4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
 	"Improvement of processing tools" -> "Feature learning"
@@ -152,19 +159,6 @@ processing tools
 	" " [label=" 
 (15)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
-	" others" [label="Others
-(1)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.025806451612903]
-	" " -> " others"
-	"Signal cleaning" [label="Signal cleaning
-(4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.103225806451613]
-	"Improvement of processing tools" -> "Signal cleaning"
-	"Artifact handling" [label="Artifact
-handling
-(4)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.103225806451613]
-	"Signal cleaning" -> "Artifact handling"
-	" " [label=" 
-(4)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.103225806451613]
-	"Artifact handling" -> " "
 	"Hardware optimization" [label="Hardware
 optimization
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
@@ -208,9 +202,12 @@ augmentation
 	" " [label=" 
 (15)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
-	" others" [label="Others
-(1)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.025806451612903]
-	" " -> " others"
+	"Generating EEG" [label="Generating EEG
+(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Generation of data" -> "Generating EEG"
+	"Generating EEGothers" [label="Others
+(2)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.051612903225806]
+	"Generating EEG" -> "Generating EEGothers"
 	"Generating images conditioned on EEG" [label="Generating
 images
 conditioned on
@@ -223,13 +220,4 @@ EEG
 	" " [label=" 
 (15)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
-	" others" [label="Others
-(1)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.025806451612903]
-	" " -> " others"
-	"Generating EEG" [label="Generating EEG
-(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Generation of data" -> "Generating EEG"
-	"Generating EEGothers" [label="Others
-(2)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.051612903225806]
-	"Generating EEG" -> "Generating EEGothers"
 }

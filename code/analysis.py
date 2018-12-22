@@ -649,6 +649,10 @@ def plot_model_inspection_and_table(df, cutoff=1, save_cfg=cfg.saving_config):
     inspection_counts = inspection_df['inspection method'].value_counts()
     inspection_df = inspection_df[inspection_df['inspection method'].isin(
         inspection_counts[(inspection_counts >= cutoff)].index)]
+    
+    inspection_df['inspection method'] = inspection_df['inspection method'].apply(
+        lambda x: x.capitalize())
+    print(inspection_df['inspection method'])
 
     # Making table
     inspection_table = inspection_df.groupby(['inspection method'])[
@@ -741,13 +745,14 @@ def plot_countrymap(df, save_cfg=cfg.saving_config):
     #fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 3, 
     #                                save_cfg['text_height'] / 5))
 
-    shapefile = os.path.expanduser('../countries/ne_10m_admin_0_countries.shp')
+    shapefile = os.path.expanduser('../img/countries/ne_10m_admin_0_countries.shp')
 
     gdf = gpd.read_file(shapefile)[['ADMIN', 'geometry']].to_crs('+proj=robin')
     #gdf.head()
 
     dfx = df
-    dfx = dfx.Country.value_counts().reset_index().rename(columns={'index': 'Country', 'Country': 'Count'})
+    dfx = dfx.Country.value_counts().reset_index().rename(
+        columns={'index': 'Country', 'Country': 'Count'})
     #dfx.head()
 
     #print("Renaming Exceptions!")
@@ -768,12 +773,14 @@ def plot_countrymap(df, save_cfg=cfg.saving_config):
     # Adding 0 to all other countries!
     for c in gdf['ADMIN']:
         if any(dfx['Country'].str.contains(c)):
-            gdf.loc[gdf['ADMIN'] == c, 'Count'] = dfx[dfx['Country'].str.contains(c)]['Count'].values[0]
+            gdf.loc[gdf['ADMIN'] == c, 'Count'] = dfx[
+                dfx['Country'].str.contains(c)]['Count'].values[0]
         else:
             gdf.loc[gdf['ADMIN'] == c, 'Count'] = 0
 
     figsize = (16, 10)
-    ax = gdf.plot(column='Count', figsize=figsize, cmap='Blues', scheme='Fisher_Jenks', k=10, legend=True, axes=None)
+    ax = gdf.plot(column='Count', figsize=figsize, cmap='Blues', 
+                  scheme='Fisher_Jenks', k=10, legend=True, axes=None)
     
     ax.set_axis_off()
     #ax.set_xlim([-1.5e7, 1.7e7])
@@ -1168,7 +1175,7 @@ def plot_intra_inter_per_year(df, save_cfg=cfg.saving_config):
     """Plot stacked bar graph of intra-/intersubject studies per year.
     """
     fig, ax = plt.subplots(
-        figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_height'] / 6))
+        figsize=(save_cfg['text_width'] / 4 * 2, save_cfg['text_height'] / 4))
 
     df['Year'] = df['Year'].astype(int)
     col_name = 'Intra/Inter subject'
@@ -1226,21 +1233,16 @@ def plot_number_layers(df, save_cfg=cfg.saving_config):
 def plot_number_subjects_by_domain(df, save_cfg=cfg.saving_config):
     """Plot number of subjects in studies by domain.
     """
-    # Extract main domains
-    main_domains = ['Epilepsy', 'Sleep', 'BCI', 'Affective', 'Cognitive', 
-                    'Improvement of processing tools', 'Generation of data']
-    domains_df = df[['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4']]
-    df['Main domain'] = [row[row.isin(main_domains)].values[0] 
-        if any(row.isin(main_domains)) else 'Others' 
-        for ind, row in domains_df.iterrows()]
-
     # Split values into separate rows and remove invalid values
     col = 'Data - subjects'
     nb_subj_df = ut.split_column_with_multiple_entries(
         df, col, ref_col='Main domain')
-    nb_subj_df = nb_subj_df.loc[nb_subj_df[col] != 'n/m']
+    nb_subj_df = nb_subj_df.loc[~nb_subj_df[col].isin(['n/m', 'tbd'])]
     nb_subj_df[col] = nb_subj_df[col].astype(int)
     nb_subj_df = nb_subj_df.loc[nb_subj_df[col] > 0, :]
+
+    nb_subj_df['Main domain'] = nb_subj_df['Main domain'].apply(
+        ut.wrap_text, max_char=13)
 
     fig, ax = plt.subplots(
         figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_height'] / 3))
@@ -1251,7 +1253,6 @@ def plot_number_subjects_by_domain(df, save_cfg=cfg.saving_config):
             col].median().sort_values().index)
     ax.set_xlabel('Number of subjects')
     ax.set_ylabel('')
-
     
     logger.info('Stats on number of subjects per model: {}'.format(nb_subj_df[col].describe()))
 
@@ -1376,3 +1377,67 @@ def make_dataset_table(df, min_n_articles=2, save_cfg=cfg.saving_config):
     with open(os.path.join(save_cfg['savepath'], 'dataset_table.tex'), 'w') as f:
         with pd.option_context("max_colwidth", 1000):
             f.write(dataset_table.to_latex(escape=False, multicolumn=False))
+
+
+def plot_data_quantity(df, save_cfg=cfg.saving_config):
+    """Plot the quantity of data used by domain.
+    """
+    data_df = ut.split_column_with_multiple_entries(
+        df, ['Data - samples', 'Data - time'], ref_col=['Citation', 'Main domain'], 
+        sep=';\n', lower=False)
+
+    # Remove N/M and TBD
+    col = 'Data - samples'
+    data_df.loc[data_df[col].isin(['N/M', 'TBD', '[TBD]']), col] = np.nan
+    data_df[col] = data_df[col].astype(float)
+
+    col2 = 'Data - time'
+    data_df.loc[data_df[col2].isin(['N/M', 'TBD', '[TBD]']), col2] = np.nan
+    data_df[col2] = data_df[col2].astype(float)
+
+    # Wrap main domain text
+    data_df['Main domain'] = data_df['Main domain'].apply(
+        ut.wrap_text, max_char=13)
+
+    # Extract ratio
+    data_df['data_ratio'] = data_df['Data - samples'] / data_df['Data - time']
+    data_df = data_df.sort_values(['Main domain', 'data_ratio'])
+
+    # Plot
+    fig, axes = plt.subplots(
+        ncols=3, 
+        figsize=(save_cfg['text_width'], save_cfg['text_height'] / 3))
+
+    axes[0].set(xscale='log', yscale='linear')
+    sns.swarmplot(y='Main domain', x=col2, data=data_df, ax=axes[0], size=3)
+    axes[0].set_xlabel('Recording time (min)')
+    axes[0].set_ylabel('')
+    max_val = int(np.ceil(np.log10(data_df[col2].max())))
+    axes[0].set_xticks(np.power(10, range(0, max_val + 1)))
+
+    axes[1].set(xscale='log', yscale='linear')
+    sns.swarmplot(y='Main domain', x=col, data=data_df, ax=axes[1], size=3)
+    axes[1].set_xlabel('Number of samples')
+    axes[1].set_yticklabels('')
+    axes[1].set_ylabel('')
+    min_val = int(np.floor(np.log10(data_df[col].min())))
+    max_val = int(np.ceil(np.log10(data_df[col].max())))
+    axes[1].set_xticks(np.power(10, range(min_val, max_val + 1)))
+
+    axes[2].set(xscale='log', yscale='linear')
+    sns.swarmplot(y='Main domain', x='data_ratio', data=data_df, ax=axes[2], 
+                  size=3)
+    axes[2].set_xlabel('Ratio (samples/min)')
+    axes[2].set_ylabel('')
+    axes[2].set_yticklabels('')
+    min_val = int(np.floor(np.log10(data_df['data_ratio'].min())))
+    max_val = int(np.ceil(np.log10(data_df['data_ratio'].max())))
+    axes[2].set_xticks(np.power(10, np.arange(min_val, max_val + 1, dtype=float)))
+
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'data_quantity')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return axes
