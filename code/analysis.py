@@ -965,6 +965,8 @@ def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
     """Plot proportions for reproducibility-related data items.
     """
     df['Code hosted on'] = df['Code hosted on'].replace(np.nan, 'N/M', regex=True)
+    df['Limited data'] = df['Limited data'].replace(np.nan, 'N/M', regex=True)
+    df['Code available'] = df['Code available'].replace(np.nan, 'N/M', regex=True)
 
     data = dict()
     data['(a) Dataset availability'] = df[
@@ -984,6 +986,14 @@ def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
 
     data['(d) Reproducibility'] = df[
          'reproducibility'].value_counts().to_dict()
+
+    logger.info('Stats on reproducibility - Dataset Accessibility: {}'.format(data['(a) Dataset availability']))
+    logger.info('Stats on reproducibility - Code Accessibility: {}'.format(df['Code available'].value_counts().to_dict()))
+    logger.info('Stats on reproducibility - Code Hosted On: {}'.format(data['(b) Code availability']))
+    logger.info('Stats on reproducibility - Baseline: {}'.format(data['(c) Type of baseline']))
+    logger.info('Stats on reproducibility - Reproducibility Level: {}'.format(data['(d) Reproducibility']))
+    logger.info('Stats on reproducibility - Limited data: {}'.format(df['Limited data'].value_counts().to_dict()))
+    logger.info('Stats on reproducibility - Shared their Code: {}'.format(df[df['Code available'] == 'Yes']['Citation'].to_dict()))
 
     fig, ax = plot_multiple_proportions(
         data, print_count=5, respect_order=['Easy', 'Medium', 'Hard', 'Impossible'],
@@ -1279,6 +1289,8 @@ def plot_number_channels(df, save_cfg=cfg.saving_config):
     ax.set_xlabel('Number of EEG channels')
     ax.set_ylabel('Number of papers')
 
+    logger.info('Stats on number of channels per model: {}'.format(nb_channels_df['Nb Channels'].describe()))
+
     plt.tight_layout()
 
     if save_cfg is not None:
@@ -1296,8 +1308,7 @@ def compute_stats_sampling_rate(df):
     fs_df['Sampling rate'] = fs_df['Sampling rate'].astype(float)
     fs_df = fs_df.loc[fs_df['Sampling rate'] > 0, :]
 
-    logger.info('Stats for EEG sampling rate: {}'.format(
-        fs_df['Sampling rate'].describe()))
+    logger.info('Stats on sampling rate per model: {}'.format(fs_df['Sampling rate'].describe()))
 
 
 def plot_cross_validation(df, save_cfg=cfg.saving_config):
