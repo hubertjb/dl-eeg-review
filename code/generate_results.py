@@ -23,7 +23,7 @@ if __name__ == '__main__':
     # Origin
     anl.plot_type_of_paper(df)
     anl.plot_country(df)
-    anl.plot_countrymap(df)
+    # anl.plot_countrymap(df)
     anl.plot_domains_per_year(df)
 
     # Data
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     anl.plot_hardware(df)
     anl.plot_number_channels(df)
     anl.plot_data_quantity(df)
-    anl.compute_stats_sampling_rate(df)
+    # anl.compute_stats_sampling_rate(df)
 
     # EEG methodology
     anl.plot_preprocessing_proportions(df)

@@ -202,12 +202,6 @@ augmentation
 	" " [label=" 
 (15)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
-	"Generating EEG" [label="Generating EEG
-(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Generation of data" -> "Generating EEG"
-	"Generating EEGothers" [label="Others
-(2)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.051612903225806]
-	"Generating EEG" -> "Generating EEGothers"
 	"Generating images conditioned on EEG" [label="Generating
 images
 conditioned on
@@ -220,4 +214,10 @@ EEG
 	" " [label=" 
 (15)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
+	"Generating EEG" [label="Generating EEG
+(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Generation of data" -> "Generating EEG"
+	"Generating EEGothers" [label="Others
+(2)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.051612903225806]
+	"Generating EEG" -> "Generating EEGothers"
 }
