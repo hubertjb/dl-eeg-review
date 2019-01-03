@@ -10,12 +10,15 @@ import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
+import matplotlib.patches as patches
 import matplotlib as mpl
 import seaborn as sns
 import numpy as np
 from PIL import Image
 from wordcloud import WordCloud, STOPWORDS
 from graphviz import Digraph
+from mne.io import concatenate_raws, read_raw_edf
+from mne.datasets import eegbci
 
 import plt_config as cfg
 import utils as ut
@@ -1417,7 +1420,7 @@ def plot_data_quantity(df, save_cfg=cfg.saving_config):
 
     axes[1].set(xscale='log', yscale='linear')
     sns.swarmplot(y='Main domain', x=col, data=data_df, ax=axes[1], size=3)
-    axes[1].set_xlabel('Number of samples')
+    axes[1].set_xlabel('Number of examples')
     axes[1].set_yticklabels('')
     axes[1].set_ylabel('')
     min_val = int(np.floor(np.log10(data_df[col].min())))
@@ -1427,7 +1430,7 @@ def plot_data_quantity(df, save_cfg=cfg.saving_config):
     axes[2].set(xscale='log', yscale='linear')
     sns.swarmplot(y='Main domain', x='data_ratio', data=data_df, ax=axes[2], 
                   size=3)
-    axes[2].set_xlabel('Ratio (samples/min)')
+    axes[2].set_xlabel('Ratio (examples/min)')
     axes[2].set_ylabel('')
     axes[2].set_yticklabels('')
     min_val = int(np.floor(np.log10(data_df['data_ratio'].min())))
@@ -1441,3 +1444,136 @@ def plot_data_quantity(df, save_cfg=cfg.saving_config):
         fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
 
     return axes
+
+
+def get_real_eeg_data(signal_len=4, n_channels=4):
+    """Get real EEG data for plotting.
+    """
+    raw_fnames = eegbci.load_data(1, 2)
+    raws = [read_raw_edf(f, preload=True) for f in raw_fnames]
+    raw = concatenate_raws(raws)
+
+    fs = raw.info['sfreq']
+    data, t = raw.get_data(np.arange(n_channels), 0, int(fs * signal_len), 
+                           return_times=True)
+    data = data.T
+
+    return data, t, fs
+
+
+def create_fake_eeg(fs=256, signal_len=4, n_channels=4):
+    """Create fake EEG data.
+    """
+    n_points = fs * signal_len
+    t = np.arange(n_points) / fs
+    data = np.random.rand(n_points, n_channels)
+
+    return data, t
+
+
+def draw_brace(ax, xspan, text, beta_factor=300, y_offset=None):
+    """Draws an annotated brace on the axes.
+    
+    Adapted from https://stackoverflow.com/a/53383764"""
+    xmin, xmax = xspan
+    xspan = xmax - xmin
+    ax_xmin, ax_xmax = ax.get_xlim()
+    xax_span = ax_xmax - ax_xmin
+    ymin, ymax = ax.get_ylim()
+    yspan = ymax - ymin
+    resolution = int(xspan/xax_span*100)*2+1 # guaranteed uneven
+    beta = beta_factor / xax_span # the higher this is, the smaller the radius
+
+    x = np.linspace(xmin, xmax, resolution)
+    x_half = x[:int(np.ceil(resolution/2))]
+    y_half_brace = (1/(1.+np.exp(-beta*(x_half-x_half[0])))
+                    + 1/(1.+np.exp(-beta*(x_half-x_half[-1]))))
+    y = np.concatenate((y_half_brace, y_half_brace[-2::-1]))
+    if y_offset is not None:
+        ymin = y_offset
+    y = ymin + (.035*y - .01) * yspan  # adjust vertical position
+
+    # ax.autoscale(False)
+    ax.plot(x, y, color='black', lw=1)
+
+    ax.text((xmax+xmin)/2., ymin+.05*yspan, text, ha='center', va='bottom')
+
+
+
+def plot_eeg_intro(save_cfg=cfg.saving_config):
+    """Plot a figure that shows basic EEG notions such as epochs and samples.
+    """
+
+    # Visualization parameters
+    win_len = 1  # in s
+    step = 0.5  # in s
+    first_epoch = 1
+
+    data, t, fs = get_real_eeg_data()
+
+    # Offset data for visualization
+    data -= data.mean(axis=0)
+    max_std = np.max(data.std(axis=0))
+    offsets = np.arange(data.shape[1])[::-1] * 4 * max_std
+    data += offsets
+
+    rect_y_border = 0.3 * max_std
+    min_y = data.min() - rect_y_border
+    max_y = data.max() + rect_y_border
+
+    # Make figure
+    fig, ax = plt.subplots(
+        figsize=(save_cfg['text_width'] / 4 * 3, save_cfg['text_height'] / 3))
+    ax.plot(t, data)
+    ax.set_xlabel('Time (s)')
+    ax.set_ylabel(r'Amplitude (e.g., $\mu$V)')
+    ax.set_yticks(offsets)
+    ax.set_yticklabels(['channel {}'.format(i + 1) for i in range(data.shape[1])])
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # Display epochs as dashed line rectangles
+    rect1 = patches.Rectangle((first_epoch, min_y + rect_y_border / 4), 
+                            win_len, max_y - min_y, 
+                            linewidth=1, linestyle='--', edgecolor='k',
+                            facecolor='none')
+    rect2 = patches.Rectangle((first_epoch + step, min_y - rect_y_border / 4), 
+                            win_len, max_y - min_y, 
+                            linewidth=1, linestyle='--', edgecolor='k',
+                            facecolor='none')
+
+    ax.add_patch(rect1)
+    ax.add_patch(rect2)
+
+    # Annotate epochs
+    ax.annotate(
+        r'$\bf{Window}$ or $\bf{epoch}$ or $\bf{trial}$' +
+        '\n({:.0f} points in a \n1-s window at {:.0f} Hz)'.format(fs, fs), #fontsize=14, 
+        xy=(first_epoch, min_y), 
+        arrowprops=dict(facecolor='black', shrink=0.05, width=2),
+        xytext=(0, min_y - 3.5 * max_std),
+        xycoords='data', ha='center', va='top')
+
+    # Annotate sample
+    special_ind = np.where((t >= 2.4) & (t < 2.5))[0][0]
+    special_point = data[special_ind, 0]
+    ax.plot(t[special_ind], special_point, '.', c='k')
+    ax.annotate(
+        r'$\bf{Point}$ or $\bf{sample}$', #fontsize=14, 
+        xy=(t[special_ind], special_point), 
+        arrowprops=dict(facecolor='black', shrink=0.05, width=2),
+        xytext=(3, max_y),
+        xycoords='data', ha='left', va='bottom')
+
+    # Annotate overlap
+    draw_brace(ax, (first_epoch + step, first_epoch + step * 2), 
+            r'0.5-s $\bf{overlap}$' + '\nbetween windows', 
+            beta_factor=300, y_offset=max_y)
+
+    plt.tight_layout()
+
+    if save_cfg is not None:
+        fname = os.path.join(save_cfg['savepath'], 'eeg_intro')
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return ax

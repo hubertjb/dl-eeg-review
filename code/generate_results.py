@@ -15,6 +15,9 @@ if __name__ == '__main__':
     results_df = ut.load_reported_results_data()
     ut.check_data_items(df)
 
+    # Introduction
+    anl.plot_eeg_intro()
+
     # Rationale
     anl.plot_prisma_diagram()
     anl.make_domain_table(df)
@@ -23,7 +26,7 @@ if __name__ == '__main__':
     # Origin
     anl.plot_type_of_paper(df)
     anl.plot_country(df)
-    anl.plot_countrymap(df)
+    # anl.plot_countrymap(df)
     anl.plot_domains_per_year(df)
 
     # Data

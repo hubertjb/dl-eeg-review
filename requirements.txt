@@ -5,3 +5,4 @@ geopandas
 Pillow
 wordcloud
 graphviz
+mne
