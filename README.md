@@ -11,6 +11,8 @@ Only studies applying deep learning to scalp EEG data were included.
 
 The data collection table can be found under `/data/data_items.csv`. Each row contains the information for a single paper, while the columns are "data items" (e.g., 'domain of application', 'type of architecture', 'number of layers', etc.). An additional table containing the reported results of each paper can be found under `/data/reporting_results.csv`.
 
+Standard spreadsheet software (LibreOffice Calc, Microsoft Excel, Google Sheets) can be used to load and browse the CSV files.
+
 ## Producing the figures and results of the review
 
 To produce the figures and results of the review, a Python 3 environment with the packages listed in `requirements.txt` is necessary.
