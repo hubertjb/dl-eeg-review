@@ -52,9 +52,6 @@ def tex_escape(text):
     return regex.sub(lambda match: conv[match.group()], text)
 
 
-import warnings
-
-
 def split_column_with_multiple_entries(df, col, ref_col='Citation', sep=';\n', 
                                        lower=True, mismatch='drop'):
     """Split the content of a column that contains more than one value per cell.

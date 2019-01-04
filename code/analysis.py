@@ -1520,7 +1520,6 @@ def draw_brace(ax, xspan, text, beta_factor=300, y_offset=None):
     ax.text((xmax+xmin)/2., ymin+.05*yspan, text, ha='center', va='bottom')
 
 
-
 def plot_eeg_intro(save_cfg=cfg.saving_config):
     """Plot a figure that shows basic EEG notions such as epochs and samples.
     """
