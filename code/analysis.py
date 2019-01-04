@@ -1457,16 +1457,26 @@ def plot_data_quantity(df, save_cfg=cfg.saving_config):
     return axes
 
 
-def get_real_eeg_data(signal_len=4, n_channels=4):
+def get_real_eeg_data(start=0, stop=4, chans=4):
     """Get real EEG data for plotting.
+
+    Keyword Args:
+        start (float): start of the EEG segment, in seconds.
+        stop (float): end of the EEG segment, in seconds.
+        chans (int or list): number of channels to extract, or list of channel
+            indices to be interpreted by MNE's get_data() function.
     """
     raw_fnames = eegbci.load_data(1, 2)
     raws = [read_raw_edf(f, preload=True) for f in raw_fnames]
     raw = concatenate_raws(raws)
 
     fs = raw.info['sfreq']
-    data, t = raw.get_data(np.arange(n_channels), 0, int(fs * signal_len), 
-                           return_times=True)
+    start = int(fs * start)
+    stop = int(fs * stop)
+
+    if not isinstance(chans, list):
+        chans = np.arange(chans)
+    data, t = raw.get_data(picks=chans, start=start, stop=stop, return_times=True)
     data = data.T
 
     return data, t, fs
@@ -1520,7 +1530,8 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
     step = 0.5  # in s
     first_epoch = 1
 
-    data, t, fs = get_real_eeg_data()
+    data, t, fs = get_real_eeg_data(start=30, stop=34, chans=[0, 10, 20, 30])
+    t = t - t[0]
 
     # Offset data for visualization
     data -= data.mean(axis=0)
@@ -1528,7 +1539,7 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
     offsets = np.arange(data.shape[1])[::-1] * 4 * max_std
     data += offsets
 
-    rect_y_border = 0.3 * max_std
+    rect_y_border = 0.6 * max_std
     min_y = data.min() - rect_y_border
     max_y = data.max() + rect_y_border
 
@@ -1561,7 +1572,7 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
         r'$\bf{Window}$ or $\bf{epoch}$ or $\bf{trial}$' +
         '\n({:.0f} points in a \n1-s window at {:.0f} Hz)'.format(fs, fs), #fontsize=14, 
         xy=(first_epoch, min_y), 
-        arrowprops=dict(facecolor='black', shrink=0.05, width=2),
+        arrowprops=dict(facecolor='black', shrink=0.05, width=2, headwidth=6),
         xytext=(0, min_y - 3.5 * max_std),
         xycoords='data', ha='center', va='top')
 
@@ -1572,7 +1583,7 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
     ax.annotate(
         r'$\bf{Point}$ or $\bf{sample}$', #fontsize=14, 
         xy=(t[special_ind], special_point), 
-        arrowprops=dict(facecolor='black', shrink=0.05, width=2),
+        arrowprops=dict(facecolor='black', shrink=0.05, width=2, headwidth=6),
         xytext=(3, max_y),
         xycoords='data', ha='left', va='bottom')
 

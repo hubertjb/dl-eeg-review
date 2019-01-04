@@ -106,6 +106,16 @@ of EEG signals
 	Monitoringothers [label="Others
 (2)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.051612903225806]
 	Monitoring -> Monitoringothers
+	"Multi-purpose architecture" [label="Multi-purpose
+architecture
+(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
+	"Classification of EEG signals" -> "Multi-purpose architecture"
+	" " [label=" 
+(3)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.07741935483871]
+	"Multi-purpose architecture" -> " "
+	" " [label=" 
+(15)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.387096774193548]
+	" " -> " "
 	"Personal trait/attribute" [label="Personal
 trait/attribute
 (3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
@@ -120,16 +130,6 @@ identification
 	"Personal trait/attributeothers" [label="Others
 (1)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.025806451612903]
 	"Personal trait/attribute" -> "Personal trait/attributeothers"
-	"Multi-purpose architecture" [label="Multi-purpose
-architecture
-(3)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.07741935483871]
-	"Classification of EEG signals" -> "Multi-purpose architecture"
-	" " [label=" 
-(3)" fillcolor="0.3333333333333333 0.16666666666666666 1" fontsize=10.07741935483871]
-	"Multi-purpose architecture" -> " "
-	" " [label=" 
-(15)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.387096774193548]
-	" " -> " "
 	"Music semantics" [label="Music semantics
 (1)" fillcolor="0.3333333333333333 0.2833333333333333 1" fontsize=10.025806451612903]
 	"Classification of EEG signals" -> "Music semantics"
@@ -159,17 +159,6 @@ handling
 	" " [label=" 
 (15)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
-	"Model interpretability" [label="Model
-interpretability
-(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Improvement of processing tools" -> "Model interpretability"
-	"Model visualization" [label="Model
-visualization
-(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.051612903225806]
-	"Model interpretability" -> "Model visualization"
-	" " [label=" 
-(2)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.051612903225806]
-	"Model visualization" -> " "
 	"Hardware optimization" [label="Hardware
 optimization
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
@@ -181,6 +170,17 @@ chips
 	" " [label=" 
 (2)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.051612903225806]
 	"Neuromorphic chips" -> " "
+	"Model interpretability" [label="Model
+interpretability
+(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Improvement of processing tools" -> "Model interpretability"
+	"Model visualization" [label="Model
+visualization
+(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.051612903225806]
+	"Model interpretability" -> "Model visualization"
+	" " [label=" 
+(2)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.051612903225806]
+	"Model visualization" -> " "
 	"Reduce effect of confounders" [label="Reduce effect of
 confounders
 (1)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.025806451612903]
