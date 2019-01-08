@@ -878,8 +878,6 @@ def plot_multiple_proportions(data, height=0.3, print_count=True,
     if title is not None:
         ax.set_title(title)
 
-    sns.set_palette(sns.color_palette('Paired'))
-
     for ind, (item, values) in enumerate(data.items()):
         bottom = 0
         n_values = sum(list(values.values()))
@@ -1077,7 +1075,7 @@ def plot_architectures(df, save_cfg=cfg.saving_config):
     """
     fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 3, 
                                     save_cfg['text_width'] / 3))
-    colors = sns.color_palette('Paired')
+    colors = sns.color_palette()
     counts = df['Architecture (clean)'].value_counts()
     _, _, pct = ax.pie(counts.values, labels=counts.index, autopct='%1.1f%%',
            wedgeprops=dict(width=0.3, edgecolor='w'), colors=colors,
@@ -1100,7 +1098,7 @@ def plot_architectures_per_year(df, save_cfg=cfg.saving_config):
     """
     fig, ax = plt.subplots(
         figsize=(save_cfg['text_width'] / 3 * 2, save_cfg['text_width'] / 3))
-    colors = sns.color_palette('Paired')
+    colors = sns.color_palette()
 
     df['Year'] = df['Year'].astype('int32')
     col_name = 'Architecture (clean)'

@@ -74,3 +74,4 @@ saving_config = {'savepath': '../figs/',
                  'text_height': 9}
 
 palette = 'Paired'
+# palette = 'cubehelix'
