@@ -783,7 +783,9 @@ def plot_countrymap(df, save_cfg=cfg.saving_config):
 
     figsize = (16, 10)
     ax = gdf.plot(column='Count', figsize=figsize, cmap='Blues', 
-                  scheme='Fisher_Jenks', k=10, legend=True, axes=None)
+                  scheme='Fisher_Jenks', k=10, legend=True, legend_kwds={'fontsize':'large'}, axes=None)
+
+    ax.get_legend().set_bbox_to_anchor((0.,0.,0.2,0.5))
     
     ax.set_axis_off()
     #ax.set_xlim([-1.5e7, 1.7e7])
