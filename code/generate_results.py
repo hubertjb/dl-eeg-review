@@ -52,6 +52,7 @@ if __name__ == '__main__':
     anl.plot_cross_validation(df)
     anl.plot_intra_inter_per_year(df)
     anl.plot_model_comparison(df)
+    anl.compute_prct_statistical_tests(df)
     anl.plot_reported_results(results_df, data_items_df=df)
 
     # Reproducibility

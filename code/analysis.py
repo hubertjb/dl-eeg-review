@@ -114,13 +114,21 @@ def make_box(dot, text, max_char, n_instances, max_n_instances, level, n_levels,
 
 def plot_prisma_diagram(save_cfg=cfg.saving_config):
     """Plot diagram showing the number of selected articles.
+
+    TODO:
+    - Use first two colors of colormap instead of gray
+    - Reduce white space
+    - Reduce arrow width
     """
     # save_format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
     save_format = 'pdf'
+    size = '{},{}!'.format(save_cfg['page_width'], save_cfg['page_height'])
+
     dot = Digraph(format=save_format)
-    dot.attr('graph', rankdir='TB', overlap='false')
+    dot.attr('graph', rankdir='TB', overlap='false', size=size)
     dot.attr('node', fontname='Liberation Sans', fontsize=str(9), shape='box', 
-             style='filled', margin='0.15,0.07', penwidth='0.5')
+             style='filled', margin='0.15,0.07', penwidth='0.1')
+    # dot.attr('edge', arrowsize=0.5)
 
     fillcolor = 'gray98'
 
@@ -140,9 +148,6 @@ def plot_prisma_diagram(save_cfg=cfg.saving_config):
     # dot.edge('B', 'B2')
     dot.edge('C', 'D')
     dot.edge('E', 'D')
-
-    # dot = Digraph('G', filename='hello.gv')
-    # dot.edge('Hello', 'World')
 
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'prisma_diagram')
@@ -797,7 +802,7 @@ def plot_countrymap(df, save_cfg=cfg.saving_config):
     return ax
 
 
-def compute_prct_statistical_test(df):
+def compute_prct_statistical_tests(df):
     """Compute the number of studies that used statistical tests.
     """
     prct = 100 - 100 * df['Statistical analysis of performance'].value_counts()['No'] / df.shape[0]
@@ -1305,7 +1310,7 @@ def compute_stats_sampling_rate(df):
     """Compute the statistics for hardware sampling rate.
     """
     fs_df = ut.split_column_with_multiple_entries(
-    df, 'Sampling rate', ref_col='Citation', sep=';\n', lower=False)
+        df, 'Sampling rate', ref_col='Citation', sep=';\n', lower=False)
     fs_df['Sampling rate'] = fs_df['Sampling rate'].astype(float)
     fs_df = fs_df.loc[fs_df['Sampling rate'] > 0, :]
 
