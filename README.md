@@ -10,38 +10,44 @@ Only studies applying deep learning to scalp EEG data were included.
 
 ## Data tables
 
-[Here is the spreadsheet](https://docs.google.com/spreadsheets/d/1smpU0WSlSq-Al2u_QH3djGn68mTuHlth2fNJTrD3wa8/) containing the breakdown of the reviewed papers. This spreadsheet will be maintained and updated overtime and will therefore not reflect exactly the information in the review paper (published on XX) as new papers get added to it. Each row contains the information for a single paper, while the columns are "data items" (e.g., 'domain of application', 'type of architecture', 'number of layers', etc.).
+We provide our [data extraction table](https://docs.google.com/spreadsheets/d/1smpU0WSlSq-Al2u_QH3djGn68mTuHlth2fNJTrD3wa8/) containing the summary of the reviewed papers. This table will be maintained and updated over time and might therefore be slightly out-of-sync with the review as new articles are added. Each row contains the information for a single paper, while the columns are "data items" (e.g., 'domain of application', 'type of architecture', 'number of layers', etc.) describing the various characteristics of the studies.
 
-The csv file used to automatically generate all the figures is saved in `/data/data_items.csv`. The csv file is a saved copy of the main spreadsheet and will be erased and replaced everytime a modification is applied to the spreadsheet. 
+A CSV version of the table is available under `/data/data_items.csv`. This version is used to automatically generate all the figures in the review. The CSV file is updated everytime the main table is modified.
 
-An additional table containing the reported results of each paper can be found under `/data/reporting_results.csv`.
+An additional table containing the [reported results](https://docs.google.com/spreadsheets/d/1smpU0WSlSq-Al2u_QH3djGn68mTuHlth2fNJTrD3wa8/edit#gid=1960227030) of each paper is also made available. Its CSV version can be found under `/data/reporting_results.csv`.
 
 Standard spreadsheet software (LibreOffice Calc, Microsoft Excel, Google Sheets) can be used to load and browse the CSV files.
 
 
 ## Contributing
 
-We encourage the community to submit new DL-EEG papers to the data collection table (spreadsheet). If your work is already in the data collection table, we would be grateful to have you approve the summary we did of your paper. If you have published work on DL-EEG that is not included in the table, we would be very happy to include your summary in the table. If you see any error in the table we will be happy to correct it.
+We encourage interested readers to submit new DL-EEG papers to the data collection table so their summary can be shared with the rest of the community. If your work is already in the data collection table, we would be grateful to have you approve the summary we did of your paper. If you have published work on DL-EEG that is not included in the table, we would be very happy to include your summary in the table. If you see any error in the table we will be happy to correct it.
 
-1. **Modifications and Corrections**
-    - **Open an issue** to discuss what you are suggesting to add to/modify in the data collection table, or directly.
-    - **Submit a pull request** to propose changes to the data items CSV file. (we will manually apply them to the spreadsheet)
-    - **Send us an email** with the suggested modifications. (we will manually apply them to the spreadsheet)
+Depending on the kind of contribution you are planning on doing, please see the following steps:
 
-2. **New Paper(s) to Review**
-    - **Open an issue** with the title of the paper (and a link would be nice) and we'll add it to the list to be reviewed.
-    - **Send us an email** with the title of the paper (and a link would be nice) and we'll add it to the list to be reviewed.
+1. **Modifying or correcting existing entries**
+    - Option 1: **Open an issue** on Github to discuss what you are suggesting to add to/modify in the data collection table.
+    - Option 2: **Submit a pull request** on Github to directly suggest changes to the data items CSV file.
+    - Option 3: **Send us an email** with the suggested modifications.
 
-3. **New Reviewed Paper**
-    - Download and fill [this template](https://docs.google.com/spreadsheets/d/16CzRFBg340izqtgC1U7QVBvHMRB5z8P98SNKCji7kUU/).
-    - **Submit a pull request** with your csv file (i.e. filled template) in the folder _submissions_.
-    - or **Send us an email** with the filled template, either a link to a spreadsheet or a csv file attached to the email.
+2. **Requesting the inclusion of a new paper**
+    - Option 1: **Open an issue** on Github with the title of the paper, the list of authors and the year, as well as a link to an electronic version of the paper.
+    - Option 2: **Send us an email** with the information described just above.
+
+3. **Reviewing a new paper**
+    - Download and fill [this template](https://docs.google.com/spreadsheets/d/16CzRFBg340izqtgC1U7QVBvHMRB5z8P98SNKCji7kUU/). See Reviewing instructions.
+    - Option 1: **Submit a pull request** on Github with your CSV file (i.e., filled template) in the folder _submissions_.
+    - Option 2: **Send us an email** with the filled template, either a link to a spreadsheet or a csv file attached to the email.
 
 4. **Reviewing a Paper**
     1. **Consult the spreadsheet** for the list "To be reviewed" in the second tab.
     2. **Identify a paper of interest** from the list and review it throughfully to fill all the data items (i.e. columns)
     4. **See previous section** "New Reviewed Paper" so we can update the spreadsheet with your contribution.
 
+
+## Reviewing instructions
+
+...
 
 ## Producing the figures and results of the review
 

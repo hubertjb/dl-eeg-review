@@ -180,7 +180,7 @@ def load_data_items(start_year=2010):
     df = df[df['Year'] >= start_year]
 
     df = extract_main_domains(df)
-    df = extract_ref_numbers_from_bbl(df)
+    # df = extract_ref_numbers_from_bbl(df)
 
     return df
 
