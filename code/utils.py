@@ -8,9 +8,14 @@ TODO:
 
 import re
 import warnings
+import os
 
 import pandas as pd
 import numpy as np
+
+
+dirname = os.path.dirname(__file__)
+repo_root = os.path.join(dirname, '../')
 
 
 def lstrip(list_of_strs, lower=True):
@@ -171,7 +176,7 @@ def load_data_items(start_year=2010):
     - Normalize column names?
     - Double check all the required columns are there?
     """
-    fname = '../data/data_items.csv'
+    fname = repo_root + '/data/data_items.csv'
     df = pd.read_csv(fname, header=1)
 
     # A little cleaning up
@@ -188,7 +193,7 @@ def load_data_items(start_year=2010):
 def load_reported_results_data():
     """Load table of reported results (second tab on spreadsheet).
     """
-    fname = '../data/reporting_results.csv'
+    fname = repo_root + '/data/reporting_results.csv'
     df = pd.read_csv(fname, header=0)
     df = df.drop(columns=['Unnamed: 0', 'Title', 'Comment'])
     df['Result'] = pd.to_numeric(df['Result'], errors='coerce')

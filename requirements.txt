@@ -2,6 +2,8 @@ matplotlib
 seaborn>=0.9
 pandas
 geopandas
+pysal
+descartes
 Pillow
 wordcloud
 graphviz

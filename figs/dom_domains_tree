@@ -64,12 +64,12 @@ of EEG signals
 	RSVP [label="RSVP
 (7)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.180645161290322]
 	Reactive -> RSVP
-	SSVEP [label="SSVEP
-(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
-	Reactive -> SSVEP
 	ERP [label="ERP
 (4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
 	Reactive -> ERP
+	SSVEP [label="SSVEP
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
+	Reactive -> SSVEP
 	Reactiveothers [label="Others
 (1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.025806451612903]
 	Reactive -> Reactiveothers

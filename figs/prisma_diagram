@@ -1,5 +1,5 @@
 digraph {
-	graph [overlap=false rankdir=TB size="8.5,11!"]
+	graph [margin=0 overlap=false rankdir=TB size="4.25,2.2!"]
 	node [fontname="Liberation Sans" fontsize=9 margin="0.15,0.07" penwidth=0.1 shape=box style=filled]
 	A [label="PubMed (n=39)
 Google Scholar (n=409)

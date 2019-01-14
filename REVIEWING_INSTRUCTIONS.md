@@ -6,7 +6,7 @@ There are two tables that are used to produce the figures and results of the rev
 
 ## 1. Filling out the data items table
 
-In this table, each row is a paper and each column is a "data item". The data items are defined and described in the [second tab of the spreadsheet]().
+In this table, each row is a paper and each column is a "data item". The data items are defined and described in the [second tab of the spreadsheet](https://docs.google.com/spreadsheets/d/1smpU0WSlSq-Al2u_QH3djGn68mTuHlth2fNJTrD3wa8/edit#gid=2142010509).
 
 Some data items have two columns. In that case, the first one is often a freer description with more details, whereas the second (which is labeled `<Data item> (clean)` ) is a to-the-point, often categorical, description of that data item. The `clean` column is used to produce the graphs and results of the review.
 

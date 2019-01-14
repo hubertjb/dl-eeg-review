@@ -122,10 +122,11 @@ def plot_prisma_diagram(save_cfg=cfg.saving_config):
     """
     # save_format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
     save_format = 'pdf'
-    size = '{},{}!'.format(save_cfg['page_width'], save_cfg['page_height'])
+    # save_format = 'eps'
+    size = '{},{}!'.format(0.5 * save_cfg['page_width'], 0.2 * save_cfg['page_height'])
 
     dot = Digraph(format=save_format)
-    dot.attr('graph', rankdir='TB', overlap='false', size=size)
+    dot.attr('graph', rankdir='TB', overlap='false', size=size, margin='0')
     dot.attr('node', fontname='Liberation Sans', fontsize=str(9), shape='box', 
              style='filled', margin='0.15,0.07', penwidth='0.1')
     # dot.attr('edge', arrowsize=0.5)
@@ -339,13 +340,15 @@ def plot_performance_metrics(df, cutoff=3, eeg_clf=None,
                     'fpr': 'false positives',
                     'false positive rate': 'false positives',
                     'false prediction rate': 'false positives',
-                    'roc curves': 'roc',
+                    'roc': 'ROC curves',
+                    'roc auc': 'ROC AUC',
                     'rmse': 'mean squared error',
                     'mse': 'mean squared error',
                     'training time': 'time',
                     'testing time': 'time',
                     'test error': 'error'}
     metrics_df = metrics_df.replace(equivalences)
+    metrics_df['metric'] = metrics_df['metric'].apply(lambda x: x[0].upper() + x[1:])
 
     # Removing low count categories
     metrics_counts = metrics_df['metric'].value_counts()
@@ -747,21 +750,18 @@ def plot_country(df, save_cfg=cfg.saving_config):
     return ax
 
 
-def plot_countrymap(df, save_cfg=cfg.saving_config):
+def plot_countrymap(dfx, save_cfg=cfg.saving_config):
     """Plot bar graph showing the country of the first author's affiliation.
     """
-    #fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 3, 
-    #                                save_cfg['text_height'] / 5))
+    dirname = os.path.dirname(__file__)
+    shapefile = os.path.join(dirname, '../img/countries/ne_10m_admin_0_countries.shp')
 
-    shapefile = os.path.expanduser('../img/countries/ne_10m_admin_0_countries.shp')
+    gdf = gpd.read_file(shapefile)[['ADMIN', 'geometry']] #.to_crs('+proj=robin')
+    # gdf = gdf.to_crs(epsg=4326)
+    gdf.crs = '+init=epsg:4326'
 
-    gdf = gpd.read_file(shapefile)[['ADMIN', 'geometry']].to_crs('+proj=robin')
-    #gdf.head()
-
-    dfx = df
     dfx = dfx.Country.value_counts().reset_index().rename(
         columns={'index': 'Country', 'Country': 'Count'})
-    #dfx.head()
 
     #print("Renaming Exceptions!")
     #print(dfx.loc[~dfx['Country'].isin(gdf['ADMIN'])])
@@ -779,6 +779,7 @@ def plot_countrymap(df, save_cfg=cfg.saving_config):
         print("## ERROR ## - Unhandled Countries!")
 
     # Adding 0 to all other countries!
+    gdf['Count'] = 0
     for c in gdf['ADMIN']:
         if any(dfx['Country'].str.contains(c)):
             gdf.loc[gdf['ADMIN'] == c, 'Count'] = dfx[
@@ -786,16 +787,21 @@ def plot_countrymap(df, save_cfg=cfg.saving_config):
         else:
             gdf.loc[gdf['ADMIN'] == c, 'Count'] = 0
 
-    figsize = (16, 10)
+    # figsize = (16, 10)
+    figsize = (save_cfg['text_width'], save_cfg['text_height'] / 2)
     ax = gdf.plot(column='Count', figsize=figsize, cmap='Blues', 
-                  scheme='Fisher_Jenks', k=10, legend=True, legend_kwds={'fontsize':'large'}, axes=None)
+                  scheme='Fisher_Jenks', k=10, legend=True, edgecolor='k',
+                  linewidth=0.3, categorical=False, vmin=0,
+                  legend_kwds={'loc': 'lower left', 'title': 'Number of studies'})
 
-    ax.get_legend().set_bbox_to_anchor((0.,0.,0.2,0.5))
-    
+    # Remove floating points in legend
+    leg = ax.get_legend()
+    for i, t in enumerate(leg.get_texts()):
+        t.set_text(t.get_text().replace('.00', ''))
+
     ax.set_axis_off()
-    #ax.set_xlim([-1.5e7, 1.7e7])
-    #ax.get_legend().set_bbox_to_anchor((.12, .4))
     fig = ax.get_figure()
+    plt.tight_layout()
     
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'countrymap')
@@ -1005,7 +1011,7 @@ def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
 
     fig, ax = plot_multiple_proportions(
         data, print_count=5, respect_order=['Easy', 'Medium', 'Hard', 'Impossible'],
-        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 3))
+        figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] * 0.4))
     
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'reproducibility')
