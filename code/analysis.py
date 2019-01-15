@@ -1586,6 +1586,14 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
         xytext=(0, min_y - 3.5 * max_std),
         xycoords='data', ha='center', va='top')
 
+    # Annotate input
+    ax.annotate(r'Neural network input' + '\n'
+        r'$X_i \in \mathbb{R}^{c \times l}$', #fontsize=14, 
+        xy=(first_epoch+1.5, min_y), 
+        arrowprops=dict(facecolor='black', shrink=0.05, width=2),
+        xytext=(4, min_y - 5.3 * max_std),
+        xycoords='data', ha='right', va='bottom')
+
     # Annotate sample
     special_ind = np.where((t >= 2.4) & (t < 2.5))[0][0]
     special_point = data[special_ind, 0]

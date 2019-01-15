@@ -20,7 +20,6 @@ if __name__ == '__main__':
 
     # Rationale
     anl.plot_prisma_diagram()
-    alain
     anl.make_domain_table(df)
     anl.plot_domain_tree(df)
 
