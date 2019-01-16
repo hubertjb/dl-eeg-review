@@ -752,6 +752,15 @@ def plot_country(df, save_cfg=cfg.saving_config):
 
 def plot_countrymap(dfx, save_cfg=cfg.saving_config):
     """Plot world map with colour indicating number of papers.
+
+    Plot a world map where the colour of each country indicates how many papers
+    were published in which the first author's affiliation was from that country.
+
+    When saved as .eps this figure is well over the 6 MB limit allowed by arXiv.
+    To solve this, we first save it as a .png (with high enough dpi), then use
+    inkscape to convert it to .eps (leading to a file of ~1.6 MB):
+
+    >> inkscape countrymap.png --export-eps=countrymap.eps
     """
     dirname = os.path.dirname(__file__)
     shapefile = os.path.join(dirname, '../img/countries/ne_10m_admin_0_countries.shp')
@@ -1590,11 +1599,11 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
         arrowprops=dict(facecolor='black', shrink=0.05, width=2, headwidth=6),
         xytext=(0, min_y - 3.5 * max_std),
         xycoords='data', ha='center', va='top')
-
+    
     # Annotate input
     ax.annotate(r'Neural network input' + '\n'
-        r'$X_i \in \mathbb{R}^{c \times l}$', #fontsize=14, 
-        xy=(first_epoch+1.5, min_y), 
+        r'$X_i \in \mathbb{R}^{c \times l}$', #fontsize=14,
+        xy=(first_epoch+1.5, min_y),
         arrowprops=dict(facecolor='black', shrink=0.05, width=2),
         xytext=(4, min_y - 5.3 * max_std),
         xycoords='data', ha='right', va='bottom')
