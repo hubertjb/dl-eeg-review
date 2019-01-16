@@ -17,10 +17,11 @@ if __name__ == '__main__':
 
     # Introduction
     anl.plot_eeg_intro()
-
+    anl.plot_countrymap(df)
+    alain
+    
     # Rationale
     anl.plot_prisma_diagram()
-    alain
     anl.make_domain_table(df)
     anl.plot_domain_tree(df)
 

@@ -751,7 +751,7 @@ def plot_country(df, save_cfg=cfg.saving_config):
 
 
 def plot_countrymap(dfx, save_cfg=cfg.saving_config):
-    """Plot bar graph showing the country of the first author's affiliation.
+    """Plot world map with colour indicating number of papers.
     """
     dirname = os.path.dirname(__file__)
     shapefile = os.path.join(dirname, '../img/countries/ne_10m_admin_0_countries.shp')
@@ -792,11 +792,13 @@ def plot_countrymap(dfx, save_cfg=cfg.saving_config):
     ax = gdf.plot(column='Count', figsize=figsize, cmap='Blues', 
                   scheme='Fisher_Jenks', k=10, legend=True, edgecolor='k',
                   linewidth=0.3, categorical=False, vmin=0,
-                  legend_kwds={'loc': 'lower left', 'title': 'Number of studies'})
+                  legend_kwds={'loc': 'lower left', 'title': 'Number of studies',
+                               'framealpha': 1},
+                  rasterized=False)
 
     # Remove floating points in legend
     leg = ax.get_legend()
-    for i, t in enumerate(leg.get_texts()):
+    for t in leg.get_texts():
         t.set_text(t.get_text().replace('.00', ''))
 
     ax.set_axis_off()
@@ -805,7 +807,10 @@ def plot_countrymap(dfx, save_cfg=cfg.saving_config):
     
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'countrymap')
-        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+        save_cfg2 = save_cfg.copy()
+        save_cfg2['dpi'] = 1000
+        save_cfg2['format'] = 'png'
+        fig.savefig(fname + '.png', **save_cfg2)
 
     return ax
 
