@@ -20,7 +20,7 @@ from graphviz import Digraph
 from mne.io import concatenate_raws, read_raw_edf
 from mne.datasets import eegbci
 
-import plt_config as cfg
+import config as cfg
 import utils as ut
 
 
@@ -391,17 +391,17 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
     acc_df = df[df['Metric'] == 'accuracy']  # Extract accuracy rows only
 
     # Create new column that contains both citation and task information
-    acc_df['citation_task'] = acc_df[['Citation', 'Task']].apply(
+    acc_df.loc[:, 'citation_task'] = acc_df[['Citation', 'Task']].apply(
         lambda x: ' ['.join(x) + ']', axis=1)
 
     # Create a new column with the year
-    acc_df['year'] = acc_df['Citation'].apply(
+    acc_df.loc[:, 'year'] = acc_df['Citation'].apply(
         lambda x: int(x[x.find('2'):x.find('2') + 4]))
 
     # Order by average proposed model accuracy
     acc_ind = acc_df[acc_df['model_type']=='Proposed'].groupby(
         'Citation').mean().sort_values(by='Result').index
-    acc_df['Citation'] = acc_df['Citation'].astype('category')
+    acc_df.loc[:, 'Citation'] = acc_df['Citation'].astype('category')
     acc_df['Citation'].cat.set_categories(acc_ind, inplace=True)
     acc_df = acc_df.sort_values(['Citation'])
 
@@ -451,11 +451,11 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
                     domain += i + '/'
             return domain[:-1]
 
-        domains_df['domain'] = data_items_df.filter(regex='(?=Domain*)').apply(
-                                                    concat_domains, axis=1)
+        domains_df.loc[:, 'domain'] = data_items_df.filter(
+            regex='(?=Domain*)').apply(concat_domains, axis=1)
         diff_domain_df = diff_df.merge(domains_df, on='Citation', how='left')
         diff_domain_df = diff_domain_df.sort_values(by='domain')
-        diff_domain_df['arxiv'] = diff_domain_df['Journal / Origin'] == 'Arxiv'
+        diff_domain_df.loc[:, 'arxiv'] = diff_domain_df['Journal / Origin'] == 'Arxiv'
 
         axes.append(_plot_results_accuracy_per_domain(
             diff_domain_df, diff_df, save_cfg))
@@ -672,10 +672,9 @@ def plot_model_inspection_and_table(df, cutoff=1, save_cfg=cfg.saving_config):
     inspection_table = inspection_table.reindex(order)
     inspection_table = inspection_table.apply(lambda x: r'\cite{' + ', '.join(x) + '}')
 
-    with open(os.path.join(save_cfg['savepath'], 'inspection_methods.tex'), 'w') as f:
+    with open(os.path.join(save_cfg['table_savepath'], 'inspection_methods.tex'), 'w') as f:
         with pd.option_context("max_colwidth", 1000):
             f.write(inspection_table.to_latex(escape=False))
-
 
     fig, ax = plt.subplots(figsize=(save_cfg['text_width'] / 4 * 3, 
                                     save_cfg['text_height'] / 2))
@@ -831,7 +830,7 @@ def compute_prct_statistical_tests(df):
     logger.info('% of studies that used statistical test: {}'.format(prct))
 
 
-def make_domain_table(df):
+def make_domain_table(df, save_cfg=cfg.saving_config):
     """Make domain table that contains every reference.
     """
     # Replace NaNs by ' ' in 'Domain 3' and 'Domain 4' columns
@@ -847,7 +846,8 @@ def make_domain_table(df):
     domains_df = domains_df.applymap(
         lambda x: ' ' if isinstance(x, float) and np.isnan(x) else x)
 
-    with open('domains_architecture_table.tex', 'w') as f:
+    fname = os.path.join(save_cfg['table_savepath'], 'domains_architecture_table.tex')
+    with open(fname, 'w') as f:
         with pd.option_context("max_colwidth", 1000):
             f.write(domains_df.to_latex(
                 escape=False, 
@@ -1411,9 +1411,7 @@ def make_dataset_table(df, min_n_articles=2, save_cfg=cfg.saving_config):
     dataset_table['References'] = dataset_table['References'].apply(
         lambda x: r'\cite{' + ', '.join(x) + '}')
 
-    tex_table = dataset_table.to_latex(escape=False, multicolumn=False)
-    
-    with open(os.path.join(save_cfg['savepath'], 'dataset_table.tex'), 'w') as f:
+    with open(os.path.join(save_cfg['table_savepath'], 'dataset_table.tex'), 'w') as f:
         with pd.option_context("max_colwidth", 1000):
             f.write(dataset_table.to_latex(escape=False, multicolumn=False))
 

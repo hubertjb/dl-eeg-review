@@ -63,7 +63,7 @@ This will generate the figures and a log file containing the results under `figs
 
 ### Using a colormap for grayscale printing
 
-To generate the figures using a colormap that is grayscale printing-friendly, change the value of the variable `palette` in `plt_config.py` before calling `generate_results.py`. For example, `palette = 'cubehelix'` will make use of the cubehelix palette.
+To generate the figures using a colormap that is grayscale printing-friendly, change the value of the variable `palette` in `config.py` before calling `generate_results.py`. For example, `palette = 'cubehelix'` will make use of the cubehelix palette.
 
 ## Citation
 

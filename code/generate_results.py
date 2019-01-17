@@ -1,8 +1,4 @@
-"""Command-line script to generate the results for the literature review.
-
-TODO:
-- Add CLI with argparse
-- Add CL arguments to control savepath, dpi and format
+"""Script to generate the results for the literature review.
 """
 
 import utils as ut

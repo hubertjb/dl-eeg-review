@@ -1,5 +1,5 @@
 """
-Configuration for plotting and saving plots.
+Configuration for plotting and saving plots, logs and tables.
 
 Plotting style (from seaborn's `sns.axes_style()`) and context 
 (`sns.plotting_context`) configuration.
@@ -57,6 +57,7 @@ plotting_context = {'font.size': font_size,
                     'ytick.minor.size': 3.2}
 
 saving_config = {'savepath': '../figs/',
+                 'table_savepath': '../tables/',
                  'dpi': None,
                  'facecolor': 'w',
                  'edgecolor': 'w',
