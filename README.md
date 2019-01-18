@@ -28,7 +28,7 @@ Depending on the kind of contribution you are planning on doing, please see the 
     - Option 3: **Send us an email** with the suggested modifications.
 
 2. **Reviewing a new paper**
-    - Download and fill [this template](https://docs.google.com/spreadsheets/d/16CzRFBg340izqtgC1U7QVBvHMRB5z8P98SNKCji7kUU/). See `REVIEWING_INSTRUCTIONS.md` for more details on how to fill out the different parts of the tables.
+    - Download and fill [this template](https://docs.google.com/spreadsheets/d/1QKc7U3LxBguIT72qG3ZwqtrOzzviP5VU0JMioAz4Kgw/). See `REVIEWING_INSTRUCTIONS.md` for more details on how to fill out the different parts of the tables.
     - Option 1: **Submit a pull request** on Github with your CSV file (i.e., filled template) in the folder _submissions_.
     - Option 2: **Send us an email** with the filled template, either a link to a spreadsheet or a CSV file attached to the email.
 
