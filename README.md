@@ -4,7 +4,7 @@
 <img width="500" alt="Wordcloud" src="img/DL-EEG_WordCloud.png">
 </p>
 
-This repository contains the data collection table and code for our systematic review on deep learning and EEG.
+This repository contains the data collection table and code for our [systematic review on deep learning and EEG](https://arxiv.org/abs/1901.05498).
 The systematic review currently contains 156 journal papers, conference papers and preprints.
 Only studies applying deep learning to scalp EEG data were included. 
 
@@ -69,4 +69,6 @@ To generate the figures using a colormap that is grayscale printing-friendly, ch
 
 If our review is useful to your work and you use the data tables, figures or information from the review we thank you for citing it:
 
-_coming soon_
+```
+_Roy Y., Banville H., Albuquerque I., Gramfort A., Falk T.H. & Faubert J., (2019). Deep learning-based electroencephalography analysis: a systematic review. arXiv preprint arXiv:1901.05498._
+```
