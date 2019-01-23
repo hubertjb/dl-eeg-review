@@ -69,6 +69,5 @@ To generate the figures using a colormap that is grayscale printing-friendly, ch
 
 If our review is useful to your work and you use the data tables, figures or information from the review we thank you for citing it:
 
-```
 _Roy Y., Banville H., Albuquerque I., Gramfort A., Falk T.H. & Faubert J., (2019). Deep learning-based electroencephalography analysis: a systematic review. arXiv preprint arXiv:1901.05498._
-```
+
