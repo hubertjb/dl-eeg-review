@@ -65,6 +65,12 @@ This will generate the figures and a log file containing the results under `figs
 
 To generate the figures using a colormap that is grayscale printing-friendly, change the value of the variable `palette` in `config.py` before calling `generate_results.py`. For example, `palette = 'cubehelix'` will make use of the cubehelix palette.
 
+## DL-EEG Checklist
+
+In order to help standardize the way DL-EEG results are reported, we provide a checklist to help you confirm that your manuscript has all the important elements to maximize its quality and reproducibility.
+
+*[DL-EEG Checklist](DL-EEG_Checklist.pdf)*
+
 ## Citation
 
 If our review is useful to your work and you use the data tables, figures or information from the review we thank you for citing it:
