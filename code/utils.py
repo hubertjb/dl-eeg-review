@@ -12,6 +12,7 @@ import os
 
 import pandas as pd
 import numpy as np
+from scipy.stats import mannwhitneyu, kruskal, pearsonr, spearmanr
 
 
 dirname = os.path.dirname(__file__)
@@ -184,6 +185,10 @@ def load_data_items(start_year=2010):
     df = df.dropna(axis=1, how='all', thresh=int(df.shape[0] * 0.1))
     df = df[df['Year'] >= start_year]
 
+    # Remove retracted paper and Supplement
+    df = df[df['Citation'] != 'Pramod2015']
+    df = df[df['Type of paper'] != 'Supplement']
+
     df = extract_main_domains(df)
     # df = extract_ref_numbers_from_bbl(df)
 
@@ -259,3 +264,112 @@ def wrap_text(string, max_char=25):
         out_string = string
         
     return out_string
+
+
+def run_mannwhitneyu(df, condition_col, conditions, value_col='acc_diff',
+                     min_n_obs=10):
+    """Run Mann-Whitney rank-sum test.
+
+    Args:
+        df (pd.DataFrame): dataframe where each row is a paper.
+        condition_col (str): name of column to use as condition.
+        conditions (list): list of two strings containing the values of the
+            condition to compare.
+
+    Keyword Args:
+        value_col (str): name of column to use as the numerical value to run the
+            test on.
+        min_n_obs (int): minimum number of observations in each sample in order
+            to run the test.
+
+    Returns:
+        (float): U statistic
+        (float): p-value
+    """
+    assert len(conditions) == 2, '`conditions` must be of length 2, got {}'.format(
+        len(conditions))
+    data1 = df[df[condition_col] == conditions[0]][value_col]
+    data2 = df[df[condition_col] == conditions[1]][value_col]
+
+    if len(data1) >= min_n_obs and len(data2) >= min_n_obs:
+        stat, p = mannwhitneyu(data1, data2)
+    else:
+        stat, p = np.nan, np.nan
+        print('Not enough observations in each sample ({} and {}).'.format(
+            len(data1), len(data2)))
+
+    return {'test': 'mannwhitneyu', 'pvalue': p, 'stat': stat}
+
+
+def run_kruskal(df, condition_col, value_col='acc_diff', min_n_obs=6):
+    """Run Kruskal-Wallis analysis of variance test.
+
+    Args:
+        df (pd.DataFrame): dataframe where each row is a paper.
+        condition_col (str): name of column to use as condition.
+
+    Keyword Args:
+        value_col (str): name of column to use as the numerical value to run the
+            test on.
+        min_n_obs (int): minimum number of observations in each sample in order
+            to run the test.
+
+    Returns:
+        (float): U statistic
+        (float): p-value
+    """
+    data = [i for name, i in df.groupby(condition_col)[value_col]
+            if len(i) >= min_n_obs]
+
+    if len(data) > 2:
+        stat, p = kruskal(*data)
+    else:
+        stat, p = np.nan, np.nan
+        print('Not enough samples with more than {} observations.'.format(min_n_obs))
+
+    return {'test': 'kruskal', 'pvalue': p, 'stat': stat}
+
+
+def run_spearmanr(df, condition_col, value_col='acc_diff', log=False):
+    """Run Spearman's rank correlation analysis.
+
+    Args:
+        df (pd.DataFrame): dataframe where each row is a paper.
+        condition_col (str): name of column to use as condition.
+
+    Keyword Args:
+        value_col (str): name of column to use as the numerical value to run the
+            test on.
+        log (bool): if True, use log of `condition_col` before computing the
+            correlation.
+
+    Returns:
+        (float): U statistic
+        (float): p-value
+    """
+    data1 = np.log10(df[condition_col]) if log else df[condition_col]
+    data2 = df[value_col]
+    stat, p = spearmanr(data1, data2)
+
+    return {'test': 'spearmanr', 'pvalue': p, 'stat': stat}
+
+
+def keep_single_valued_rows(df, condition_col, mult_str='\n', id_col='Citation'):
+    """Keep rows for which a single value exist.
+
+    This function filters a dataframe to keep only rows where the column 
+    `condition_col` does not contain the string `mult_str` (which would indicate
+    multiple values).
+
+    Args:
+        df (pd.DataFrame): dataframe.
+    
+    Keyword Args:
+        mult_str (str): string that indicates multiple values in a row.
+        id_col (str): name of column to use to identify different rows.
+
+    Returns:
+        (pd.DataFrame): filtered dataframe
+    """
+    rows_with_multiple = df[df[condition_col].str.contains(mult_str)][id_col]
+    return df[~df[id_col].isin(rows_with_multiple)]
