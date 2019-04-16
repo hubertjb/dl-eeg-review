@@ -387,6 +387,9 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
 
     Returns:
         (list): list of axes to created figures
+
+    TODO:
+    - This function is starting to be a bit too big. Should probably split it up.
     """
     acc_df = df[df['Metric'] == 'accuracy']  # Extract accuracy rows only
 
@@ -441,7 +444,11 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
 
     if data_items_df is not None:
         domains_df = data_items_df.filter(
-            regex='(?=Domain*|Citation|Main domain|Journal / Origin)')
+            regex='(?=Domain*|Citation|Main domain|Journal / Origin|Dataset name|'
+                    'Data - samples|Data - time|Data - subjects|Preprocessing \(clean\)|'
+                    'Artefact handling \(clean\)|Features \(clean\)|Architecture \(clean\)|'
+                    'Layers \(clean\)|Regularization \(clean\)|Optimizer \(clean\)|'
+                    'Intra/Inter subject|Training procedure)')
 
         # Concatenate domains into one string
         def concat_domains(x):
@@ -459,8 +466,11 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
 
         axes.append(_plot_results_accuracy_per_domain(
             diff_domain_df, diff_df, save_cfg))
-
-    return axes    
+        axes.append(_plot_results_stats_impact_on_acc_diff(
+            diff_domain_df, save_cfg))
+        axes.append(_compute_acc_diff_for_preprints(diff_domain_df, save_cfg))
+        
+    return axes
 
 
 def _plot_results_per_citation_task(results_df, save_cfg):
@@ -577,10 +587,16 @@ def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
     iqr = diff_df['acc_diff'].quantile(.75) - diff_df['acc_diff'].quantile(.25)
     logger.info('Median gain in accuracy: {:.6f}'.format(median))
     logger.info('Interquartile range of the gain in accuracy: {:.6f}'.format(iqr))
-    best_improvement = diff_df.nlargest(1, 'acc_diff')
+    best_improvement = diff_df.nlargest(3, 'acc_diff')
     logger.info('Best improvement in accuracy: {}, in {}'.format(
         best_improvement['acc_diff'].values[0], 
         best_improvement['Citation'].values[0]))
+    logger.info('Second best improvement in accuracy: {}, in {}'.format(
+        best_improvement['acc_diff'].values[1], 
+        best_improvement['Citation'].values[1]))
+    logger.info('Third best improvement in accuracy: {}, in {}'.format(
+        best_improvement['acc_diff'].values[2], 
+        best_improvement['Citation'].values[2]))
 
     if save_cfg is not None:
         savename = 'reported_accuracy_per_domain'
@@ -588,6 +604,80 @@ def _plot_results_accuracy_per_domain(results_df, diff_df, save_cfg):
         fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
 
     return axes
+
+
+def _plot_results_stats_impact_on_acc_diff(results_df, save_cfg):
+    """Run statistical analysis to see which data items correlate with acc diff.
+
+    NOTE: This analysis is not perfectly accurate as there are several papers 
+        which contrasted results based on data items (e.g., testing the impact
+        of number of layers on performance), but our summaries are not at this
+        level of granularity. Therefore the results are not to be taken at face
+        value.
+    """
+    binary_data_items = {'Preprocessing (clean)': ['Yes', 'No'],
+                         'Artefact handling (clean)': ['Yes', 'No'],
+                         'Features (clean)': ['Raw EEG', 'Frequency-domain'],
+                         'Regularization (clean)': ['Yes', 'N/M'],
+                         'Intra/Inter subject': ['Intra', 'Inter']}
+    multiclass_data_items = ['Architecture (clean)',
+                             'Optimizer (clean)']
+    continuous_data_items = {'Layers (clean)': False,
+                             'Data - subjects': True,
+                             'Data - time': True,
+                             'Data - samples': True}
+
+    results = dict()
+    for key, val in binary_data_items.items():
+        results[key] = ut.run_mannwhitneyu(results_df, key, val)
+
+    for i in multiclass_data_items:
+        results[i] = ut.run_kruskal(results_df, i)
+
+    for i in continuous_data_items:
+        single_df = ut.keep_single_valued_rows(results_df, i)
+        single_df = single_df[single_df[i] != 'N/M']
+        single_df[i] = single_df[i].astype(float)
+        results[i] = ut.run_spearmanr(single_df, i, log=val)
+    
+    stats_df =  pd.DataFrame(results).T
+    logger.info('Results of statistical tests on impact of data items:\n{}'.format(
+        stats_df))
+
+    # Categorical plot for each "significant" data item
+    significant_items = stats_df[stats_df['pvalue'] < 0.05].index
+    fig, axes = plt.subplots(
+        nrows=len(significant_items), ncols=1, sharex=True, 
+        figsize=(save_cfg['text_width'] / 2, save_cfg['text_height'] / 3))
+    axes = axes if isinstance(axes, list) else [axes]
+
+    for ax, i in zip(axes, significant_items):
+        sns.violinplot(data=results_df, y=i, x='acc_diff', ax=ax)
+
+    if save_cfg is not None:
+        savename = 'statistical_analysis_impact_on_acc_diff'
+        fname = os.path.join(save_cfg['savepath'], savename)
+        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
+
+    return axes
+
+
+def _compute_acc_diff_for_preprints(results_df, save_cfg):
+    """Analyze the acc diff for preprints vs. peer-reviewed articles.
+    """
+    results_df['preprint'] = results_df['Journal / Origin'].isin(['Arxiv', 'BioarXiv'])
+    preprints = results_df['preprint'].value_counts()
+    logger.info(
+        'Number of preprints included in the accuracy difference comparison: '
+        '{}/{} papers'.format(preprints[True], len(results_df)))
+
+    logger.info('Median acc diff for preprints vs. non-preprint:\n{}'.format(
+        results_df.groupby('preprint').median()))
+    results = ut.run_mannwhitneyu(results_df, 'preprint', [True, False])
+    logger.info('Mann-Whitney test on preprint vs. not preprint: {:0.3f}'.format(
+        results['pvalue']))
+
+    return results
 
 
 def generate_wordcloud(df, save_cfg=cfg.saving_config):

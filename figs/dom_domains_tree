@@ -64,12 +64,12 @@ of EEG signals
 	RSVP [label="RSVP
 (7)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.180645161290322]
 	Reactive -> RSVP
-	SSVEP [label="SSVEP
-(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
-	Reactive -> SSVEP
 	ERP [label="ERP
 (4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
 	Reactive -> ERP
+	SSVEP [label="SSVEP
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.103225806451613]
+	Reactive -> SSVEP
 	Reactiveothers [label="Others
 (1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.025806451612903]
 	Reactive -> Reactiveothers
@@ -159,17 +159,6 @@ handling
 	" " [label=" 
 (15)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
-	"Model interpretability" [label="Model
-interpretability
-(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Improvement of processing tools" -> "Model interpretability"
-	"Model visualization" [label="Model
-visualization
-(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.051612903225806]
-	"Model interpretability" -> "Model visualization"
-	" " [label=" 
-(2)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.051612903225806]
-	"Model visualization" -> " "
 	"Hardware optimization" [label="Hardware
 optimization
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
@@ -181,6 +170,17 @@ chips
 	" " [label=" 
 (2)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.051612903225806]
 	"Neuromorphic chips" -> " "
+	"Model interpretability" [label="Model
+interpretability
+(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Improvement of processing tools" -> "Model interpretability"
+	"Model visualization" [label="Model
+visualization
+(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.051612903225806]
+	"Model interpretability" -> "Model visualization"
+	" " [label=" 
+(2)" fillcolor="0.6666666666666666 0.04999999999999999 1" fontsize=10.051612903225806]
+	"Model visualization" -> " "
 	"Reduce effect of confounders" [label="Reduce effect of
 confounders
 (1)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.025806451612903]
@@ -202,12 +202,6 @@ augmentation
 	" " [label=" 
 (15)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
-	"Generating EEG" [label="Generating EEG
-(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
-	"Generation of data" -> "Generating EEG"
-	"Generating EEGothers" [label="Others
-(2)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.051612903225806]
-	"Generating EEG" -> "Generating EEGothers"
 	"Generating images conditioned on EEG" [label="Generating
 images
 conditioned on
@@ -220,4 +214,10 @@ EEG
 	" " [label=" 
 (15)" fillcolor="1.0 0.04999999999999999 1" fontsize=10.387096774193548]
 	" " -> " "
+	"Generating EEG" [label="Generating EEG
+(2)" fillcolor="1.0 0.2833333333333333 1" fontsize=10.051612903225806]
+	"Generation of data" -> "Generating EEG"
+	"Generating EEGothers" [label="Others
+(2)" fillcolor="1.0 0.16666666666666666 1" fontsize=10.051612903225806]
+	"Generating EEG" -> "Generating EEGothers"
 }
