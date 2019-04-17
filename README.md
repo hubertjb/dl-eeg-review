@@ -75,5 +75,12 @@ In order to help standardize the way DL-EEG results are reported, we provide a c
 
 If our review is useful to your work and you use the data tables, figures or information from the review we thank you for citing it:
 
-_Roy Y., Banville H., Albuquerque I., Gramfort A., Falk T.H. & Faubert J., (2019). Deep learning-based electroencephalography analysis: a systematic review. arXiv preprint arXiv:1901.05498._
+```
+@article{yannick2019deep,
+  title={Deep learning-based electroencephalography analysis: a systematic review},
+  author={Roy, Yannick and Banville, Hubert and Albuquerque, Isabela and Gramfort, Alexandre and Falk, Tiago H. and Faubert, Jocelyn},
+  journal={arXiv preprint arXiv:1901.05498},
+  year={2019}
+}
+```
 
