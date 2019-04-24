@@ -51,6 +51,7 @@ pip install -r requirements.txt
 ```
 
 `Graphviz` also needs to be installed : see [instructions](https://www.graphviz.org/download/).
+`inkscape` also needs to be installed (for the Worldmap) : [INKSCAPE](https://inkscape.org/)
 
 Then, run the `generate_results.py` script:
 
