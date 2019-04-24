@@ -425,24 +425,28 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
 
     # Only keep the maximum accuracy per citation & task
     best_df = acc_df.groupby(
-        ['Citation', 'Task', 'Architecture', 'model_type'])[
+        ['Citation', 'Task', 'model_type'])[
             'Result'].max().reset_index()
 
     # Only keep citations/tasks that have a traditional baseline
     best_df = best_df.groupby(['Citation', 'Task']).filter(
         lambda x: 'Baseline (traditional)' in x.values).reset_index()
 
+    # Add back architecture
+    best_df = pd.merge(
+        best_df, acc_df[['Citation', 'Task', 'model_type', 'Result', 'Architecture']], 
+        how='inner').drop_duplicates()  # XXX: why are there duplicates?
+
     # Compute difference between proposed and traditional baseline
+    def acc_diff_and_arch(x):
+        diff = x[x['model_type'] == 'Proposed']['Result'].iloc[0] - \
+               x[x['model_type'] == 'Baseline (traditional)']['Result'].iloc[0]
+        arch = x[x['model_type'] == 'Proposed']['Architecture']
+        return pd.Series(diff, arch)
+
     diff_df = best_df.groupby(['Citation', 'Task']).apply(
-                lambda x: x[x['model_type'] == 'Proposed']['Result'].iloc[0] - \
-                          x[x['model_type'] == 'Baseline (traditional)'][
-                              'Result'].iloc[0]).reset_index()
+        acc_diff_and_arch).reset_index()
     diff_df = diff_df.rename(columns={0: 'acc_diff'})
-    # Add fine-grained architecture information
-    diff_df = pd.merge(
-        diff_df, best_df[['Citation', 'Task', 'Architecture']], how='left', 
-        on=['Citation', 'Task'])
-    diff_df = diff_df[diff_df['Architecture'] != '-']
 
     axes.append(_plot_results_accuracy_diff_scatter(diff_df, save_cfg))
     axes.append(_plot_results_accuracy_diff_distr(diff_df, save_cfg))

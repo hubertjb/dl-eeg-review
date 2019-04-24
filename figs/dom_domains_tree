@@ -61,12 +61,12 @@ of EEG signals
 	RSVP [label="RSVP
 (7)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.183006535947712]
 	Reactive -> RSVP
-	SSVEP [label="SSVEP
-(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.104575163398692]
-	Reactive -> SSVEP
 	ERP [label="ERP
 (4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.104575163398692]
 	Reactive -> ERP
+	SSVEP [label="SSVEP
+(4)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.104575163398692]
+	Reactive -> SSVEP
 	Reactiveothers [label="Others
 (1)" fillcolor="0.3333333333333333 0.04999999999999999 1" fontsize=10.026143790849673]
 	Reactive -> Reactiveothers
@@ -135,14 +135,6 @@ handling
 	"Feature learning" [label="Feature learning
 (4)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.104575163398692]
 	"Improvement of processing tools" -> "Feature learning"
-	"Model interpretability" [label="Model
-interpretability
-(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.052287581699346]
-	"Improvement of processing tools" -> "Model interpretability"
-	"Model visualization" [label="Model
-visualization
-(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.052287581699346]
-	"Model interpretability" -> "Model visualization"
 	"Hardware optimization" [label="Hardware
 optimization
 (2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.052287581699346]
@@ -151,6 +143,14 @@ optimization
 chips
 (2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.052287581699346]
 	"Hardware optimization" -> "Neuromorphic chips"
+	"Model interpretability" [label="Model
+interpretability
+(2)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.052287581699346]
+	"Improvement of processing tools" -> "Model interpretability"
+	"Model visualization" [label="Model
+visualization
+(2)" fillcolor="0.6666666666666666 0.16666666666666666 1" fontsize=10.052287581699346]
+	"Model interpretability" -> "Model visualization"
 	"Reduce effect of confounders" [label="Reduce effect of
 confounders
 (1)" fillcolor="0.6666666666666666 0.2833333333333333 1" fontsize=10.026143790849673]
