@@ -1,4 +1,4 @@
-tak,,,Origin,,,,,,,,Rationale,,,,,,,,,Data,,,,,,,,,,,,EEG processing,,,,,,,,Methodology,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Results and discussion,,,,,,,,,,,,,Reviewed by,,,,
+,,,Origin,,,,,,,,Rationale,,,,,,,,,Data,,,,,,,,,,,,EEG processing,,,,,,,,Methodology,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Results and discussion,,,,,,,,,,,,,Reviewed by,,,,
 ,Title,Year,Authors,Journal / Origin,Preprint first,Type of paper,Lab / School / Company,Country,Pages,,Domain 1,Domain 2,Domain 3,Domain 4,High-level Goal,Practical Goal,Task/Paradigm,Motivation for DL,,EEG Hardware,Neural response pattern,Dataset name,Dataset accessibility,Data,Data - samples,Data - time,Data - subjects,Nb Channels,Sampling rate,Offline / Online,,Preprocessing,Preprocessing (clean),Artefact handling,Artefact handling (clean),Features,Features (clean),Normalization,,Software,Architecture,Architecture (clean),Design peculiarities,EEG-specific design,Network Schema,Input format,Layers,Layers (clean),Activation function,Regularization,Regularization (clean),Nb Classes,Classes,Output format,Nb Parameters,Training procedure,Training procedure (clean),Optimizer,Optimizer (clean),Optim parameters,Minibatch size,Hyperparameter optim,Hyperparameter optim (clean),Data augmentation,Loss,Intra/Inter subject,Cross validation,Cross validation (clean),Data split,Performance metrics,Performance metrics (clean),Training hardware,,Training time,Results,Benchmarks,Baseline model type,Statistical analysis of performance,Analysis of learned parameters,Model inspection (clean),Discussion,Limitations,Code available,Code hosted on,Limited data,,First Reader,Second Reader,Validated by Author(s),,Citation
 ,EEG-signals based cognitive workload detection of vehicle driver using deep learning,2018,"Almogbel, Dang & Kameyama",IEEE Conference on Advanced Communication Technology,No,Conference,Waseda University,Japan,4,,Classification of EEG signals,Monitoring,Cognitive,Mental workload,Improve State-of-the-Art,,Driving Game (GTA),,,Muse (InteraXon),Raw EEG,Internal Recordings,Private,"1 subject x 24 sessions (12 High / 12 Low Workload)
 15-30min each session
@@ -27,13 +27,12 @@ Probability of each Sleep Stage","dCNN: 177 669 weights
 MLP: 445 weights",Standard optimization,Standard,Stochastic gradient descent with Nesterov momentum,SGD,"Learning rate: 0.001
 Momentum: 0.9
 Learning rate decay: 10e-6","CNN: 300
-MLP: 1000",Trial and error,Yes,No,"N/M
-(Most probably categorical cross-entropy)",Inter,Yes (no detail),Yes (no detail),"Train: 75% of DS1 & DS2
+MLP: 1000",Trial and error,Yes,No,Categorical Cross-Entropy,Inter,Train-Valid-Test,Train-Valid-Test,"Train: 75% of DS1 & DS2
 Test: 25% of DS1 & DS2
 Validation: DS3, DS4","Accuracy
 Cohen's kappa","accuracy, Cohen's kappa",NVidia GTX 1060,,N/M,"Test set: ~89.8%. kappa=0.862
 Validation set 1: 81.4%, kappa=0.740
-Validation set 2: 72.1%, kappa=0.597",Expert rescoring of 50 records,Traditional pipeline,t-test on Cohen's kappa (automatic vs. expert rescoring) -> stat. diff. for validation set 3 but not for 4,No,No,"""... our framework provides a practicable, validated, and speedy solution for automatic sleep stage classification that can significantly improve throughput and productivity of sleep labs. It has the potential to play an important role in emerging novel applications of real-time automatic sleep scoring as well as being installed in personal sleep monitors.""",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Patanaik2018
+Validation set 2: 72.1%, kappa=0.597",Expert rescoring of 50 records,Traditional pipeline,t-test on Cohen's kappa (automatic vs. expert rescoring) -> stat. diff. for validation set 3 but not for 4,No,No,"""... our framework provides a practicable, validated, and speedy solution for automatic sleep stage classification that can significantly improve throughput and productivity of sleep labs. It has the potential to play an important role in emerging novel applications of real-time automatic sleep scoring as well as being installed in personal sleep monitors.""",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,Yes,,Patanaik2018
 ,Epileptic Seizure Detection: A Deep Learning Approach,2018,"Hussein, Palangi, Ward & Wang",Arxiv,Yes,Preprint,UBC,Canada,12,,Classification of EEG signals,Clinical,Epilepsy,Detection,"Improve State-of-the-Art: DL for Epilepsy
 (LSTM)","Improve performance on seizure detection with DL, on real conditions (with noise)","Resting State, Eyes Open, Eyes Closed, Seizures.",Automatically learns features,,N/M,Raw EEG,Bonn University,Public,"Bonn University (A,B,C,D,E)
 5x 100 epochs of 23.6s",500,197,15,1,173.6,,,"1) Artifacts Removed
@@ -63,7 +62,7 @@ Naive Bayes, Bayes Kernel
 Decision Tree, Random Forest, Gradient Boosted Tree
 Rule Induction, MC-SVM, 
 ML Perceptron",Traditional pipeline,No,Visualization of learned parameters,Analysis of weights,"The analysis of the DNN first layer weights reveals that there are two main patterns containing information about the SSVEPs in the power spectrums of the measured EEG signals: (i) the weights reinforces the features of the spectrum at frequencies {fst}, 3/2 {fst} and 2{fst} where fst are the frequencies of the MFVS and the other (ii) the weights reinforces the features of the spectrum at low frequencies from 0 Hz – 20Hz.",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Perez-Benitez2018
-,Deep Semantic Architecture with discriminative feature visualization for neuroimage analysis,2018,"Ghosh, Dal Maso, Roig, Mitsis & Boudrias",Arxiv,Yes,Preprint,"McGill, UdeM",Canada,11,,Classification of EEG signals,Monitoring,Physical,Exercise,Improve SOTA,Study the add-on effects of exercise on motor learning,Hand motor task before and after an acute exercise,Does not require hand-engineered features,,ActiCap (BrainVision),"Brain Rhythms
+,Deep Semantic Architecture with discriminative feature visualization for neuroimage analysis,2018,"Ghosh, Dal Maso, Roig, Mitsis & Boudrias",Arxiv,Yes,Preprint,"McGill, UdeM",Canada,11,,Classification of EEG signals,Monitoring,Physical,Exercise,Improve SOTA,Study the add-on effects of exercise on motor learning,Hand motor task before and after an acute exercise,Does not require hand-engineered features,,(BrainProducts),"Brain Rhythms
 (SMR)",Internal Recordings,Private,"25 subjects
 4 x 50 x [3.5 sec (holding) + 3 to 5 sec (rest)]",5000,625,25,64,2500,,,"1) Band-Pass Filter: 0.5-55Hz
 2) Re-reference to average.
@@ -93,7 +92,7 @@ Internal Recordings",Both," (eegmmidb)
 108 subjects, 3,145,160 EEG (2808min)
 (Internal recordings)
 9 subjects x 30 trials (6 per class)
-Internal recordings: 10s action, 10s rest",3145430,2898,108,64,160,Offline,,"1) 2D Mesh (Matrice)
+Internal recordings: 10s action, 10s rest",3145430,2898,108,64,160,Offline,,"1) 2D Mesh (Matrix)
 2) Sliding Window (clips)
 3) Normalize",Yes,No,No,"2D Mesh Clips
 (of Raw EEG)",Raw EEG,z-score,,N/M,"Cascade / Parallel
@@ -160,7 +159,7 @@ FC: 2",4,ReLU,"Dropout
 (0.1 - 0.25)",Yes,6,"6 different icons 
 (Power On/Off, Volume Up/Down, Channel Up/Down)",2,N/M,Standard optimization,Standard,Adam,Adam,N/M,N/M,N/M,N/M,N/M,N/M,Intra,No,No,"Train: 50% (offline)
 Test: 50% (online)","Accuracy, sensitivity, precision, F1 score, ROC (+ ANOVA on metrics)","accuracy, sensitivity, precision, f1-score, ROC",N/M,,N/M,"Accuracy: 88.9 for high performing group, 68,7% for low performing group",No benchmark,None,ANOVA,Visualization of weights,Analysis of weights,"A P300 is not visible in all subjects, but there seems to be a P700 that is pretty consistent across subjects.
-Spatial features seem to play a more important role than temporal features in the classification of an oddball task. ",-,No,N/A,No,,Hubert Banville,Yannick Roy,TBC,,Yoon2018
+Spatial features seem to play a more important role than temporal features in the classification of an oddball task. ",-,No,N/A,No,,Hubert Banville,Yannick Roy,Yes,,Yoon2018
 ??,Spectrographic Seizure Detection Using Deep Learning With Convolutional Neural Networks,2018,"Yan, Wang & Grinspan",Neurology,No,Supplement,Well Cornell Medical College New York,USA,,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve State-of-the-Art: Using CNN on Spectrogram for Seizure Detection,,"Existing dataset, no mention of any task.
 (Supposed: Resting Sate)",,,N/M,"Raw EEG
 (Seizure)",CHB-MIT,Public,"130 EEGs with 177 total seizures, and 549 EEGs without seizures. >90% of seizures were <2 minutes long. 130 EEGs with seizure and 130 randomly selected EEGs without seizures were converted to the median power spectrogram (MPS). The training set consisted of 16,992 seizure containing images and 16,992 images without seizures (80% of total images). The testing set contained 4,248 seizure containing images and 4,248 images without seizures (20% of total images).",33984,N/M,N/M,-1,N/M,,,N/M*,N/M,N/M,N/M,Medium Power Spectrogram (MPS),Frequency-domain,,,N/M*,"CNN
@@ -176,7 +175,7 @@ Specificity","sensitivity, specificity",,,N/M*,All four CNN variants achieved >9
 Discriminator: 4",4,"G: Leaky ReLU
 D: ReLU",N/M,N/M,N/A,N/A,64 x 64 (image),N/M,GAN Style.,Standard,N/M,N/M,N/M,16,N/M,N/M,N/M,N/M,Inter,No,No,"Train: 704 epochs 
 Test: 176 epochs",Visual inspection (making sure generated image is of the right class),visual inspection,N/M,,2-3h,Accuracy: 0.625,None,None,No,Occlusion of input EEG and visualization of generated image,Occlusion of input,We demonstrated the performance of the proposed cGAN model and showed that generation with raw or normalized EEG produced better performance than that with added noise. We also showed how this model could be used for investigating the EEG and image associations.,N/M,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Lee2018
-,Cross-Participant EEG-Based Assessment of Cognitive Workload Using Multi-Path Convolutional Recurrent Neural Networks,2018,"Hefron, Borghetti, Schubert Kabban, Christensen & Estepp",Sensors,No,Journal,Air Force Institute of Technology (Ohio),USA,27,,Classification of EEG signals,Monitoring,Cognitive,Mental workload,Novel Approach: Using a Multi-Path Convolutional Recurrent Neural Network (MPCRNN) to improve SOTA on cross-participant classification of cognitive workload ,Tackle cross-subs variability in cognitive workload assessment,Multi-Attribute Task Battery (MATB) environment,,,ActiveTwo (BioSemi),None,Internal Recordings,Private,"8 subjects * 4 blocks * 6 conditions * 5 min
+,Cross-Participant EEG-Based Assessment of Cognitive Workload Using Multi-Path Convolutional Recurrent Neural Networks,2018,"Hefron, Borghetti, Schubert Kabban, Christensen & Estepp",Sensors,No,Journal,Air Force Institute of Technology (Ohio),USA,27,,Classification of EEG signals,Monitoring,Cognitive,Mental workload,Novel Approach: Using a Multi-Path Convolutional Recurrent Neural Network (MPCRNN) to improve SOTA on cross-participant classification of cognitive workload ,Tackle cross-subs variability in cognitive workload assessment,Multi-Attribute Task Battery (MATB) environment,Assumptions regarding brain activity are better matched by a deep representation that includes multi-path connections.,,ActiveTwo (BioSemi),None,Internal Recordings,Private,"8 subjects * 4 blocks * 6 conditions * 5 min
 (1s windows)",57600,960,8,128,4096,,,"1) Trimmed to 303s trials
 2) Downsampled to 512Hz
 3) Down-selected 64 electrodes
@@ -189,12 +188,12 @@ CNN
 LSTM",CNN+RNN,"It combines a wide multi-path, residual, convolutional networkwith a bi-directional, residual LSTM.",1x1 convolutions to act as cross-channel parametric pooling,Yes,"20x53x64
 (time x frequency bands x channels)
 ","[very deep, see schema / paper]",8,ReLU and sigmoid,Dropout + batch normalization + early stopping + L1 + L2,Yes,,,"1
-(Mental Workload)",N/M,Standard.,Standard,Adam,Adam,LR: from 0.0001 to 0.000001,128,N/M,N/M,N/M,Binary cross-entropy,Inter,"Test: Hold-out 1 Participant
+(Mental Workload)",MPCRNN: 6.2M,Standard.,Standard,Adam,Adam,LR: from 0.0001 to 0.000001,128,N/M,N/M,N/M,Binary cross-entropy,Inter,"Test: Hold-out 1 Participant
 Training: 7-Fold Cross-Validation","k-fold;
 Holdout","Train: 6 participants
 Validation: 1 participant
-Test: 1 participant",Mean Accuracy,accuracy,N/M,,N/M,between 80-86% (depending on sequence length used as input),Simpler DL architectures,DL,ANOVA + post-hoc Tukey Honest Significant Difference tests,No,No,"We show that increasing sequence length—a common method to improve accuracy in non-stimulus-locked settings—increases both mean accuracy and variance at statistically significant levels for cross-participant models. Since variance grows with sequence length, increasing temporal sequence length does not adequately address the cross-participant modeling challenge: Producing high-accuracy models with low variance across participants.",N/M,No,N/A,Yes,,Yannick Roy,Isabela Albuquerque,TBC,,Hefron2018
-,Classification of auditory stimuli from EEG signals with a regulated recurrent neural network reservoir ,2018,"Moinnereau, Brienne, Brodeur, Rouat, Whittingstall & Plourde",Arxiv,Yes,Preprint,Université de Sherbrooke,Canada,5,,Classification of EEG signals,BCI,Reactive,Heard speech decoding,Improve SOTA,Classify heard speech (vowels) from EEG,Auditory Stimuli + Imagined Speech,Can extract features automatically,,ActiCap/BrainAmp (BrainVision),Raw EEG,Internal Recordings,Private,"8 subjects x 3 stimuli x 200 times each
+Test: 1 participant",Mean Accuracy,accuracy,N/M,,N/M,between 80-86% (depending on sequence length used as input),Simpler DL architectures,DL,ANOVA + post-hoc Tukey Honest Significant Difference tests,No,No,"We found that while increasing sequence length improves model accuracy, it does not improve generalizability since cross-participant variance increases due to cross-participant distributional differences. Furthermore, longer sequences reduce temporal specificity which decreases a model’s utility in a real-time environment. The only condition among our experiments across sequence lengths, architectures, and training methods which resulted in improved accuracy and decreased cross-participant variance was the multi-path convolutional recurrent architecture.",N/M,No,N/A,Yes,,Yannick Roy,Isabela Albuquerque,Yes,,Hefron2018
+,Classification of auditory stimuli from EEG signals with a regulated recurrent neural network reservoir ,2018,"Moinnereau, Brienne, Brodeur, Rouat, Whittingstall & Plourde",Arxiv,Yes,Preprint,Université de Sherbrooke,Canada,5,,Classification of EEG signals,BCI,Reactive,Heard speech decoding,Improve SOTA,Classify heard speech (vowels) from EEG,Auditory Stimuli + Imagined Speech,Can extract features automatically,,BrainAmp (BrainProducts),Raw EEG,Internal Recordings,Private,"8 subjects x 3 stimuli x 200 times each
 (2s windows, onset at 0.5s) 
 (preprocessing removed 30%!)",4800,9600,8,64,N/M,Offline,,"1) Pass-Band Filter: 0.1-45Hz
 2) Re-sampled at 500Hz
@@ -208,7 +207,7 @@ Test: 1/5",Accuracy,accuracy,N/M,,N/M,"83.2% (64 electrodes)
 3 Electrodes: 71.4% 
 10 Electrodes: 81.7%
 [Chance: 33%]","CNN
-(3 conv layers of 64 filters)",DL,No,No,No,"""It’s hard to compare these results with the previ- ous work where many different experimental conditions (e.g. different type and number of stimuli) and preprocessing has been used. However, we show here that excellent classifica- tion results can be obtained with minimal preprocessing of the EEGs.""",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Moinnereau2018
+(3 conv layers of 64 filters)",DL,No,No,No,"""It’s hard to compare these results with the previ- ous work where many different experimental conditions (e.g. different type and number of stimuli) and preprocessing has been used. However, we show here that excellent classifica- tion results can be obtained with minimal preprocessing of the EEGs.""",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,Yes,,Moinnereau2018
 ,Deep learning for detection of epileptiform discharges from scalp EEG recordings,2018,"van Putten, de Carvalho, Tjepkema-Cloostermans",Clinical Neurophysiology,No,Journal,University of Twente,Netherlands,6,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Use CNN and/or LSTM to classify yes/no discharges,"Pre-Recorded EEG, no mention of any task.
 (Supposed: Resting Sate and sleep)",DL is  promising novel approach and is able to learn from large data-sets,,N/M,"Raw EEG
 ",TBD,Private,"Training (41,381 epochs), Test (8775 epochs)
@@ -325,7 +324,7 @@ DeepCNN
 DeepSleepNet",DL,No,No,No,"Increasing the number of filters in the Conv layer doesn't impact the performance much
 Adding other modalities (EOG, EMG) lead to significant improvements
 A context size larger than 3 leads to performance degradation
-Using recurrent layers might help",No,No,N/A,No,,Hubert Banville,Yannick,TBC,,Phan2018
+Using recurrent layers might help",No,No,N/A,No,,Hubert Banville,Yannick,Yes,,Phan2018
 ,Deep Convolution Neural Network and Autoencoders-Based Unsupervised Feature Learning of EEG Signals,2018,Wen & Zhang,IEEE Access,No,Journal,Xiamen University,China,12,,Improvement of processing tools,Feature learning,,,Improve SOTA,Learn features for epilepsy detection using unsupervised learning,"Resting State, Eyes Open, Eyes Closed, Seizures.",Learn features automatically,,N/M,Raw EEG,"Bonn University;
 CHB-MIT",Public,"DS #1 - Bonn University (A,B,C,D,E)
 5x 100 epochs of 23.6s
@@ -346,7 +345,8 @@ No Seizure
 (see paper, they report results per subject and per classifier)","PCA
 Random projection",Traditional pipeline,No,No,No,"Less than 4 hidden units on the bottleneck layer led to a drop in accuracy as compared to standard dimensionality reduction techniques.
 Their approach is flexible to new datasets...","""It is very difficult to train multiple hidden layers [...]"" ",No,N/A,No,,Hubert Banville,Yannick,TBC,,Wen2018
-,Deep learning with convolutional neural networks for decoding and visualization of EEG pathology,2018,"Schirrmeister, Gemein, Eggensperger, Hutter & Ball",Arxiv,Yes,Preprint,University of Freiburg,Germany,7,,Classification of EEG signals,Clinical,Pathological EEG,,Improve SOTA ,End-to-end detection of abnormal EEG,N/M,Automated EEG diagnosis,,N/M,Raw EEG,TUH Abnormal EEG Corpus,Public,"TUH Abnormal Corpus
+,Deep learning with convolutional neural networks for decoding and visualization of EEG pathology,2018,"Schirrmeister, Gemein, Eggensperger, Hutter & Ball",Arxiv,Yes,Preprint,University of Freiburg,Germany,7,,Classification of EEG signals,Clinical,Pathological EEG,,"Improve SOTA 
+Feature visualization/interpretability",End-to-end detection of abnormal EEG,N/M,Automated EEG diagnosis,,N/M,Raw EEG,TUH Abnormal EEG Corpus,Public,"TUH Abnormal Corpus
 2740 + 277 = 3017 (x 16min)
 (they explored using [1, 16] min)
 (6s windows)",482720,48272,2132,21,250,,,"1) Select 21 electrodes common to all subjects 
@@ -386,7 +386,7 @@ DCNN: HC+RBD vs PD+DLB [2x159 / 2x1]   73% (78%)
 RNN: HC+RBD vs PD+DLB [2x159 / 2x1]     72% (77%)","Stacked RNN
 Shallow CNN",DL,No,Maximizing network outputs for a given class,Generating input to maximize activation,"Although here, as in [28], we worked with time-frequency pre-processed data, the field will undoubt- edly steer towards working with raw data in the future when larger datasets become available—as suggested in [21]","""We note that one of the potential issues with our dataset is the presence of healthy controls without
 follow up, which may be a confound. \We hope to remedy this by enlarging our database and by
-improving our diagnosis and follow up methodologies""",No,N/A,Yes,,Yannick Roy,Isabela Albuquerque,TBC,,Ruffini2018a
+improving our diagnosis and follow up methodologies""",No,N/A,Yes,,Yannick Roy,Isabela Albuquerque,Yes,,Ruffini2018a
 ,Deep transfer learning for error decoding from non-invasive EEG,2018,"Völker, Schirrmeister, Fiered, Burgard & Ball",IEEE International Conference on Brain-Computer Interface,Yes,Conference,University of Freiburg,Germany,6,,Classification of EEG signals,BCI,Reactive,ERP,New approach: Exploring Transfer Learning for BCI.,"Using CNN on 2 different BCI tasks, can it generalize? Transfer Learning across subjects and across tasks","1) Eriksen Flanker Task
 2) Online GUI to control intelligent robots",Enables transfer learning,,N/M,"1) Error
 2) Mental tasks (MI)",Internal Recordings,Private,"1) 1000 trials x 1.5s x 31 subjects
@@ -418,7 +418,7 @@ Both failed. ~50%","rLDA
 (CNN outperforms rLDA)
 
 Also, best result ever reported on the Error Detection on Flanker Task*",Traditional pipeline,Paired t-tests,Input-perturbation network-prediction correlation maps,Input-perturbation network-prediction correlation maps,"(1) As a next step, techniques including data augmentation and automated hyper-parameter and architecture search might help to improve the generalization of deep ConvNets. (2) For a generalization to new subjects, our data suggest that a training subject group of at least 15 subjects might be necessary for reliable error decoding on unknown subjects. (3) In the flanker task, our deep ConvNets achieved the highest to date reported average accuracy.",N/M,No,N/A,Yes,,Yannick Roy,Hubert Banville,TBC,,Volker2018
-,DeepIED: An epileptic discharge detector for EEG-fMRI based on deep learning,2018,"Hao, Khoo, von Ellenrieder, Zazubovits & Gotman",NeuroImage: Clinical,No,Journal,"McGill University, Osaka University",Canada,14,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Detect interictal epileptic discharges in noisy EEG data collected during an fMRI recording,Resting state EEG - Seizures.,Reduce the amount of time it takes to manually label interictal epileptic discharges,,BrainAmp (BrainVision),Raw EEG,Internal Recordings,Private,"67 patients (148 studies)
+,DeepIED: An epileptic discharge detector for EEG-fMRI based on deep learning,2018,"Hao, Khoo, von Ellenrieder, Zazubovits & Gotman",NeuroImage: Clinical,No,Journal,"McGill University, Osaka University",Canada,14,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Detect interictal epileptic discharges in noisy EEG data collected during an fMRI recording,Resting state EEG - Seizures.,Reduce the amount of time it takes to manually label interictal epileptic discharges,,BrainAmp (BrainProducts),Raw EEG,Internal Recordings,Private,"67 patients (148 studies)
 Average study time: 50 min (range, 18–72 min)
 (~1s windows)",201000,7400,67,25,200,Offline,,"1) Bandpass 0.5-50 Hz
 2) fMRI-induced artefact removal
@@ -442,7 +442,7 @@ Test: 20",Accuracy,accuracy,N/M,,N/M,"EEG only: ~70%, NIRS only: ~77%, EEG+NIRS:
 10 other subjects were for kNN (not counted)",208,65.87,16,9,N/M,Offline,,1) Notch Filter: 50Hz,Yes,Proprietary artefact rejection and interpolation,Yes," 45 features
 (PSD for each channel)
 D (1-3Hz), T (4-6Hz), A (7-12Hz), B (13-30Hz), G (31-64Hz)",Frequency-domain,N/M,,R,DNN,FC,N/M,N/M,No,47,2,2,ReLU,N/M,N/M,2,"Like very much
-Do not like at all",N/M,N/M,Standard optimization,Standard,Adadelta,Other,N/M,N/M,N/M,N/M,N/M,Cross-Entropy,Inter,10-Fold CV,k-fold,N/M,Accuracy,accuracy,N/M,,N/M,63.99%,"SVM Linear: 60.19%, SVM Radial:  59.67%, OneR: 59.00%, Adaboost: 58.65%, Random Forest: 57.74%, NNet: 57.71%, JRip: 57.21%, Naive Bayes: 56.79%, C5.0: 56.74%, kNN (k = 5): 56.29%       ",Traditional pipeline,No,No,No,"""An initial study using kNN provided sufficiently good results in a 10-subject study. However, when expanded to a larger cohort size of 16 subjects, the results were not encouraging. However, the use of deep learning was able to observably overcome some of the difficulties presented by inter-subject variability posed by larger cohort sizes in EEG-based preference classification.""",Intersubject variability,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Teo2018
+Do not like at all",N/M,N/M,Standard optimization,Standard,Adadelta,Other,N/M,N/M,N/M,N/M,N/M,Cross-Entropy,Inter,10-Fold CV,k-fold,N/M,Accuracy,accuracy,N/M,,N/M,63.99%,"SVM Linear: 60.19%, SVM Radial:  59.67%, OneR: 59.00%, Adaboost: 58.65%, Random Forest: 57.74%, NNet: 57.71%, JRip: 57.21%, Naive Bayes: 56.79%, C5.0: 56.74%, kNN (k = 5): 56.29%       ",Traditional pipeline,No,No,No,"""An initial study using kNN provided sufficiently good results in a 10-subject study. However, when expanded to a larger cohort size of 16 subjects, the results were not encouraging. However, the use of deep learning was able to observably overcome some of the difficulties presented by inter-subject variability posed by larger cohort sizes in EEG-based preference classification.""",Intersubject variability,No,N/A,No,,Yannick Roy,Hubert Banville,Yes,,Teo2018
 ,An Automated System for Epilepsy Detection using EEG Brain Signals based on Deep Learning Approach,2018,"Ullah, Hussain, Qazi &Aboalsamh",Arxiv,Yes,Preprint,"National University of Ireland
 King Saud University",Ireland,18,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Improving ternary classification of ictal vs. normal vs. interictal windows,"Resting State, Eyes Open, Eyes Closed, Seizures.",Automatic feature learning,,N/M,Raw EEG,Bonn University,Public,"Bonn University (5 sets x 100 x 23.6s)
 Each 100 samples --> 800 windows
@@ -467,19 +467,20 @@ AUC of ROC and precision-recall curves","f1-score, accuracy, ROC AUC, PR AUC",N/
 [Accuracy] - Channel Attloc:  0.9651, Channel Attglo: 0.9661","PCA+SVM (PSVM)
 SAEs + attention
 DNN + hard channel selection",DL & Trad.,N/M,Analysis of mean attention score values for a single subject,Analysis of activations,"""To the best of our knowledge, this is the first work using attention mechanism for biosignal channel selection in healthcare.""",,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Yuan2018a
-,Compact Convolutional Neural Networks for Classification of Asynchronous Steady-state Visual Evoked Potentials,2018,"Waytowich, Lawhern, Garcia, Cummings, Faller, Sajda, Vettel",Arxiv,Yes,Preprint,"U.S. Army Research Laboratory
+,Compact Convolutional Neural Networks for Classification of Asynchronous Steady-state Visual Evoked Potentials,2018,"Waytowich, Lawhern, Garcia, Cummings, Faller, Sajda, Vettel",Journal of Neural Engineering,Yes,Journal,"U.S. Army Research Laboratory
 Lab for Intelligent Imaging and Neural Comp.
 University of Pennsylvania
 University of California, Santa Barbara",USA,21,,Classification of EEG signals,BCI,Reactive,SSVEP,Improve SOTA,Use ConvNet for SSVEP classification,SSVEP (12 classes!),Automatic feature learning without domain-specific information,,ActiveTwo (BioSemi),SSVEP,Internal Recordings,Public,"10 subjects x 15 block x 12 trials x 4s
 (1s windows)",7200,120,10,8,2048,Offline,,"1) Bandpass 9-30 Hz
 2) Downsampled to 256 Hz",Yes,N/M,N/M,Raw EEG,Raw EEG,,,"TensorFlow, Keras
-Original Stimuli (from 2015) on MATLAB with Psychophysics Toolbox",EEGNet,CNN,Filter banks (temporal convolutions) followed by spatial filters,N/M,Yes,8 channels x 256 samples,4,4,ELU,"Batch norm
-Dropout (0.25)",Yes,12,12 different combinations of frequency and phase,12,N/M,Standard optimization,Standard,Adam,Adam,N/M,64,N/M,N/M,N/M,Categorical Cross-Entropy,Inter,Leave-One-Subject-Out,Leave-One-Subject-Out,"Train: 90%
+Original Stimuli (from 2015) on MATLAB with Psychophysics Toolbox",EEGNet,CNN,Filter banks (temporal convolutions) followed by spatial filters,N/M,Yes,8 channels x 256 samples,3,3,ELU,"Batch norm
+Dropout (0.25)",Yes,12,12 different combinations of frequency and phase,12,"46,476 
+(45,900 trainable)",Standard optimization,Standard,Adam,Adam,N/M,64,N/M,N/M,N/M,Categorical Cross-Entropy,Inter,Leave-One-Subject-Out,Leave-One-Subject-Out,"Train: 90%
 Test: 10%",Accuracy,accuracy,N/M,,N/M,"~90% for 7/10 Subjects.
 60%, 75%, 30% for the others.
 (chance = 8%)","CCA 
 (Canonical Correl. Analysis)
-C-CCA (Combined CCA)",Traditional pipeline,Paired t-tests when comparing to baseline,Visualization of feature activations with t-SNE,Analysis of activations,"""Although unexpected, these within-class clusters highlight the strength of the deep learning approaches to learn diagnostic features directly from the data.""",Experiment did not includ a non-control state,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Waytowich2018
+C-CCA (Combined CCA)",Traditional pipeline,Paired t-tests when comparing to baseline,Visualization of feature activations with t-SNE,Analysis of activations,"""Although unexpected, these within-class clusters highlight the strength of the deep learning approaches to learn diagnostic features directly from the data.""",Experiment did not includ a non-control state,Yes,GitHub,No,,Yannick Roy,Hubert Banville,Yes,,Waytowich2018
 ,Deep Classification of Epileptic Signals,2018,"Ahmedt-Aristizabal, Fookes, Nguyen & Sridharan",Arxiv,Yes,Preprint,Queensland University of Technology,Australia,4,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve State-of-the-Art: Using LSTM for Epilepsy classification,End-to-end seizure detection,"Resting State, Eyes Open, Eyes Closed, Seizures.",Automatic feature learning,,N/M,Raw EEG,Bonn University,Public,"Bonn University (5 sets x 100 x 23.6s)
 (full 4096 points / 23.6s as windows, no overlap)",500,197,15,1,173.6,Offline,,"None, but the Bonn University Dataset already has some preprocessing.",Yes,N/M,N/M,Raw EEG,Raw EEG,N/M,,Keras,LSTM,RNN,N/M,N/M,Yes,"100 x 4096
 (100 samples of 4096 segments)","Model 1: 1 LSTM + 1 Dropout
@@ -554,7 +555,7 @@ Dijon University Hospital (Dijon)
 Grenoble University Hospital",France,8,,Classification of EEG signals,Clinical,Sleep,Staging,New Approach: Sleep Stage Scoring (5 stages) with CNN on Single EEG Channel,Use CNNs on raw EEG data for 5-class sleep prediction,Sleep,CNNs have presented good performance in other domains and other EEG tasks.,,N/M,Raw EEG,SHHS,Public,"Dataset SHHS-1 (5793 polysomnographic records)
 5,384,401 epochs of 30s
 ~ 5 years of data!
-(30s windows)",5384401,2692200,5728,1,125,Offline,,None.,No,No,No,Raw EEG,Raw EEG,No,,TensorFlow,CNN,CNN,(no mention of pooling or dropout),1D convolutional layers,Yes,"(3750 * 4) x 1
+(30s windows)",5384401,2692200,5728,1,125,Offline,,None,No,No,No,Raw EEG,Raw EEG,No,,TensorFlow,CNN,CNN,(no mention of pooling or dropout),1D convolutional layers,Yes,"(3750 * 4) x 1
 
 30s epoch + 2 preceding + 1 following
 30s @ 125Hz = 3750 samples",12 Conv Layers + 1 FC (256) + 1 FC (5 classes),14,Leaky ReLU,N/M,N/M,5," Wake
@@ -578,12 +579,12 @@ Hassan [12] PSD, RF: 0.88
 Hassan [39] EMD, [...] : 0.83
 Sharma [13] Iterative filtering: 0.88
 Hsu [14] Energy, RNN: 0.90",DL & Trad.,No,Visualization of synthetic inputs that maximize class probability,Generating input to maximize activation,"""This study shows that it is possible to classify sleep stages using a single EEG channel and a convolutional neural network work- ing on raw signal samples without any feature extraction phase and with performance on par with other state-of-the-art methods.""
-""Further research is necessary to address class imbalance. Ensemble learning [35] or CNN-specific methods [36] may prove suitable""",N/M,Yes,GitHub,No,,Yannick Roy,Isabela Albuquerque,TBC,,Sors2018
+""Further research is necessary to address class imbalance. Ensemble learning [35] or CNN-specific methods [36] may prove suitable""",N/M,Yes,GitHub,No,,Yannick Roy,Isabela Albuquerque,Yes,,Sors2018
 ,ChronoNet: A Deep Recurrent Neural Network for Abnormal EEG Identification,2018,"Roy, Kiral-Kornek & Harrer",Arxiv,Yes,Preprint,IBM Research - Australia,Australia,,,Classification of EEG signals,Clinical,Pathological EEG,,Improve SOTA,Detect abnormal EEG with a new end-to-end architecture,?,Automatic interpretation of EEG from raw data,,N/M,Raw EEG,TUH Abnormal EEG Corpus,Public,"TUH Abnormal EEG Corpus
  Training set: 1361 abnormal/1379 normal sessions
 Test set: 127 abnormal/150 normal session
 Became: 14,971 / 15,169 windows for training
-(1min windows)",30417,30417,N/M,22,250,,,None.,No,N/M,N/M,None,Raw EEG,N/A,,N/M,"1) Conv+GRU
+(1min windows)",30417,30417,N/M,22,250,,,None,No,N/M,N/M,None,Raw EEG,N/A,,N/M,"1) Conv+GRU
 2) Inception Conv+GRU
 3) Dense Conv+GRU
 4) Inception Dense Conv+GRU",CNN+RNN,"Conv filter sizes grow exponentially inside a given layer (e.g., 2, 4, 8)",-,Yes,15000 x ?,"1) 7
@@ -594,11 +595,11 @@ Test: 9.2%",Accuracy,accuracy,N/M,,N/M,"1) 82.31
 2) 84.11
 3) 83.89
 4) 86.57","CNN-MLP: 78.80
-DeepCNN: 85.40",DL,No,No,No,The ChronoNet architecture is a general-purpose architecture for time series - has been applied to speech data classication.,-,No,N/A,No,,Hubert Banville,TBR,TBC,,Roy2018
+DeepCNN: 85.40",DL,No,No,No,The ChronoNet architecture is a general-purpose architecture for time series - has been applied to speech data classication.,-,No,N/A,No,,Hubert Banville,TBR,Yes,,Roy2018
 ,EEG-GAN: Generative adversarial networks for electroencephalograhic (EEG) brain signals,2018,"Hartmann, Schirrmeister & Ball",Arxiv,Yes,Preprint,University of Freiburg,Germany,7,,Generation of data,Generating EEG,,,Generate EEG signals,Generate EEG signals using GANs,Motor imagery,GANs are good at generating data,,N/M,Raw EEG,Internal Recordings,Private,"438 EEG Signals
 They don't talk about the lenght of these signals. 
 They show plot of -500ms to 2500ms
-(probably windows of 3s)",438,21.9,N/M,1,250,,,None.,No,No,No,None,Raw EEG,Subtract mean then divide by maximum absolute value,,N/M,Wassertein GAN (modified),GAN,-,"Conv layers instead of autoregressive model, as it worked well in the authors's other papers",Yes,"Gen: 200
+(probably windows of 3s)",438,21.9,N/M,1,250,,,None,No,No,No,None,Raw EEG,Subtract mean then divide by maximum absolute value,,N/M,Wassertein GAN (modified),GAN,-,"Conv layers instead of autoregressive model, as it worked well in the authors's other papers",Yes,"Gen: 200
 Discr: 768","Gen: 14
 Discr: 14",14,Leaky ReLU,Gradient penalty,Yes,N/A,N/A,"Gen: 768
 Discr: 1",N/M,GAN optimization with increasing resolutions,Other,Adam,Adam,"""Equalized learning rate""
@@ -636,7 +637,7 @@ DS #4 - TUH: 5 x 12000 points (@250Hz)
 22","160;
 128;
 160;
-250",,,None.,No,N/M,N/M,None,Raw EEG,N/A,,TensorFlow,CNN with attention + DQN,CNN,"1) Replicating and shuffling incoming samples
+250",,,None,No,N/M,N/M,None,Raw EEG,N/A,,TensorFlow,CNN with attention + DQN,CNN,"1) Replicating and shuffling incoming samples
 2) Attention mechanism trained with RL
 3) CNN
 4) Nearest-neighbour classifier",A) Replicate and shuffle operation intended to randomly unveil interesting spatial patterns,Yes,1 x nb_channel,"CNN: 3
@@ -658,7 +659,7 @@ The number of channels used affects the performance.",-,Yes,GitHub,No,,Hubert Ba
 Seizures: 51,140 + 53,930
 Non-Seizures: 877,821 + 547,728
 
-(21s windows, no overlap)",72886,25510.35,246,22,250,,,None.,No,N/M,N/M,LFCCs + First & Second Derivative of LFCCs,Other,N/A,,N/M,"1) CNN + LSTM
+(21s windows, no overlap)",72886,25510.35,246,22,250,,,None,No,N/M,N/M,LFCCs + First & Second Derivative of LFCCs,Other,N/A,,N/M,"1) CNN + LSTM
 2) CNN + GRU",CNN+RNN,"2D CNN to 1D CNN to bi-LSTM
 First LSTM output: 128 (1s data / epoch)
 Second LSTM output: 2-way sigmoid
@@ -685,7 +686,7 @@ Compared 5 different regularization methods
 ,Optimizing Channel Selection for Seizure Detection,2018,"Shah, Golmohammadi, Ziyabari, Weltin, Obeid & Picone",Arxiv,Yes,Preprint,"Neural Engineering Data Consortium, Temple University",USA,,,Classification of EEG signals,Clinical,Epilepsy,Detection,Study the Impact of Number of Channels,Explore the impact of using/having from 2 to 22 channels with same network,(see TUH dataset paper),"Lower the number of EEG channels required 
 (also save disk space)",,N/M,Seizures,TUH Seizure Corpus,Public,"TUH EEG Seizure Corpus (TUSZ)
 No more information about samples/time
-(1s windows)",N/M,N/M,N/M,22,250,,,None.,No,N/M,N/M,LFCCs + First & Second Derivative of LFCCs,Other,N/A,,N/M,CNN + LSTM,CNN+RNN,(same as there previous paper: Gated Recurrent Networks for Seizure Detection),(same as there previous paper: Gated Recurrent Networks for Seizure Detection),Yes,"210 x 22 x 26
+(1s windows)",N/M,N/M,N/M,22,250,,,None,No,N/M,N/M,LFCCs + First & Second Derivative of LFCCs,Other,N/A,,N/M,CNN + LSTM,CNN+RNN,(same as there previous paper: Gated Recurrent Networks for Seizure Detection),(same as there previous paper: Gated Recurrent Networks for Seizure Detection),Yes,"210 x 22 x 26
 (Windows * Channels * Features)","3x 2D CNN 
 + 1x 1D FC CNN
 + 2x Bi-LSTM",5,ELU & Sigmoid,Dropout,Yes,,,"1*
@@ -699,8 +700,10 @@ No more information about samples/time
 Used only 280 trials (140 training / 140 testing)
 Took 5s from each trial: 4s-9s 
 (5s windows)",280,23.3,1,3,128,Offline,,None,No,No,No,"Continuous Wavelet transform (Morlet)
-Only keep 7-15 Hz",Frequency-domain,N/A,,N/M,"Augmentation: cDCGAN
-Classification: CNN",CNN,Conditional Deep Convolutional GAN (cDCGAN) + label information as input to both generator and discriminator,2D kernel to accomodate input TFR,Yes,N/M,N/M,N/M,ReLU,N/M,N/M,2,"Left Hand
+Only keep 7-15 Hz
+(Time-Frequency Domain)",Frequency-domain,z-score,,N/M,"Augmentation: cDCGAN
+Classification: CNN",CNN,Conditional Deep Convolutional GAN (cDCGAN) + label information as input to both generator and discriminator,2D kernel to accomodate input TFR,Yes,N/M,N/M,N/M,"ReLU + Leaky 
+ReLU + Sigmoid",N/M,N/M,2,"Left Hand
 Rigth Hand",Same as input (not mentioned),N/M,"cDCGAN optimization
 Training CNN with real and artificial data",Standard,N/M,N/M,N/M,N/M,N/M,N/M,"GAN
 [0.5 - 2x]
@@ -708,13 +711,13 @@ Training CNN with real and artificial data",Standard,N/M,N/M,N/M,N/M,N/M,N/M,"GA
 Test: 50%",Accuracy,accuracy,N/M,,N/M,"No augmentation: ~83 %
 50% of augmentation: ~84%
 150% of augmetation: ~84%
-200% of augmentation: ~85.5%",None,None,No,No,No,Data augmentation with GAN is does help increasing accuracy when limited data is available.,Limited amount of data available per subject when training a BCI.,No,N/A,Yes,,Hubert Banville,Yannick,TBC,,Zhang2018b
-,Convolutional neural networks for seizure prediction using intracranial and scalp electroencephalogram,2018,"Truong, Nguyen, Kuhlmann, Bonyadi, Yang, Ippolito & Kavehei",Neural Networks,Yes,Preprint,"University of Sydney
+200% of augmentation: ~85.5%",None,None,No,No,No,Data augmentation with GAN does help increasing accuracy when limited data is available.,Limited amount of data available per subject when training a BCI.,No,N/A,Yes,,Hubert Banville,Yannick,Yes,,Zhang2018b
+,Convolutional neural networks for seizure prediction using intracranial and scalp electroencephalogram,2018,"Truong, Nguyen, Kuhlmann, Bonyadi, Yang, Ippolito & Kavehei",Neural Networks,Yes,Journal,"University of Sydney
 Royal Melbourne Institute of Technology
 Swinburne University
 University of Melbourne
 University of Queensland
-University of Adelaide",Australia,,,Classification of EEG signals,Clinical,Epilepsy,Prediction,Improve SOTA,Use CNN to improve SOTA in seizure detection,Ongoing recording with and without seizures,Test CNN on different epilepsy datasets,,N/M,"None
+University of Adelaide",Australia,,,Classification of EEG signals,Clinical,Epilepsy,Prediction,Improve SOTA,Use CNN to improve SOTA in seizure prediction,Ongoing recording with and without seizures,Test CNN on different epilepsy datasets,,N/M,"None
 (Seizures)","Freiburg Hospital;
 CHB-MIT;
 Kaggle: AESSPC",Public,"DS #1 - Freiburg: 311h (59 seizures)
@@ -729,7 +732,7 @@ DS #3 - AESSPC: 627h (48 seizures)
 2","6;
 22;
 16",N/M,,,"1) Removed Powerline: 47-53Hz + 97-103Hz
-2) Removed DC Component (0Hz)",Yes,N/M,N/M,"SFTF
+2) Removed DC Component (0Hz)",Yes,N/M,N/M,"STFT
 (2D Freq x Time)
 30s EEG windows",Frequency-domain,N/A,,"Python
 Keras
@@ -740,7 +743,8 @@ FC: 2",5,"ReLU
 Sigmoid
 Softmax
 ","Dropout 
-(50%)",Yes,,,2,N/M,We applied cost-sensitive learning by changing 300 the cost function in a way that the misclassification cost of preictal samples is multiplied by the ratio of interictal samples to preictal samples for each patient.,Standard,N/M,N/M,N/M,N/M,N/M,N/M,"Overlapping windows
+(50%)",Yes,,,2,N/M,"We applied cost-sensitive learning by changing 300 the cost function in a way that the misclassification cost of preictal samples is multiplied by the ratio of interictal samples to preictal samples for each patient.
+We over-sampled the minority class. The cost-sensitive learning was for comparison. Though the two methods achieve comparable performance.",Standard,N/M,N/M,N/M,N/M,N/M,N/M,"Overlapping windows
 (overlap % subject-specific to match classes)",N/M,Intra,Leave-One-Seizure-Out,Leave-One-Sample-Out,"Train: N/M
 Valid: 25% of training
 Test: N/M","Sensitivity
@@ -752,17 +756,17 @@ DS #2) Sensitivity : 81.2% | FPR: 0.16/h
 DS #3) Sensitivity : 75.0% | FPR: 0.21/h","Compares on 3 Datasets
 
 Compares to 14 other SOTA (papers)",DL & Trad.,Wilcoxon signed-rank test,No,No,,"(1) Unbalanced Classes.
-(2) Comparing results with SOTA is complicated because each approach was tested with one dataset that is limited in the amount of data.",No,N/A,Yes,,Yannick Roy,TBR,TBC,,Truong2018
+(2) Comparing results with SOTA is complicated because each approach was tested with one dataset that is limited in the amount of data.",No,N/A,Yes,,Yannick Roy,TBR,Yes,,Truong2018
 ,Semi-supervised Seizure Prediction with Generative Adversarial Networks,2018,"Truong, Kuhlmann, Bonyadi & Kavehei",Arxiv,Yes,Preprint,"University of Sydney
 University of Melbourne
-University of Queensland",Australia,,,Classification of EEG signals,Clinical,Epilepsy,Prediction,Improve SOTA,Use unlabelled data and data fusion to improve SOTA in seizure prediction,"Resting State, Eyes Open, Eyes Closed, Seizures.",Leverage unlabelled data,,N/M,Raw EEG,"CHB-MIT;
+University of Queensland",Australia,,,Classification of EEG signals,Clinical,Epilepsy,Prediction,Improve SOTA,Use unlabelled data and data fusion to improve SOTA in seizure prediction,Ongoing recording with and without seizures,Leverage unlabelled data,,N/M,Raw EEG,"CHB-MIT;
 Freiburg Hospital",Public,"DS #1 - Freiburg: 311h
 DS #2 - CHB-MIT: 209h
 (28s windows, no overlap)","39985;
 26871","18660;
 12540","13;
 13","16;
-6",256,,,"STFT on 1-s windows with 50% overlap
+6",256,,,"STFT on 28-s windows with 50% overlap
 Removal of power line noise frequencies",Yes,N/M,N/M,STFT,Frequency-domain,N/M,,Tensorflow,"1) GAN
 2) CNN",Other,-,-,Yes,"1) GAN generator: 100 x1
 2) GAN discriminator: n x 56 x 112
@@ -775,7 +779,7 @@ Removal of power line noise frequencies",Yes,N/M,N/M,STFT,Frequency-domain,N/M,,
 (overlap % subject-specific to match classes)",N/M,Both,Leave-One-Seizure-Out,Leave-One-Sample-Out,"Train: N/M
 Valid: 25% of training
 Test: N/M",ROC AUC,ROC AUC,Nvidia P100,,N/M,"AUC: 77.68% (CHBMIT), 75.47 (Freiburg)
-[6 and 12% less than benchmark]",CNN,DL,No,No,No,"Although the performance decreased as compared to a standard CNN, the authors argue this can reduce the effort put into labelling the data.",-,No,N/A,No,,Hubert Banville,TBR,TBC,,Truong2018a
+[6 and 12% less than benchmark]",CNN,DL,No,No,No,"Although the performance decreased as compared to a standard CNN, the authors argue this can reduce the effort put into labelling the data.",-,No,N/A,No,,Hubert Banville,TBR,Yes,,Truong2018a
 ,Time Series Segmentation through Automatic Feature Learning,2018,"Lee, Ortiz, Ko & Lee",Arxiv,Yes,Preprint,Princeton University,USA,,,Classification of EEG signals,Multi-purpose architecture,,,Improve SOTA,Detect changepoints/breakpoints in data (changes in signal) and apply to different types of time series data,Eye movements,"Deep learning models for changepoint detection don't make assumptions about the underlying processes, as opposed to standard models",,EPOC (Emotiv),Eyes open vs. eyes closed,EEG Eye State,Public,"EEG Eye State Dataset
 117 seconds from 1 subject with Emotiv
 (14980 points, using windows of 25 points)",600,2,1,14,256,,,N/M,N/M,N/M,N/M,N/M,N/M,N/M,,N/M,Stacked Autoencoder,AE,-,-,No,N/M,2 (encoder),2,N/M,"Tied weights in encoder and decoder
@@ -785,17 +789,21 @@ MSE
 Prediction ratio","ROC, prediction loss, mse, prediction ratio",N/M,,N/M,ROC curves...,"Bayesian changepoint detection (based on Gamma or Gaussian priors)
 Pruned Exact Linear Time method
 Density-ratio estimation method",Traditional pipeline,No,No,No,Deep learning avoids typical problems in modelling changepoints.,-,No,N/A,No,,Hubert Banville,TBR,TBC,,Lee2018a
-,Investigating the Impact of CNN Depth on Neonatal Seizure Detection Performance,2018,"O’Shea, Lightbody, Boylan & Temko",Arxiv,Yes,Preprint,University College Cork,Ireland,,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Use CNN to improve SOTA in seizure detection in neonatal,Ongoing recording with and without seizures,Improve SOTA with CNN-11 based on their CNN-6 (2017),,N/M,Raw EEG,Internal Recordings,Private,"8s windows with 1s shift
-over 800 hours of multichannel unedited EEG, containing 1389 seizure
-18 babies",N/M,N/M,18,8,256,,,"Down-sample to 32Hz
-Filtered between 0.5 and 12.8Hz",Yes,N/M,N/M,8 sec windows (1 sec shift),Raw EEG,N/A,,N/M,CNN,CNN,"Conv - Batch Norm - Pooling
+,Investigating the Impact of CNN Depth on Neonatal Seizure Detection Performance,2018,"O’Shea, Lightbody, Boylan & Temko",Arxiv,Yes,Preprint,"Irish Centre for Fetal and Neonatal Translational Research, University College Cork",Ireland,,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Use CNN to improve SOTA in neonatal seizure detection,Ongoing recording with and without seizures,Improve SOTA with CNN-11 based on their CNN-6 (2017),,N/M,Raw EEG,Internal Recordings,Private,"18 babies: over 800 hours of multichannel unedited EEG
+containing 1389 seizure
+(8s windows, 7s overlap)",N/M,N/M,18,8,256,,,"Down-sample to 32Hz
+Filtered between 0.5 and 12.8Hz",Yes,No,No,8 sec windows (1 sec shift),Raw EEG,N/A,,N/M,CNN,CNN,"Conv - Batch Norm - Pooling
 Output not Dense layer but 
-Grand Average Pooling","""The 11-layer network can learn more simple features in the first layer (3 samples wide) and more complex features in the final layers (212 samples wide).""",Yes,"256x1 
-(1sec - 256 samples)",11,11,Softmax,N/M,N/M,,,"2
+Global Average Pooling","""The 11-layer network can learn more simple features in the first layer (3 samples wide) and more complex features in the final layers (212 samples wide).""",Yes,"256x1 
+(8 sec x 1 channel)",11,11,Softmax,Batch norm,Yes,,,"2
 Seizure / Non-Seizure","28,642","The network was trained for 100 epochs, after each epoch the validation AUC was calculated.",Standard,Stochastic Gradient Descent,SGD,"LR: 0.01
-Momentum: 0.9",2048,N/M,N/M,N/M,N/M,Inter,Leave-One-Subject-Out,Leave-One-Subject-Out,"""The training data contains less than 2% of the validation dataset""",ROC AUC,ROC AUC,N/M,,N/M,AUC90: 86.85%,"CNN - 6 layers (O'Shea et al., 2017)
-SVM",DL & Trad.,No,No,No,This represents a substantial improvement over a shallower 6-layer CNN network which has a smaller range of receptive fields. These results represent the current best results for this task obtained using a single classifier.,N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Shea2018
-,Fair Deep Learning Prediction for Healthcare Applications with Confounder Filtering,2018,"Wu, Wang, Cao, Chen, Xing",Arxiv,Yes,Preprint,"Beijing University of Posts and Telecommunications, Carnegie Mellon University",China,12,,Improvement of processing tools,Reduce effect of confounders,,,New approach: Reduce effect of confounders in medical data,"Reduce the effect of confounders in medical data (e.g., gender bias in training data)",Students watching MOOC videos,Learn representations from scratch,,Mindset (NeuroSky),Raw EEG,Internal Recordings,Private,"10 students x 20 videos x 2min
+Momentum: 0.9",2048,N/M,N/M,"Sliding Window
+(Shifted by 1s, 7/8 overlap)",N/M,Inter,Leave-One-Subject-Out,Leave-One-Subject-Out,"""The training data contains less than 2% of the validation dataset""",ROC AUC,ROC AUC,N/M,,N/M,"AUC: 97.61%
+AUC90: 86.85%","CNN - 6 layers (O'Shea et al., 2017)
+SVM",DL & Trad.,No,No,No,This represents a substantial improvement over a shallower 6-layer CNN network which has a smaller range of receptive fields. These results represent the current best results for this task obtained using a single classifier.,N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,OShea2018
+,Removing Confounding Factors Associated Weights in Deep Neural Networks Improves the Prediction Accuracy for Healthcare Applications,2018,"Wang, Wu, Xing",Pacific Symposium on Biocomputing 2019 ,Yes,Preprint,"Carnegie Mellon University
+University of Illinois Urbana-Champaign
+Petuum Inc.",USA,12,,Improvement of processing tools,Reduce effect of confounders,,,New approach: Reduce effect of confounders in medical data,"Reduce the effect of confounders in medical data (e.g., gender bias in training data)",Students watching MOOC videos,Learn representations from scratch,,Mindset (NeuroSky),Raw EEG,Internal Recordings,Private,"10 students x 20 videos x 2min
 10 confusing / 10 not confusing
 (??s windows)",N/M,400,10,1,N/M,N/M,,N/M,N/M,No,No,Raw EEG,Raw EEG,z-score,,TensorFlow,Bi-LSTM,RNN,Use of Confounder Filtering,N/M,No,N/M,N/M,N/M,Tanh,N/M,N/M,2,"Confused
 Not-confused",1 (sigmoid),N/M,N/M,N/M,N/M,N/M,N/M,20,N/M,N/M,N/M,Binary Cross-Entropy*,Inter,5-Fold CV,k-fold,N/M,Accuracy,accuracy,N/M,,N/M,CF-Bidirectional LSTM acc: 75.0%  ,"SVM: 67.2%
@@ -803,7 +811,7 @@ K-Nearest Neighbors: 51.9%
 Convolutional Neural Network: 64.0%
 Deep Belief Network: 52.7%
 RNN-LSTM: 69.0%
-Bidirectional LSTM: 73.3%",DL & Trad.,No,No,No,The use of confounding filtering improves the predictive performance. ,N/M,Yes,GitHub,No,,Isabela Albuquerque,TBR,TBC,,Wu2018
+Bidirectional LSTM: 73.3%",DL & Trad.,No,No,No,The use of confounding filtering improves the predictive performance. ,N/M,Yes,GitHub,No,,Isabela Albuquerque,TBR,Yes,,Wu2018
 ,HAMLET: Interpretable Human And Machine co-LEarning Technique,2018,"Deiss, Biswal, Jin, Sun, Westover & Sun",Arxiv,Yes,Preprint,"Georgia Institute of Technology
 Massachusetts General Hospital",USA,9,,Classification of EEG signals,Multi-purpose architecture,,,New approach,Help experts generate high quality labels,"Tested on Epilepsy data, could be used for different tasks",Features can be automatically extracted to help experts label the data,,N/M,Raw EEG,Internal Recordings,Private,"D: Using 140,000 of 390,486 x 16s sequences (unbalanced with 5 classes)
 1) 20,000 (89h of EEG) : 80/20 - train / test.
@@ -886,7 +894,7 @@ Specificity (Spe)","accuracy, sensitivity, specificity","CPU 2 GHz
 EEG: 4.89s 
 RR: 0.03s","Acc Sleep vs Wake: 85.51%
 Acc Light vs Deep Sleep: 94.03%
- Acc REM vs NREM: 95.71%","Hayet and Slim [55] (ELM, Werteni et al. [56] (SVM), Adnane et al. [16] (SVM), Rossow et al. [57] (HMM), Redmond and Heneghan [58] (QDA), Song et al. [59] (Multivariate Discrim. Analysis), Prucnal et al. [12] (NN), Hasan et al. [11] (RUSBoost), Da Silveira et al. [13] (RF)",Traditional pipeline,No,No,No,"The dispersion entropy values for delta (d), theta (u) and alpha (a) bands are found to be more discriminatory for the classification of the wake and sleep classes.","The limitation of this work is that we have used only 18 subjects. The performance of this work can be improved using more subjects from the diverse race. The number of REM sleep stage instances in MIT-BIH polysomnography database is less as compared to deep sleep, light sleep and wake classes.",No,N/A,Yes,,Yannick Roy,TBR,TBC,,Tripathy2018
+ Acc REM vs NREM: 95.71%","Hayet and Slim [55] (ELM, Werteni et al. [56] (SVM), Adnane et al. [16] (SVM), Rossow et al. [57] (HMM), Redmond and Heneghan [58] (QDA), Song et al. [59] (Multivariate Discrim. Analysis), Prucnal et al. [12] (NN), Hasan et al. [11] (RUSBoost), Da Silveira et al. [13] (RF)",Traditional pipeline,No,No,No,"The dispersion entropy values for delta (d), theta (u) and alpha (a) bands are found to be more discriminatory for the classification of the wake and sleep classes.","The limitation of this work is that we have used only 18 subjects. The performance of this work can be improved using more subjects from the diverse race. The number of REM sleep stage instances in MIT-BIH polysomnography database is less as compared to deep sleep, light sleep and wake classes.",No,N/A,Yes,,Yannick Roy,TBR,Yes,,Tripathy2018
 ,Emotion stress detection using EEG signal and deep learning technologies,2018,"Liao, Chen & Tai",IEEE International Conference on Applied System Invention (ICASI),No,Conference,Department of Information Management Chaoyang University of Technology,Taiwan,,,Classification of EEG signals,Monitoring,Affective,Emotion,New approach,Use CNN to classify Attention & Meditation from raw EEG,Listening to music,Exploring the use of DL for stress detection via EEG,,Mindwave Mobile (Neurosky),None,Internal Recordings,Private,"7 subjects x 10 min
 (1s windows, no overlap)",4300,70,7,1,512,,,N/M,N/M,N/M,N/M,Frequency Bands,Frequency-domain,N/A,,N/M,CNN,CNN,N/M,N/M,No,"1s
 (N/M, assuming 512 samples)",7,7,RELU,N/M,N/M,,,"1
@@ -918,7 +926,7 @@ Sigmoid",N/M,N/M,,,"3
 Through Time
 (BPTT)",N/M,N/M,N/M,N/M,N/M,N/M,Cross-entropy,Inter,No,No,"Train: 9 Sessions
 Test: 6 Sessions",Accuracy,accuracy,N/M,,N/M,Accuracy: 89.5%,None,None,No,No,No,"A multidirection SRNN layer and a bi-direction TRNN layer are hierarchi- cally employed to learn spatial and temporal dependencies layer by layer. To adapt the multichannel EEG signals to the proposed STRNN framework, the spatial scanning order of electrodes are specified by spatial coordinates and tempo- ral variation information is involved by slicing a window on the extracted DE feature sequences.",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Zhang2018
-,Individual Recognition in Schizophrenia using Deep Learning Methods with Random Forest and Voting Classifiers: Insights from Resting State EEG Streams,2018,"Chu, Qiu, Liu, Ling, Zhang & Wang",IEEE Transactions on Neural Systems and Rehabilitation Engineering,Yes,Journal,Big Data and AI Research Center of Shanghai Jiaotong University,China,7,,Classification of EEG signals,Clinical,Schizophrenia,Detection,New Approach,Using Random Forest and Voting Classifiers with a CNN for Individual Recognition in Schizophrenia,"Resting State, Eyes Open. (300s each)",Automatic feature extraction,,BrainCap (BrainVision),Raw EEG,Internal Recordings,Private,120 Subjects x 300 seconds,360000,600,120,64,1000,Offline,,"1) Occular Correction (with Brain Vision Analyzer's algos)
+,Individual Recognition in Schizophrenia using Deep Learning Methods with Random Forest and Voting Classifiers: Insights from Resting State EEG Streams,2018,"Chu, Qiu, Liu, Ling, Zhang & Wang",IEEE Transactions on Neural Systems and Rehabilitation Engineering,Yes,Journal,Big Data and AI Research Center of Shanghai Jiaotong University,China,7,,Classification of EEG signals,Clinical,Schizophrenia,Detection,New Approach,Using Random Forest and Voting Classifiers with a CNN for Individual Recognition in Schizophrenia,"Resting State, Eyes Open. (300s each)",Automatic feature extraction,,(BrainProducts),Raw EEG,Internal Recordings,Private,120 Subjects x 300 seconds,360000,600,120,64,1000,Offline,,"1) Occular Correction (with Brain Vision Analyzer's algos)
 2) Re-Referenced to Common Average
 3) Pass-Band Filter (IIR): 0.01 - 50Hz",Yes,Yes*,Yes,"1) Raw EEG
 2) Freq Bands",Raw EEG,Divide by max,,N/M,"CNN, RNN, and MLP",CNN,"3 Conv Layers, ELU, 3 Dropout 0.5, 3 Max Pooling + Dropout 0.25, 3 FCs, 1 voting (RF, softmax or SVM)",N/M,Yes,Not clear,"CNN: 6
@@ -961,7 +969,10 @@ Test: 2500 images / subject","F1-Score
 ,EEGNet: A Compact Convolutional Neural Network for EEG-based Brain-Computer Interfaces,2018,"Lawhern, Solon, Waytowich, Gordon, Hung & Lance",Journal of Neural Engineering,Yes,Journal,"U.S. Army Lab,DCS Corporation, Columbia University, Georgetown University Medical Center",USA,17,,Classification of EEG signals,BCI,Active & Reactive,MI & ERP,Novel Approach: DN that can be used for different BCI paradigms,Compare EEGNet with SOTA ML for different BCI Paradigms,"Visual P300 
 ERN
 Movement-related cortical potentials
-Sensory Motor Rhythms",Allows robust feature extraction,,ActiveTwo (BioSemi),"1) P300 
+Sensory Motor Rhythms",Allows robust feature extraction,,"ActiveTwo (BioSemi);
+N/M;
+ActiveTwo (BioSemi);
+N/M;","1) P300 
 2) ERN
 3) Movement-related cortical potentials
 4) SMR","Internal Recordings;
@@ -988,9 +999,10 @@ SMR: 9 subjects x 288 trials [3s windows]","30000;
 250",Offline,,"1) Rereferencing (linked mastoids or earlobes)
 2) Bandpass filter (1 - 40 Hz, 0.1-40 Hz or 4-40 Hz) 
 3) Downsampled to 128 Hz
-(** Different approaches! e.g. Used PREP Pipeline for #3)",Yes,No,No,Raw EEG,Raw EEG,Exponential moving average,,Keras + Tensorflow,CNN,CNN,"Layer 1: 1D spatial filters
+(** Different approaches! e.g. Used PREP Pipeline for #3)",Yes,No,No,Raw EEG,Raw EEG,Exponential moving average,,Keras + Tensorflow,CNN,CNN,"Layer 1: 1D Temporal Filters
 Layer 2: Depthwise 2D Conv
-Layer 3: Separable 2D Conv","Depthwise: Inspired in part by the Filter-Bank Common Spatial Pattern (FBCSP) algorithm. 
+Layer 3: Separable 2D Conv","1D temp. conv. at L1 to learn frequency filters. 
+Depthwise: Inspired in part by the Filter-Bank Common Spatial Pattern (FBCSP) algorithm. 
 Separable: explicitly decoupling the relationship within and across feature maps by first learning a kernel summarizing each feature map individually, then optimally merging the outputs afterwards",Yes,Channels x Time,3,3,ELU,"Dropout, weight decay",Yes,"P300: 2
 ERN: 2
 MRCP: 2
@@ -1002,7 +1014,7 @@ SMR: left hand/right hand/feet/tongue","(depends on the task)
 2) 1,082 
 3) 1,098 
 4) 796   ","Within-Subject and Cross-Subject
-If classes are umbalanced, we apply class-weight to the loss function whenever the data is imbalanced",Standard,Adam,Adam,N/M,N/M,N/M,N/M,N/M,"Categorical cross-entropy
+If classes are umbalanced, we apply class-weight to the loss function whenever the data is imbalanced",Standard,Adam,Adam,N/M,64,N/M,N/M,N/M,"Categorical cross-entropy
 + Class weight if unbalanced",Both,"Intrasubject: 4-Fold CV
 
 Intersubject: Leave some subjects out 
@@ -1013,14 +1025,14 @@ Leave-N-Subjects-Out","[Intra] Train: 50%
 
 [Inter] Different ratios of subjects for training, for validation and for test","Accuracy
 ROC AUC","accuracy, ROC AUC",NVidia Quadro M6000,,N/M,"See paper for full breakdown. TLDR;
-Doesn't outperform or underperform anything by a lot.","DeepConvNet (Schirrmeister, 2017)
+Doesn't outperform or underperform anything by a lot.
+(however, it uses two orders of magnitude fewer parameters)","DeepConvNet (Schirrmeister, 2017)
 ShallowConvNet (Schirrmeister, 2017)
 Riemannian EEG (Barachant, 2015)
 FBCSP",DL & Trad.,Repeated-measures ANOVA,"1) Summarizing averaged outputs of hidden unit activations. 
 2) Visualizing the convolutional kernel weights. 
 3) Calculating single-trial feature relevance on the classification decision
-Also used DeepLIFT (Shrikumar 2017)","Analysis of activations, Analysis of weights, Ablation of filters, DeepLIFT","In this work we proposed EEGNet, a compact convolutional neural network for EEG-based BCIs that can generalize across different BCI paradigms in the presence of limited data and can produce interpretable features.
-To the best of our knowledge, this represents the first work that has validated the use of a single network architecture across multiple BCI datasets, each with their own feature characteristics and data set sizes. Finally, through the use of feature visualization and ablation analysis, we show that neurophysiologically interpretable features can be extracted from the EEGNet model",N/M,Yes,GitHub,No,,Yannick Roy,Hubert Banville,TBC,,Lawhern2018
+Also used DeepLIFT (Shrikumar 2017)","Analysis of activations, Analysis of weights, Ablation of filters, DeepLIFT","In this work we proposed EEGNet, a compact convolutional neural network for EEG-based BCIs that can generalize across different BCI paradigms (e.g. ERP and oscillatory-based) in the presence of limited data and can produce interpretable features. To the best of our knowledge, this represents the first work that has validated the use of a single network architecture across multiple BCI datasets, each with their own feature characteristics and data set sizes. Through the use of feature visualization and ablation analysis, we show that neurophysiologically interpretable features can be extracted from the EEGNet model",N/M,Yes,GitHub,No,,Yannick Roy,Hubert Banville,Yes,,Lawhern2018
 ,A deep learning architecture for temporal sleep stage classification using multivariate and multimodal time series,2018,"Chambon, Galtier, Arnal, Wainrib & Gramfort",IEEE Transations on Neural Systems and Rehabilitation Engineering,Yes,Journal,"Telecom ParisTech, Inria, Université Paris-Saclay",France,12,,Classification of EEG signals,Clinical,Sleep,Staging,Improve State-of-the-Art,,Sleep,,,N/M,Sleep events,MASS,Public,"MASS (61 out of 62)
 61 nights (8h) each from diff subjects
 (30s windows, no overlap)",58560,29280,61,20,128,,,1) Low-pass @30Hz,Yes,N/M,N/M,Raw EEG + EOG and raw EMG,Raw EEG,z-score,,Keras + Tensorflow,ConvNet,CNN,3 conv layers + dense (per modality),"Layer 1: spatial filter
@@ -1039,8 +1051,79 @@ Univariatie ConvNets from Tsinalis et al. (2016) and Supratak et al. (2017)
 Smaller number of parameters than other studies
 Temporal context helps for some classes, but not for others; recurrent architectures could help
 Size of dataset matters",,No,N/A,Yes,,Hubert Banville,TBR,TBC,,Chambon2018
+,Converting Your Thoughts to Texts: Enabling Brain Typing via Deep Feature Learning of EEG Signals,2018,"Zhang, Yao, Sheng, Kanhere, Gu, Zhang",IEEE International Conference on Pervasive Computing and Communications (PerCom),Yes,Conference,"University of New South Wales
+Macquarie University
+RMIT University",Australia,10,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,Joint CNN & LSTM + AE for Motor Imagery (5 classes),"Motor Imagery (5 classes)
+(see eegmmidb dataset)","EEG processing is time-consuming and depend on human expertise.
+SOTA models achieve 70-80% which is not enough.
+",,"N/M, EPOC (Emotiv)",Motor Imagery,"eegmmidb;
+Internal Recordings",Public,"1) eegmmidb: 28,000 samples x 10 subjects
+(28000 points @ 160Hz = 175s/subject)
+2) Internal (Emotiv): 34,560 samples x 7 subjects
+(28000 points @ 128Hz = 270s/subject)
+(window length = 1 point)","28000;
+34560","29.2;
+31.5","10;
+7","64;
+14","160;
+128",Offline and Online,,N/M,N/M,No,No,"Raw EEG
+(None)",Raw EEG,N/M,,N/M,"CNN + LSTM + linear AE
++ XGB (classification)",Other,"CNN & LSTM are parallel, then combined for the AE then XGB classifier",CNN for Spatial and RNN for Sequential info,Yes,"1 x 64
+(sample x channels)","LSTM: 6 layers
+CNN: 2 Conv + 2 FC",6,"ReLU, Sigmoid, tanh",L2,Yes,5,"eegmmidb: eye closed, left hand, right hand, both hands, both feet
+emotiv: up arrow, down arrow, left arrow, right arrow, eye closed",5,N/M,Standard optimization,Standard,"LSTM & CNN: Adam
+AE: RMSProp",Adam,Full table on optim params,7000,"N/M
+(they have tried many config, manually I suppose)",N/M,N/M,"LSTM + CNN: Cross-Entropy
+AE: MSE",Intra,No,No,"Train: 75%
+Test: 25%","accuracy, precision, recall, F1 score, ROC curve, and ROC AUC","accuracy, precision, recall, f1-score, ROC, ROC AUC",N/M,,2000 s,"DS #1 - Accuracy: 0.955
+DS #2 - Accuracy: 0.9427","Baselines: KNN, SVM, RF, LDA, AdaBoost, RNN, CNN
+Externals: Almoari, Sun, Mohammad, Major, Shenoy, Tonic, Rashid, Ward, Sita, Pinheiro.
+(all different papers, see Table IV)",DL & Trad.,No,No,No,"The classification accuracy of the public dataset (eegmmidb) is consistently higher than the local real-world dataset (emotiv). Our future work will focus on improving the accuracy in the person-independent scenario, wherein some subjects participate in the training and the rest of subjects involve in the testing.",N/M,Yes,GitHub,No,,Yannick Roy,Hubert Banville,Yes,,Zhang2017g
+,MindID: Person Identification from Brain Waves through Attention-based Recurrent Neural Network,2018,"Zhang, Yao, Kanhere, Liu, Gu & Chen","ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies",Yes,Conference,"University of New South Wales, Australia
+Tsinghua University
+RMIT University, Australia",Australia,20,,Classification of EEG signals,Personal trait/attribute,Person identification,,Improve SOTA: EEG for Person Identification,Use RNN on EEG for Person Indentification,"3 Different Datasets.
+(they claim that Delta has the most personal info)",The DL motivation is not clear. They want to improve SOTA.,,"EPOC (Emotiv), N/M",Delta Band*,"Internal Recordings;
+eegmmidb",Both,"DS1 (EID-M): 21,000 Samples/Subject. Total: 168,000
+DS2 (EID-S): 7,000 Samples/Subject. Total: 56,000 
+DS3 (EEG-S):  8 subjects x 7,000 samples
+(window length = 1 point)","168000;
+56000;
+56000","21.9;
+7.3;
+5.8","8;
+8;
+8","14;
+14;
+64","128;
+128;
+160",,,"1) Remove DC Offset (substract)
+2) Band-Pass Filter: 0.5 - 4Hz  (using only Delta)",Yes,No,No,Delta Band,Frequency-domain,z-score,,Matlab,"Attention-based Encoder-Decoder RNN
++ XGB Classifier",RNN,"Encoder, Decoder, Attention Module
++ XGB Classifier",N/M,Yes,"1x14 
+Delta Bands / Channel
+
+(not clear about the dimensionality)","Encoder: 
+3 FC (164) + 1 LSTM (164)
+
+Decoder:
+1 FC (164)",4,N/M,L2,Yes,,,"8
+
+One-Hot Label
+(ID - 8 Subjects)",N/M,N/M,N/M,Adam,Adam,LR: ,"21,000 samples
+
+(?)",N/M,N/M,N/M,Cross-Entropy,Inter,No,No,"Train / Test
+DS1: 147,000 / 21,000
+DS2: 49,000 / 7,000
+DS3: 49,000 / 7,000","Precision
+Recall
+F1-Score","precision, recall, f1-score","Nvidia Titan X Pascal
+768G memory 
+145 TB PCIe SSD",,N/M,"Precision | Recall | F1-Score
+DS #1: 0.982 | 0.982 | 0.982
+DS #2: 0.988 | 0.988 | 0.988
+DS #3: 0.999 | 0.999 | 0.999","SVM, RF, KNN, AdaBoost, LDA, XGB, RNN",DL & Trad.,No,No,No,"Moreover, the pre-trained model should be updated for a period of time since the user’s EEG data is gradually changed with the environmental factors such as age, mental state, and living style. One of our future work is to develop an online learning system which is enabled to automatically update the training dataset based on the testing data which is collected during the operating period.","Limited by the local experimental conditions, our study only gathered EEG data from 8 subjects with few trials. The dataset is only divided into two categories (Multi and Single), which is not enough to explore the change trend of the identification accuracy with the increase of data trials.",Yes,GDrive,Yes,,Yannick Roy,TBR,Yes,,Zhang2017e
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,A convolutional neural network for steady state visual evoked potential classifcation under ambulatory environment,2017,"Kwak, Muller & Lee",PLOS One,No,Journal,"Korea University, TU Berlin",South Korea,,,Classification of EEG signals,BCI,Reactive,SSVEP,Improve SOTA,Improve robustness of SSVEP BCIs for exoskeleton control in ambulatory conditions,SSVEP,-,,MOVE (BrainVision),SSVEP,Internal Recordings,Private,"2 datasets (50x5s + 250x5s) x 7 subjects 
+,A convolutional neural network for steady state visual evoked potential classification under ambulatory environment,2017,"Kwak, Muller & Lee",PLOS One,No,Journal,"Korea University, TU Berlin",South Korea,,,Classification of EEG signals,BCI,Reactive,SSVEP,Improve SOTA,Improve robustness of SSVEP BCIs for exoskeleton control in ambulatory conditions,SSVEP,-,,MOVE (BrainProducts),SSVEP,Internal Recordings,Private,"2 datasets (50x5s + 250x5s) x 7 subjects 
 5s trial into 300 x 2s trials
 (2s sliding window, 10ms shift size)",630000,175,7,8,1000,Offline,,"1) Notch filter @60Hz
 2) Band pass from 4-40 Hz",Yes,No,No,120 FFT bins from 5-35 Hz,Frequency-domain,min-max,,N/M,"1,2) CNN
@@ -1075,7 +1158,7 @@ EEG PSD Features",6,6,,N/M,N/M,,,2,N/M*,,Other,N/M,N/M,,,Grid search,Yes,"Gaussi
 on Freq features",N/M*,Intra,N/M,No,"Train: 66%
 Test: 33%","accuracy, confusion matrix, sensitivity, specificity","accuracy, confusion matrix, sensitivity, specificity",,,N/M*,"[Complicated ... read me again ...]
 SDAE > State of the art.","ANN, NB, kNN, SVMlin, SVMrbf, BSV, SDAE",DL & Trad.,Wilcoxon sign-rank test,3D scatter plots of layer activations,Analysis of activations,It is evident that the proposed method is superior to those shallow and static classifiers when the comprehensive cortical information is adopted as the network inputs.,,No,N/A,No,,Yannick Roy,TBR,TBC,,Yin2017a
-,Generative Adversarial Networks Conditioned by Brain Signals,2017,"Palazzo, Spampinato, Kavasidis, Giordano & Shah",ICCV,No,Conference,"University of Catania, University of Central Florida",Italy,9,,Generation of data,Generating images conditioned on EEG,,,New approach: generating images conditioned on EEG,Generating images using GANs conditioned by EEG representation,Visual presentation of images,Allows image generation,,BrainAmp (BrainVision),Raw EEG,Internal Recordings,Private,"6 Subjects x 50 images x 40 classes
+,Generative Adversarial Networks Conditioned by Brain Signals,2017,"Palazzo, Spampinato, Kavasidis, Giordano & Shah",ICCV,No,Conference,"University of Catania, University of Central Florida",Italy,9,,Generation of data,Generating images conditioned on EEG,,,New approach: generating images conditioned on EEG,Generating images using GANs conditioned by EEG representation,Visual presentation of images,Allows image generation,,BrainAmp (BrainProducts),Raw EEG,Internal Recordings,Private,"6 Subjects x 50 images x 40 classes
 1400s per subject (4 sessions of 350s)
 2000 images x 6 subjects = 12000 
 minus exclusions = 11,466 valid samples",11466,140,6,128,1000,,,"1) Hardware notch filter: 49-51 Hz
@@ -1177,7 +1260,7 @@ F1-score
 Accuracy","precision, sensitivity, f1-score, accuracy",,,N/M*,"[VGG-FE] Precision: 91, Sensitivity: 73, F1-S: 81, Accuracy: 83
 [VGG-FT] Precision: 93, Sensitivity: 78, F1-S: 84, Accuracy: 86","SSAE, CNN",DL,No,Sensititvity maps,Saliency map,Further improvement of the method includes better hyperparameter optimisation when generating the spectral images,,No,N/A,Yes,,Yannick Roy,TBR,TBC,,Vilamala2017
 ,Deep long short-term memory structures model temporal dependencies improving cognitive workload estimation,2017,"Hefron, Borghetti, Christensen & Kabban",Pattern Recognition Letters,No,Journal,"Air Force Institute
-Air Force Research Laboratory",USA,,,Classification of EEG signals,Monitoring,Cognitive,Mental workload,Improve State-of-the-Art: MWL classification with RNNs (LSTM).,,Multi-Attribute Task Battery (MATB) environment,,,N/M,"PSD
+Air Force Research Laboratory",USA,9,,Classification of EEG signals,Monitoring,Cognitive,Mental workload,Improve State-of-the-Art: MWL classification with RNNs (LSTM).,,Multi-Attribute Task Battery (MATB) environment,Using deep RNNs to account for temporal dependence considerably improves day-to-day feature stationarity,,N/M,"PSD
 (Raw EEG)",Internal Recordings,Private,"6 of 8 subjects x 5 sessions x 6 of 9 trials x 5 min
  This process yielded 380 features for each second and approximately 9000 observations per individual for the five day period.
 (10s slidding windows, 9s overlap)",54000,900,6,19,256,,,The power spectral density was determined for 30 points spread out over a logspace from 3 Hz to 55 Hz by extracting power from complex Morlet wavelets [9] . Each wavelet was 2 s in length,Yes,N/M,N/M,"Mean, Variance, Skewness, Kurtosis of PSD (delta (1–4), theta (4–8), alpha (8–14), beta (15–30), and gamma (30–55)) + all possible combinations of M, V, S, K.",Frequency-domain,,,"Keras, Theano",LSTM,RNN,N/M*,,Yes,"600 x 30 x F
@@ -1185,7 +1268,7 @@ Air Force Research Laboratory",USA,,,Classification of EEG signals,Monitoring,Co
 (F varies between 90 and 380 features)","2 LSTM Layers
 (50 and 10 units",2,,Dropout,Yes,,,"1
 (low or high WL)",N/M*,,Standard,"Mini-batch gradient descent (600 obs. per batch)
-Adam, Dropout 20%",Adam,,,Random search,Yes,No,Binary Cross-Entropy,Intra,4-Fold CV,k-fold,"Train: 3 days
+Adam, Dropout 20%",Adam,,600,Random search,Yes,No,Binary Cross-Entropy,Intra,4-Fold CV,k-fold,"Train: 3 days
 Valid: 1 day
 Test: 1 day",Accuracy,accuracy,,,N/M*,"93% (using all measures: M/V/S/K)
  ","linear SVM (SVM-L), Radial Basis Function (RBF) SVM (SVM-R), feedforward ANN (ANN), deeply stacked simple RNN (RNN-D), single LSTM (LSTM-S), and deeply stacked LSTM (LSTM-D)",DL & Trad.,"ANOVA, Tukey HSD",No,No,"There is an abundance of future work to be pursued in this area. Due to time constraints and computational complexity, only a select number of deep architectures were examined during this re- search. A thorough evaluation of different deep RNN architectures to include variations in the depth of hidden layer recurrent con- nections, stacking of different sized LSTM layers, and interleaving fully-connected feedforward layers between sequence-to-sequence recurrent layers may yield additional improvement.",,No,N/A,No,,Yannick Roy,TBR,TBC,,Hefron2017
@@ -1201,7 +1284,8 @@ FB-CSP
 
 (CNN is better)",Traditional pipeline,"Permutation test on individual decoding results
 Wilcoxon signed-rank tests",Correlation of changes in ConvNet predictions with perturbation changes in 1) input spectral amplitudes and 2) time domain signals to obtain information about what the deep ConvNets learned from the data,Input-perturbation network-prediction correlation maps,"""Among other recent advances in the field of deep learning research, automatic hyperparameter optimization and architecture search, including recurrent and residual network architectures, data augmentation, using 3-D convolutions, or increasing the amount of training data all have the potential to further increase ConvNet performance.""",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Behncke2017
-,Deep learning with convolutional neural networks for EEG decoding and visualization,2017,"Schirrmeister, Springenberg, Fiederer, Glasstetter, Eggensperger, Tangermann, Hutter, Burgard, Ball",Human Brain Mapping,Yes,Journal,University of Freiburg,Germany,30,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,Find out best CNN architecture for EEG decoding,Motor imagery/execution,Can learn from raw data,,N/M,None,"BCI Competition IV - IIa;
+,Deep learning with convolutional neural networks for EEG decoding and visualization,2017,"Schirrmeister, Springenberg, Fiederer, Glasstetter, Eggensperger, Tangermann, Hutter, Burgard, Ball",Human Brain Mapping,Yes,Journal,University of Freiburg,Germany,30,,Classification of EEG signals,BCI,Active,Motor imagery,"Improve SOTA
+Feature visualization/interpretability",Find out best CNN architecture for EEG decoding,Motor imagery/execution,Can learn from raw data,,N/M,None,"BCI Competition IV - IIa;
 Internal Recordings;
 BCI Competition IV - IIb;
 Mixed Imagery Dataset",Both,"DS #1 - BCI Comp IV - IIa: 9 * 2 * 288 = 5184 x 4s
@@ -1231,8 +1315,8 @@ DS #4 - Mixed Imagery Dataset: 4009 trials / 37830 w
 4) ResNet","1) Layer 1: temporal filtering, Layer 2: spatial filtering, with no non-linearity in-between
 2) Embedding FBCSP in a ConvNet
 3) Combining 1 and 2
-4) 2 layers like in 1)",Yes,,"1) 2
-2) 5
+4) 2 layers like in 1)",Yes,,"1) 5
+2) 2
 3) max(2, 5) + 2 = 7
 4) 31",31,"1) ELU
 2) Square, log
@@ -1274,34 +1358,6 @@ Horlings et al., 2008 (SVM): 37/32%
 Jenke et al., 2014 (...): 45%
 Yin et al., 2017 (SAE, Ensemble): 84/83%
 Atkinson et al., 2016 (...): 73/73%",DL & Trad.,ANOVA,No,No,"Comparatively, the proposed method performs better than existing emotion recognition methods. The proposed feature selection method OF obtained the best emotion recognition rates of 76.6% for Voting ensembles method. Based on our results, we conclude that optimal feature selection is a good choice for enhancing the performance of EEG-based emotion recognition.","To further improve emotion recognition performance, we need to explore additional feature combinations with more emotional classes in the arousal–valence domain.",No,N/A,No,,Yannick Roy,TBR,TBC,,Mehmood2017
-,Converting Your Thoughts to Texts: Enabling Brain Typing via Deep Feature Learning of EEG Signals,2017,"Zhang, Yao, Sheng, Kanhere, Gu, Zhang",Arxiv,Yes,Preprint,"University of New South Wales
-Macquarie University
-RMIT University",Australia,10,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,Joint CNN & LSTM + AE for Motor Imagery (5 classes),"Motor Imagery (5 classes)
-(see eegmmidb dataset)","EEG processing is time-consuming and depend on human expertise.
-SOTA models achieve 70-80% which is not enough.
-",,"N/M, EPOC (Emotiv)",Motor Imagery,"eegmmidb;
-Internal Recordings",Public,"1) eegmmidb: 28,000 samples x 10 subjects
-(28000 points @ 160Hz = 175s/subject)
-2) Internal (Emotiv): 34,560 samples x 7 subjects
-(28000 points @ 128Hz = 270s/subject)
-(window length = 1 point)","28000;
-34560","29.2;
-31.5","10;
-7","64;
-14","160;
-128",Offline and Online,,N/M,N/M,No,No,"Raw EEG
-(None)",Raw EEG,N/M,,N/M,"CNN + LSTM + linear AE
-+ XGB (classification)",Other,"CNN & LSTM are parallel, then combined for the AE then XGB classifier",CNN for Spatial and RNN for Sequential info,Yes,"1 x 64
-(sample x channels)","LSTM: 6 layers
-CNN: 2 Conv + 2 FC",6,"ReLU, Sigmoid, tanh",L2,Yes,5,"eegmmidb: eye closed, left hand, right hand, both hands, both feet
-emotiv: up arrow, down arrow, left arrow, right arrow, eye closed",5,N/M,Standard optimization,Standard,"LSTM & CNN: Adam
-AE: RMSProp",Adam,Full table on optim params,7000,"N/M
-(they have tried many config, manually I suppose)",N/M,N/M,"LSTM + CNN: Cross-Entropy
-AE: MSE",Intra,No,No,"Train: 75%
-Test: 25%","accuracy, precision, recall, F1 score, ROC curve, and ROC AUC","accuracy, precision, recall, f1-score, ROC, ROC AUC",N/M,,2000 s,"DS #1 - Accuracy: 0.955
-DS #2 - Accuracy: 0.9427","Baselines: KNN, SVM, RF, LDA, AdaBoost, RNN, CNN
-Externals: Almoari, Sun, Mohammad, Major, Shenoy, Tonic, Rashid, Ward, Sita, Pinheiro.
-(all different papers, see Table IV)",DL & Trad.,No,No,No,"The classification accuracy of the public dataset (eegmmidb) is consistently higher than the local real-world dataset (emotiv). Our future work will focus on improving the accuracy in the person-independent scenario, wherein some subjects participate in the training and the rest of subjects involve in the testing.",N/M,Yes,GitHub,No,,Yannick Roy,Hubert Banville,TBC,,Zhang2017g
 ,Emotion Recognition based on EEG using LSTM Recurrent Neural Network,2017,"Alhagry, Fahmy & El-Khoribi",International Journal of Advanced Computer Science and Applications (IJACSA),No,Journal,Cairo University,Egypt,,,Classification of EEG signals,Monitoring,Affective,Emotion,"Improve SOTA: Using LSTM on raw EEG to classify emotions (arousal, valence, liking)",,"Emotion Classification on DEAP 
 (Like or Dislike video)",,,N/M,Raw EEG,DEAP,Public,"DEAP: 32 subjects x 40 x 1min
 12x 5s windows per video
@@ -1447,49 +1503,6 @@ MLP
 CNN
 RNN
 RCNN",DL & Trad.,No,No,No,"On 1000 held-out testing patients, the best performing algorithm achieved an expert-algorithm level of inter-rater agreement of 85.76% with Kappa value 79.46%, exceeding previously reported levels of expert-expert inter-rater agreement for sleep EEG staging.",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Biswal2017
-,MindID: Person Identification from Brain Waves through Attention-based Recurrent Neural Network,2017,"Zhang, Yao, Kanhere, Liu, Gu & Chen",Arxiv,Yes,Preprint,"University of New South Wales, Australia
-Tsinghua University
-RMIT University, Australia",Australia,20,,Classification of EEG signals,Personal trait/attribute,Person identification,,Improve SOTA: EEG for Person Identification,Use RNN on EEG for Person Indentification,"3 Different Datasets.
-(they claim that Delta has the most personal info)",The DL motivation is not clear. They want to improve SOTA.,,"EPOC (Emotiv), N/M",Delta Band*,"Internal Recordings;
-eegmmidb",Both,"DS1 (EID-M): 21,000 Samples/Subject. Total: 168,000
-DS2 (EID-S): 7,000 Samples/Subject. Total: 56,000 
-DS3 (EEG-S):  8 subjects x 7,000 samples
-(window length = 1 point)","168000;
-56000;
-56000","21.9;
-7.3;
-5.8","8;
-8;
-8","14;
-14;
-64","128;
-128;
-160",,,"1) Remove DC Offset (substract)
-2) Band-Pass Filter: 0.5 - 4Hz  (using only Delta)",Yes,No,No,Delta Band,Frequency-domain,z-score,,Matlab,"Attention-based Encoder-Decoder RNN
-+ XGB Classifier",RNN,"Encoder, Decoder, Attention Module
-+ XGB Classifier",N/M,Yes,"1x14 
-Delta Bands / Channel
-
-(not clear about the dimensionality)","Encoder: 
-3 FC (164) + 1 LSTM (164)
-
-Decoder:
-1 FC (164)",4,N/M,L2,Yes,,,"8
-
-One-Hot Label
-(ID - 8 Subjects)",N/M,N/M,N/M,Adam,Adam,LR: ,"21,000 samples
-
-(?)",N/M,N/M,N/M,Cross-Entropy,Inter,No,No,"Train / Test
-DS1: 147,000 / 21,000
-DS2: 49,000 / 7,000
-DS3: 49,000 / 7,000","Precision
-Recall
-F1-Score","precision, recall, f1-score","Nvidia Titan X Pascal
-768G memory 
-145 TB PCIe SSD",,N/M,"Precision | Recall | F1-Score
-DS #1: 0.982 | 0.982 | 0.982
-DS #2: 0.988 | 0.988 | 0.988
-DS #3: 0.999 | 0.999 | 0.999","SVM, RF, KNN, AdaBoost, LDA, XGB, RNN",DL & Trad.,No,No,No,"Moreover, the pre-trained model should be updated for a period of time since the user’s EEG data is gradually changed with the environmental factors such as age, mental state, and living style. One of our future work is to develop an online learning system which is enabled to automatically update the training dataset based on the testing data which is collected during the operating period.","Limited by the local experimental conditions, our study only gathered EEG data from 8 subjects with few trials. The dataset is only divided into two categories (Multi and Single), which is not enough to explore the change trend of the identification accuracy with the increase of data trials.",Yes,GDrive,Yes,,Yannick Roy,TBR,TBC,,Zhang2017e
 ,DeepKey: An EEG and Gait Based Dual-Authentication System,2017,"Zhang, Yao, Chen, Wang, Sheng & Gu",Arxiv,Yes,Preprint,"University of New SouthWales
 Macquarie University
 RMIT University",Australia,20,,Classification of EEG signals,Personal trait/attribute,Person identification,,Improve SOTA: EEG for Person Identification,Use AR+RNN+SVM on EEG+Gait for Person Identification,"Motor Imagery
@@ -1506,8 +1519,8 @@ One-Hot Label
 Test: 12.5%",Accuracy,accuracy,N/M,,N/M,"Highest Accuracy: 0.9841
 
 Gait: 0.999
-Combined: 0.983 ","[45]: PSD + cross-correlation values, [8]: Customized Threshold, [17]: Low-pass filter+wavelets+ ANN, [3]: Bandpass FIR filter +ECOC + SVM, [44]: IAF + delta band EEG + Cross-correlation & mahalobonis, [22]: CSP +LDA, [23]: AR + SVM",Traditional pipeline,No,No,No,"The Gait Identification Model adopts a 7-layer deep learning model to process gait data and classify subjects’ IDs, achieving an accuracy of 0.999. The EEG Identification Model combines three components (auto-regressive coefficients, the RNN structure, and an SVM classifier) and achieves the accuracy of 0.9841 on a public dataset. Overall, the DeepKey authentication system obtains a FAR of 0 and a FRR of 0.019.",N/M,Yes,GitHub,No,,Yannick Roy,TBR,TBC,,Zhang2017c
-,Multi-Person Brain Activity Recognition via Comprehensive EEG Signal Analysis,2017,"Zhang, Yao, Zhang, Wang, Sheng, Gu",Arxiv,Yes,Preprint,"University of New South Wales, Australia
+Combined: 0.983 ","[45]: PSD + cross-correlation values, [8]: Customized Threshold, [17]: Low-pass filter+wavelets+ ANN, [3]: Bandpass FIR filter +ECOC + SVM, [44]: IAF + delta band EEG + Cross-correlation & mahalobonis, [22]: CSP +LDA, [23]: AR + SVM",Traditional pipeline,No,No,No,"The Gait Identification Model adopts a 7-layer deep learning model to process gait data and classify subjects’ IDs, achieving an accuracy of 0.999. The EEG Identification Model combines three components (auto-regressive coefficients, the RNN structure, and an SVM classifier) and achieves the accuracy of 0.9841 on a public dataset. Overall, the DeepKey authentication system obtains a FAR of 0 and a FRR of 0.019.",N/M,Yes,GitHub,No,,Yannick Roy,TBR,Yes,,Zhang2017c
+,Multi-Person Brain Activity Recognition via Comprehensive EEG Signal Analysis,2017,"Zhang, Yao, Zhang, Wang, Sheng, Gu","EAI International Conference on Mobile and Ubiquitous Systems: Computing, Networking and Services",Yes,Conference,"University of New South Wales, Australia
 Singapore Management University
 Macquarie University, Australia
 RMIT University, Australia",Australia,10,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,Use AE + XGB for BCI-MI 5 classes (eegmmidb + internal recordings),"Motor Imagery
@@ -1533,7 +1546,7 @@ Recall: 0.781
 F1 score: 0.7883
 AUC: 0.9456","SVM, RNN, LDA, RNN+SVM, CNN, DT, AdaBoost, RF
 
-XGBoost, PCA+XGBoost, PCA+AE+XGBoost, EIG+AE+XGBoost, EIG+PCA+XGBoost, DWT+XGBoost, SAE+XGBoost, AE+XGBoost",DL & Trad.,No,No,No,"As part of our future work, we will build multi-view model of multi-class EEG signals to improve the classification performance. In particular, we plan to establish multiple models with each single model dealing with a single class. Following this philosophy, the correlation between test sample and each model can be calculated in the test stage and the sample can be classified to the class with minimum correlation coefficient.",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Zhang2017a
+XGBoost, PCA+XGBoost, PCA+AE+XGBoost, EIG+AE+XGBoost, EIG+PCA+XGBoost, DWT+XGBoost, SAE+XGBoost, AE+XGBoost",DL & Trad.,No,No,No,"As part of our future work, we will build multi-view model of multi-class EEG signals to improve the classification performance. In particular, we plan to establish multiple models with each single model dealing with a single class. Following this philosophy, the correlation between test sample and each model can be calculated in the test stage and the sample can be classified to the class with minimum correlation coefficient.",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Zhang2017a
 ,Neurology-as-a-Service for the Developing World,2017,"Dharamsi, Das, Pedapati, Bramble, Muthusamy, Samulowitz, Varshney, Rajamanickam, Thomas & Dauwels",Arxiv,Yes,Preprint,"IBM Research AI
 Nanyang Technological University",USA,5,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA: Use DL on the Cloud,Use DL on the Cloud for developing countries. Starting with a BCI Tasks (MI),"MI: Feet and Hands, real / imagined.",To develop neurology-as-a-service to learn features automatically from the data. This would help developing countries,,N/M,Motor Imagery,eegmmidb,Public,"eegmidb: 103 out of 109 subjects, 12 out of 14 tasks
 Segments 0.8 sec and sliding window of 0.05 sec
@@ -1574,22 +1587,24 @@ DUSZ   -   Sensitivity: 33.71%   |   Specificity: 70.72%","HMM + Gaussian mixtur
 They compared 7 Optimizer Methods. (e.g. Adam, SGD, etc.)
 They compared 6 Activation Functions. (e.g. Tanh, Sigmoid, etc.)
 CNN + LSTM, Adam, ELU is the best combinaison",DL & Trad.,No,No,No,This is a significant finding because the Duke corpus was collected with different instrumentation and at different hospitals. Our work shows that deep learning architectures that integrate spatial and temporal contexts are critical to achieving state of the art performance and will enable a new generation of clinically-acceptable technology.,Access to labeled data and $ to label the data and make it public.,No,N/A,Yes,,Yannick Roy,TBR,TBC,,Golmohammadi2017a
-,Neonatal Seizure Detection using Convolutional Neural Networks,2017,"O'Shea, Lightbody, Boylan, Temko",IEEE 27th International Workshop on Machine Learning for Signal Processing,Yes,Conference,"Irish Centre for Fetal and Neonatal Translational Research, University College Cork",Ireland,6,,Classification of EEG signals,Clinical,Epilepsy,Detection,New Approach,CNN on (preprocessed) raw EEG for epilepsy classification,"Ongoing EEG recording, with and without seizures.","CNN works well on audio signal, why not on EEG.",,N/M,Seizure,Internal Recordings,Private,"835 hours with 1389 seizures from 18 subjects
+,Neonatal Seizure Detection using Convolutional Neural Networks,2017,"O'Shea, Lightbody, Boylan, Temko",IEEE 27th International Workshop on Machine Learning for Signal Processing,Yes,Conference,"Irish Centre for Fetal and Neonatal Translational Research, University College Cork",Ireland,6,,Classification of EEG signals,Clinical,Epilepsy,Detection,New Approach,CNN on (preprocessed) raw EEG for neonatal seizure detection,"Ongoing EEG recording, with and without seizures.","CNN works well on audio signal, why not on EEG.",,N/M,Seizure,Internal Recordings,Private,"835 hours with 1389 seizures from 18 subjects
 splitted into 8s, 50% overlap. 
 (not clear 50% versus 7s overlap / 1s shift)
 (8s window, 7s overlap)",3006000,50100,18,8,256,,,"Band-pass filter: 0.5 - 12.8Hz
 Down sampled: 32Hz
-EEG Split into 8s windows (50% overlap)",Yes,N/M,N/M,Raw EEG,Raw EEG,N/A,,Keras,1D - CNN,CNN,"Conv - Batch Norm. - Pooling
+EEG Split into 8s windows (12.5% overlap)",Yes,No,No,"Raw EEG
+8 sec windows (1 sec shift)",Raw EEG,N/A,,Keras,1D - CNN,CNN,"Conv - Batch Norm. - Pooling
 Output Layer: GAP (not dense)","""...1D CNNs wide convolutional filters (1-4s, 32-128 samples) significantly improved the performance"". Sample size filters were used. In contrast to larger filter lengths allow the learning the various filters in a hierarchical manner [21].",Yes,"256x1
-(1s x 1 channel)",6,6,RELU,Batch Norm,Yes,,,"2
-(Seizure vs Non-seizure)","16,930",N/M,N/M,SGD,SGD,"LR: 0.003
+(8s x 1 channel)",6,6,"RELU
+Softmax",Batch Norm,Yes,,,"2
+(Seizure vs Non-seizure)","16,930","The network was trained for 100 epochs, after each epoch the validation AUC was calculated.",Standard,SGD,SGD,"LR: 0.003
 LR -= 10% every 
 20 iterations
 Nesterov Momentum: 0.9",2048,N/M,N/M,"Sliding Window
 (Shifted by 1s, 7/8 overlap)",Categorical Cross-Entropy,Inter,Leave-One-Subject-Out,Leave-One-Subject-Out,"Train: 17 subjects
 Test: 1 subject",ROC AUC,ROC AUC,N/M,,N/M,"AUC: 97.1%
 AUC90: 82.9%",SVM,Traditional pipeline,No,No,No,"""We have also tried max pooling, which led to slightly inferior results in our experiments.""
-""Initially, the EEG was converted to time-frequency images (spectrograms) and 2D CNNs were utilized, adopted from the area of image processing [17] – this architecture proved unsuccessful in the seizure detection task.""",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Oshea2017
+""Initially, the EEG was converted to time-frequency images (spectrograms) and 2D CNNs were utilized, adopted from the area of image processing [17] – this architecture proved unsuccessful in the seizure detection task.""",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,OShea2017
 ,Improving classification accuracy of feedforward neural networks for spiking neuromorphic chips,2017,"Yepes, Tang & Mashford",International Joint Conference on Artificial Intelligence,Yes,Conference,"IBM Research, VIC, Australia",Australia,7,,Improvement of processing tools,Hardware optimization,Neuromorphic chips,,New Approach: Running DL on Neuromorphic Chips,"Compare constrained network for a neuromorphic chip on 2 datasets, vs unconstrained version of NN ","MNIST & EEG Data from Nurse et al., 2015 (BCI-MI)",Implement DL/DNNs on a chip.,,N/M,Motor Imagery,Nurse et al. (2015),Public,"From [Nurse et al., 2015]: 1 subject ~ 30 min
 480/468 examples for training, 66/95 for testing
 (window length N/M)",1109,30,1,-1,1000,,,N/M,N/M,No,No,N/M,N/M,"[0, 1]",,Matlab,"[Esser et al., 2015]",N/M,"[Esser et al., 2015]","[Esser et al., 2015]",No,N/M,"Small Network: 3
@@ -1632,12 +1647,12 @@ And vice-versa.",Square Euclidean Distance,Inter,No,No,"[Compress] Train: 50%
 2) [Classification] Accuracy: 78.1%","Discrete Wavelet Transform (DWT) [26]
 Compressed Sensing (CS) [27] (distortion: 22% | 17.21%)
 2D compression approach which is based on SPIHT and FastICA [28]",Traditional pipeline,No,No,No,"1) Compression: Distortion
-2) Classification",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,BenSaid2017a
+2) Classification",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,BenSaid2017a
 ,Deep Learning for Fatigue Estimation on the Basis of Multimodal Human-Machine Interactions,2017,"Gordienko, Stirenko, Kochura, Alienin, Novotarskiy & Gordienko",Arxiv,Yes,Preprint,National Technical University of Ukraine,Ukraine,12,,Classification of EEG signals,Monitoring,Physical,Exercise,New Approach,Multi-modal fatigue (and activity) estimation,Different activities (sports) while having different sensors,Use Multimodal Models. to combine different modalities with a NN.,,OpenBCI (OpenBCI),Multimodal,Internal Recordings,Private,"N/M
 Not much information on the EEG data",N/M,N/M,N/M,-1,N/M,,,N/M,N/M,N/M,N/M,N/M,N/M,N/M,,N/M,DNN,N/M,N/M,N/M,No,N/M,N/M,N/M,N/M,N/M,N/M,,,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,"Mean Residual Deviance (MRD) 
 Mean Absolute Error (MAE)",N/M,N/M,No,N/M,"Mean Residual Deviance (MRD) 
 Mean Absolute Error (MAE)","mean residual deviance, mean absolute error",N/M,,N/M,"See Paper
-(not really relevant / meaningful for this paper)",N/M,None,No,No,No,The main achievement is the multimodal data measured can be used as a training dataset for measuring and recognizing the intensity and physical load on the person by means of the machine learning approaches.,N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Gordienko2017
+(not really relevant / meaningful for this paper)",N/M,None,No,No,No,The main achievement is the multimodal data measured can be used as a training dataset for measuring and recognizing the intensity and physical load on the person by means of the machine learning approaches.,N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Gordienko2017
 ,Towards Deep Modeling of Music Semantics using EEG Regularizers,2017,"Raposo, Matos, Ribeiro, Tang & Yu",Arxiv,Yes,Preprint,Universidade de Lisboa,Portugal,5,,Classification of EEG signals,Music semantics,,,Improve SOTA on music semantics,Modeling of music audio semantics,Listening to music,Previous success of CNNs in music audio modeling,,OpenBCI (OpenBCI),None,Internal Recordings,Private,"60 music segments + 2 noise + 2 songs
 x 18 subjects
 music duration = average of 15.13s
@@ -1734,7 +1749,7 @@ Accuracy, precision, recall, AUC (test): 0.937, 0.9403, 0.9395, 0.9869
 Accuracy, precision, recall, AUC (test): 0.8858, 0.8775. 0.87475, 0.975","No Swarm decomposition or clustering
 Just clustering
 Just Swarm decomposition",Traditional pipeline,No,No,No,"Swarm Decomposition was an important step in getting high accuracy.
-Withouth k-means clustering the network was overfitting.",Larger nets take more resources,No,N/A,No,,Hubert Banville,TBR,TBC,,Baltatzis2017
+Withouth k-means clustering the network was overfitting.",Larger nets take more resources,No,N/A,No,,Hubert Banville,TBR,Yes,,Baltatzis2017
 ,Classification and discrimination of focal and non-focal EEG signals based on deep neural network,2017,"Taqi, Al-Azzo, Mariofanna & Al-Saadi",International Conference on Current Research in Computer Science and Information Technology (ICCIT),No,Conference,"University of Arkansas at Little Rock
 Asiacell Company for Telecommunication, Iraq",USA,7,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,"Detecting Focal vs Non-Focal Seizures with existing Deep Nets: AlexNet, LeNet, GoogleNet",Seizures (Bern-Barcelona Dataset),"deep neural network (DNN) is a high-res model that get sophisticated hierarchical features. (e.g. AlexNet, LeNet, GoogleNet)",,N/M,Seizures,Bern-Barcelona EEG DB,Public,"Bern-Barcelona EEG DB (600 out of 3750)
 600 signal pairs: 300/300 x 40s
@@ -1756,7 +1771,7 @@ LeNet is the best compromise","Anindya et al., 2016 : 89.4%
 R. Sharma et al.,2015 : 84%
 (DWT domain, KNN, PNN, fuzzy and LS-SVM)
 R. Sharma et al.,2014 : 85%
-(EMD domain, LS-SVM classifier)",Traditional pipeline,No,No,No,"As a future task, we are looking forward to investigating approaches for EEG signals classification of other diseases, drunk people, or ECG signals classification",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Taqi2017
+(EMD domain, LS-SVM classifier)",Traditional pipeline,No,No,No,"As a future task, we are looking forward to investigating approaches for EEG signals classification of other diseases, drunk people, or ECG signals classification",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Taqi2017
 ,Deep Transfer Learning for Cross-subject and Cross-experiment Prediction of Image Rapid Serial Visual Presentation Events from EEG Data,2017,"Hajinoroozi, Mao & Lin",International Conference on Augmented Cognition,No,Conference,"University of Texas at San Antonio
 National Sun Yat-sen University, Tawain",USA,11,,Classification of EEG signals,BCI,Reactive,RSVP,Novel Approach: Transfer Learning,"Transfer learning on RSVP task with CNN on Raw EEG:
 (1) Cross-Suject 
@@ -1791,7 +1806,7 @@ CNN Layers: Mostly Subj. Specific
 All Layers: General Info",Analysis of performance with transferred layers,This study represents the first comprehensive investigation of CNN transferability for EEG based classification and our results provide important information that will guide the design of more sophisticated deep transfer learning algorithms for EEG based classifications in BCI applications.,N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Hajinoroozi2017
 ,Transformation of EEG Signal for Emotion Analysis and Dataset Construction for DNN Learning,2017,"Kwon, Nan, & Shin Dug",International Conference on Ubiquitous Information Technologies and Applications,No,Conference,Yonsei University,South Korea,6,,Classification of EEG signals,Monitoring,Affective,Emotion,Improve SOTA,Use DNN on Frequency features for emotion classification,Watching Videos (not much details on the videos),DNN shows strong modeling ability for more complex cases,,EPOC (Emotiv),"Emotions
 (PSD)",Internal Recordings,Private,Not clear...,N/M,N/M,N/M,14,128,Offline,,"1) Remove DC offset
-2) High-pass filter: 4Hz",Yes,No,No,Frequency Bands,Frequency-domain,N/M,,N/M,DNN,N/M,N/M,N/M,Yes,"9
+2) High-pass filter: 4Hz",Yes,No,No,Frequency Bands,Frequency-domain,N/M,,N/M,DNN,FC,N/M,N/M,Yes,"9
 (not sure why 9...)","2
 (100 and 50 nodes)",2,N/M,N/M,N/M,2,"Happy, Neutral",2,N/M,N/M,N/M,N/M,N/M,N/M,396,N/M,N/M,N/M,N/M,N/M,N/M,No,N/M,Accuracy,accuracy,N/M,,N/M,"Stacking each row: 92%  (after ~3000 epochs)
 Batch size 396: 86.5% (after 50000 epochs)",None,None,No,No,No,"We have found that the placement of the input data is as important as the preprocessing of the raw data. In our emotion classification experiment, we showed superior performances when we learn by stacking one row at a time than learning happy data matrix and neutral data matrix sequentially",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Kwon2017
@@ -1813,7 +1828,7 @@ SF+AdaBoost: ~82%",Traditional pipeline,,No,No,"In comparison with several recen
 ,Deep Models for Engagement Assessment With Scarce Label Information,2017,"Li, Zhang, Wang, Xu, Schnell, Wen, McKenzie & Li",IEEE Transaction on Human-Machine Systems,Yes,Journal,"Old Dominion University, Norfolk, VA
 Intelligent Automation, Inc., Rockville, MD
 University of Iowa, Iowa
-Georgia Institute of Technology, Atlanta, GA",USA,8,,Classification of EEG signals,Monitoring,Cognitive,Engagement,Improve SOTA,Use Deep Classifier & Deep Autoencoder on a Flight Simulator task for engagement classification,Flight Simulator (4h flight) with specific and controlled events,Unsupervised and semisupervised algorithms can utilize unlabeled data for training and thus improve the generalization capability of the model [15]–[17].,,ActiCap (BrainVision),"Engagement
+Georgia Institute of Technology, Atlanta, GA",USA,8,,Classification of EEG signals,Monitoring,Cognitive,Engagement,Improve SOTA,Use Deep Classifier & Deep Autoencoder on a Flight Simulator task for engagement classification,Flight Simulator (4h flight) with specific and controlled events,Unsupervised and semisupervised algorithms can utilize unlabeled data for training and thus improve the generalization capability of the model [15]–[17].,,(BrainProducts),"Engagement
 (via PSD)",Internal Recordings,Private,"15 subjects x 20min (10min engaged/disengaged) 
 (4h recorded, but labeled/used 20min)
 (used 3s windows, 2s overlap)",18000,300,15,8,200,,,"1) Visual Inspection & Artifact Removal
@@ -1832,7 +1847,7 @@ Shen et al., 2008 (SVM)
 Trejo et al., 2007
 Lan et al., 2003",Traditional pipeline,No,No,No,"This paper has studied engagement assessment of pilots under com- plex tasks with limited labeled EEG data. We developed deep learning models that were able to learn valuable high-level features by taking advantage of both unlabeled and labeled data. Two deep models (a deep classifier and a deep autoencoder) have been studied, and both models outperformed two traditional methods when label information was limited for training.","1) We did not study the physiological significance of the learned high-level representations.
 2) We did not address the in-dividual variations among subjects
-(We have developed systematic methods to handle the issue, and a separate paper is under preparation)",No,N/A,Yes,,Yannick Roy,TBR,TBC,,Li2017
+(We have developed systematic methods to handle the issue, and a separate paper is under preparation)",No,N/A,Yes,,Yannick Roy,TBR,Yes,,Li2017
 ,Deep Learning Representation from Electroencephalography of Early-Stage Creutzfeldt-Jakob Disease and Features for Differentiation from Rapidly Progressive Dementia,2017,"Morabito, Campolo, Mammone, Versaci, Franceschetti, Tagliavini, Sofia, Fatuzzo, Gambardella, Labate, Mumoli, Tripodi, Gasparini, Cianci, Sueri, Ferlazzo & Aguglia",International Journal of Neural Systems,No,Journal,"University Mediterranea of Reggio Calabria, Italy
 Neurologic Institute “Carlo Besta”, Milan, Italy
 Institute of Neurology, University of Catania, Italy
@@ -1867,10 +1882,10 @@ CJD versus HC:        76  |   74   |  72",Traditional pipeline,No,No,No,"The uns
 2) Small dataset",No,N/A,Yes,,Yannick Roy,TBR,TBC,,Morabito2017
 ,SGDR: Stochastic Gradient Descent with Warm Restarts,2017,Loshchilov & Hutter,International Conference on Learning Representations,Yes,Conference,University of Freiburg,Germany,16,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,Use SGD with warm restarts to for 2-classes motor imagery classification,Motor imagery,Automatic feature learning,,N/M,None,N/M,Public,"Shirrmeister et al., 2017 dataset
 14 subjects x 1000 trials (MI-BCI) x 4s",14000,933.33,14,-1,N/M,,,N/M,N/M,N/M,N/M,Raw EEG,Raw EEG,N/M,,Lasagne,CNN,CNN,N/M,Used same architecture as Schirrmeister et al. ,No,N/M,N/M,N/M,N/M,N/M,N/M,,,N/M,N/M,"When 30 epochs were considered, lr is dropped by a factor of 10 at epoch indexes 10, 15 and 20",Standard,SGD with warm restarts,SGD,lr=0.025 and 0.05,N/M,N/M,N/M,N/M,N/M,Inter,"No
-(they claim that their method should not need a validation set)",No,N/M,Accuracy,accuracy,N/M,,N/M,Improvement of 1-2% and 2-3%,Schirrmeister et al.,DL,No,No,No,SGDR provides a similar final performance w.r.t a budget proportional schedule while having a better anytime performance without defining the total budget of epochs beforehand,N/M,Yes,GitHub,No,,Isabela Albuquerque,TBR,TBC,,Loshchilov2017
+(they claim that their method should not need a validation set)",No,N/M,Accuracy,accuracy,N/M,,N/M,Improvement of 1-2% and 2-3%,Schirrmeister et al.,DL,No,No,No,SGDR provides a similar final performance w.r.t a budget proportional schedule while having a better anytime performance without defining the total budget of epochs beforehand,N/M,Yes,GitHub,No,,Isabela Albuquerque,TBR,Yes,,Loshchilov2017
 ,Deep Learning Human Mind for Automated Visual Classification,2017,"Spampinato, Palazzo, Kavasidis, Giordano, Souly & Shah",IEEE Conference on Computer Vision and Pattern Recognition,Yes,Conference,"PeRCeiVe Lab Viale Andrea Doria, Italy
 University of Central Florida",Italy,9,,Classification of EEG signals,BCI,Reactive,RSVP,Novel Approach - Vision,"Identify Image Class from brain responses.
-Using DL on EEG while watching images from ImageNet",Looking at Images from ImageNet while recording EEG,"Deep learning performs well for computer vision, but could we use the human brain instead, leveraging DL on EEG + Images",,ActiCap (BrainVision),Raw EEG,Internal Recordings,Public,"6 subjects x 1,400 seconds
+Using DL on EEG while watching images from ImageNet",Looking at Images from ImageNet while recording EEG,"Deep learning performs well for computer vision, but could we use the human brain instead, leveraging DL on EEG + Images",,(BrainProducts),Raw EEG,Internal Recordings,Public,"6 subjects x 1,400 seconds
 12,000 EEG sequences
 (used 440ms windows)",12000,88,6,128,1000,Offline,,"1) Notch filter: 49 - 51 Hz
 2) Band-pass (2nd Order Butterworth): 14 - 71 Hz",Yes,No,No,"None
@@ -1902,13 +1917,13 @@ FC: 1",3,N/M,"Dropout
 F1-Measure","accuracy, f1-score",N/M,,N/M,"                                       Accuracy  |  F1-measure
 Time domain:           68.6%   |   54% 
 Frequency Domain:    68.9%   |   57.5%","Tsinalis et al., 2016 : 74%
-Zhang et al., 2015 : 91%",DL,No,No,No,68.9% obtained in patient-cross-validation is considered very promising taking into account that it uses a single EEG channel with no more information,N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Manzano2017a
+Zhang et al., 2015 : 91%",DL,No,No,No,68.9% obtained in patient-cross-validation is considered very promising taking into account that it uses a single EEG channel with no more information,N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Manzano2017a
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,Using Deep Neural Networks for Natural Saccade Classification from Electroencephalograms,2016,Drouin-Picaro & Falk,IEEE EMBS International Student Conference,No,Conference,"INRS-EMT, Université du Québec",Canada,4,,Improvement of processing tools,Signal cleaning,Artifact handling,,Improve state-of-the-art,Using CNN for saccade classification from EEG,Watching fragment of movies and observing images,Deep neural networks can learn more complex latent representation of the data,,N/M,Raw EEG,MAHNOB HCI-Tagging,Public,"MAHNOB HCI-Tagging
 3000 samples x 4 classes x 300ms",12000,60,N/M,2,256,Offline,,"1) Band-pass filter: 0.1-36Hz
 2) Zero padding to produce samples with uniform length
-3) Concatenate the two channels",Yes,No,No,Raw EEG (100ms before onset and 200ms after saccade offset),Raw EEG,N/M,,Pylearn2,"1) MLP
-2) CNN",MLP,N/M,N/M,No,N/M,"CNN: 2
+3) Concatenate the two channels",Yes,No,No,Raw EEG (100ms before onset and 200ms after saccade offset),Raw EEG,N/M,,Pylearn2,"1) FC
+2) CNN",FC,N/M,N/M,No,N/M,"CNN: 2
 MLP: 5",5,N/M,Dropout,Yes,4,"Left, right, up, and down",N/M,N/M,Standard optimization,Standard,N/M,N/M,[see paper],N/M,Grid search,Yes,Oversampling minority vertical saccades to balance classes,N/M,Inter,Train-Valid-Test,Train-Valid-Test,"Train: 80%
 Valid: 10%
 Test: 10% ","Accuracy, kappa coefficient","accuracy, Cohen's kappa",N/M,,N/M,"CNN: 70.94%, 0.6127
@@ -1971,7 +1986,7 @@ False Positive: 0.8/h","Patient Specific: Shoeb (2009) detector
 Across Patients: REVEAL (Wilson et al., 2004)
 REVEAL is a commercial algo",Traditional pipeline,No,Occlusion plot,Occlusion of input,"Another advantage of this architecture lies in its ability to detect where a seizure is happening in the brain. Indeed, by occluding part of the image and testing the model’s ability to predict the correct label we can define which area of the brain is responsible for the activation.
 However, our neural model turns out to be significantly more robust to missing channel as observed in Figure 6.","Amount of Data and Seizures
-(despite using the largest publci dataset)",No,N/A,Yes,,Yannick Roy,TBR,TBC,,Thodoroff2016
+(despite using the largest publci dataset)",No,N/A,Yes,,Yannick Roy,TBR,Yes,,Thodoroff2016
 ,Single-trial EEG RSVP classification using convolutional neural networks,2016,"Shamwell, Lee, Kwon, Marathe, Lawhern & Nothwang","Proc. SPIE 9836, Micro- and Nanotechnology Sensors, Systems and Applications",No,Conference,"Army Research Laboratory, USA",USA,10,,Classification of EEG signals,BCI,Reactive,RSVP,Improve state-of-the-art,Using CNN for Single-Trial RSVP from raw EEG,RSVP blocks of 5 images and the participant press a button if an image is part of a specific class,"Low SNR + High Dimensionality, Deep Learning with Large Dataset can find patterns. As opposed to pre-defined ones.",,ActiveTwo (BioSemi),"Raw EEG
 (RSVP)",Internal Recordings,Private,"18 subjects x 6 blocks x 10min
 (used 250ms windows, 234ms overlap)
@@ -2030,7 +2045,7 @@ False-positive rate
 Combined error rates","false negative rate, false positive rate, combined error rates",N/M,,N/M,"Intra-subject: SVM was the best (FPR: 31.5%, FNR:
 19.8%)
 Inter-suject: DBN (FPR:38.3%, FNR:6.2%) and LR (FPR: 27.9%, FNR: 23.3%) were the best.","Logistic regression, SVM, Random Forest",Traditional pipeline,No,No,No,"Surprisingly, the logistic regression model preferred connectivity features instead of spectral ones. ",N/M,No,N/A,No,,Isabela Albuquerque,TBR,TBC,,Bashivan2016b
-,Neural networks based EEG-Speech Models,2016,Sun & Qin,Arxiv,Yes,Preprint,Southern Illinois University Carbondale,USA,10,,Classification of EEG signals,BCI,Active,Speech decoding,Novel Approach - Speech,Classify Speech from EEG,"3 modalities (EEG, face tracking, and audio) during imagined and vocalized phonemic and single-word prompts. Looking a the monitor, participants were asked to do the phonemes as instructed. (imagined and/or spoken)",To better model the non-linearity between the brain signals and speech,,Quick-Cap (NeuroScan),Speech,KARA ONE,Public,"KARA ONE
+,Neural networks based EEG-Speech Models,2016,Sun & Qin,Arxiv,Yes,Preprint,Southern Illinois University Carbondale,USA,10,,Classification of EEG signals,BCI,Active,Speech decoding,Novel Approach - Speech,Classify Speech from EEG,"3 modalities (EEG, face tracking, and audio) during imagined and vocalized phonemic and single-word prompts. Looking at a monitor, participants were asked to do the phonemes as instructed. (imagined and/or spoken)",To better model the non-linearity between the brain signals and speech,,Quick-Cap (NeuroScan),Speech,KARA ONE,Public,"KARA ONE
 14 subjects x 132 trials x [length???]
 (20ms windows, 10ms overlap)
 not clear...",1950,N/M,14,64,N/M,,,"1) ICA for ocular artifacts
@@ -2069,7 +2084,7 @@ Night Lenght = N/M
 (Langkvist et al., 2012)",Other,N/M,,"Matlab
 Python
 Keras
-Tensorflow",DBN + LSTM,RNN,-,The main idea is to fuse generative ability on DBN to extract multi-level hierarchical features and determine the final label of class prediction using the time series discrimination capability of LSTM.,Yes,28 Features,"DBN: 2
+Tensorflow",DBN + LSTM,DBM+RNN,-,The main idea is to fuse generative ability on DBN to extract multi-level hierarchical features and determine the final label of class prediction using the time series discrimination capability of LSTM.,Yes,28 Features,"DBN: 2
 LSTM: 5",7,N/M,N/M,N/M,,,"5
 (softmax)
 (Sleep Stages)",N/M,"(Pre)Train DBN first, then LSTM",Pre-training,RMSProp,Other,Epoch 100,500,N/M,N/M,N/M,Categorical Cross-Entropy,N/M,Leave-One-Night-Out,Leave-One-Session-Out,"[DS1] Train: 4
@@ -2190,13 +2205,15 @@ Valid: 15%
 Test: 18%",Accuracy,accuracy,N/M,,N/M,"LSTM  |  GRU  |  MUT1  |  MUT2  |  MUT3
 87.98% | 88.6% | 86.54% | 88.21% | 88.82%","LSTM, GRU, MUT1, MUT2, MUT3",DL,No,No,No,"Dropout improved performance of RNNs by an average of 4 percentage point. Smoothing the predictions with moving average helped making consistent
 predictions, eliminating abrupt and incongruous prediction errors.",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,An2016
-,Decoding EEG and LFP signals using deep learning: heading TrueNorth,2016,"Nurse, Mashford, Yepes, Kiral-Kornek, Harrer & Freestone",ACM International Conference on Computing Frontiers,No,Conference,"University of Melbourne, IBM Research Australia",Australia,8,,Improvement of processing tools,Hardware optimization,Neuromorphic chips,,Improve SOTA,Performing decoding on a neuromorphic chip,"Self-paced hand squeeze task, left vs. right",Learns on its own a good description,,SynAmps2 (NeuroScan),None,Internal Recordings,Public,"1 subject x 30 min | 546 left + 563 right
+,Decoding EEG and LFP signals using deep learning: heading TrueNorth,2016,"Nurse, Mashford, Yepes, Kiral-Kornek, Harrer & Freestone",ACM International Conference on Computing Frontiers,No,Conference,"University of Melbourne, IBM Research Australia",Australia,8,,Improvement of processing tools,Hardware optimization,Neuromorphic chips,,Improve SOTA,Performing decoding on a neuromorphic chip,"Self-paced hand squeeze task, left vs. right",Learns on its own a good description,,"SynAmps2 (NeuroScan),
+QuikCap EEG (NeuroScan)",None,"Nurse, et al. (2015)",Public,"1 subject x 30 min | 546 left + 563 right
 (used 400ms windows)",1109,7.4,1,46,1000,,,"1) Bandpass 0.1-100 Hz
 2) Notch filter @50 Hz
-3) Downsample to 250 Hz",Yes,Yes?,No,None,Raw EEG,N/M,,Caffe,CNN,CNN,N/A,N/M,Yes,46 x 46,3,3,N/M,N/M,N/M,,,2,N/M,Standard optimization,Standard,Stochastic gradient descent,SGD,learning rate: 0.01,N/M,N/M,N/M,N/M,N/M,Intra,No,No,"Train: 87%
+3) Downsample to 250 Hz",Yes,No,No,None,Raw EEG,N/M,,Caffe,CNN,CNN,N/A,N/M,Yes,46 x 46,3,3,N/M,N/M,N/M,2," Left hand-squeeze
+Right hand-squeeze",2,N/M,Standard optimization,Standard,Stochastic gradient descent,SGD,learning rate: 0.01,N/M,N/M,N/M,N/M,N/M,Intra,No,No,"Train: 87%
 Test: 13%",Accuracy,accuracy,TrueNorth,,N/M,76%,"N/M
 (previous paper on same dataset: 86%)",None,No,Visualization of learned filters,Analysis of weights,"Accuracy not as good as previous paper, but there was extensive hyperparams search in previous paper.
-Need more data and training.",Not enough data,No,N/A,Yes,,Hubert Banville,TBR,TBC,,Nurse2016
+Need more data and training.",Not enough data,No,N/A,Yes,,Hubert Banville,TBR,Yes,,Nurse2016
 ,A novel deep learning approach for classification of EEG motor imagery signals,2016,Tabar & Halici,Journal of Neural Engineering,No,Journal,"Middle East Technical University, Ankara, Turkey",Turkey,11,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,"Exploring CNN, SAE & Combined CNN-SAE on BCI-MI Datasets",Motor Imagery (BCI Competition datasets),"""deep learning methods are known to provide better classification performance by increasing the size of training data""",,N/M,Motor Imagery,"BCI Competition II - III;
 BCI Competition IV - IIb",Public,"BCI Competition II - III: 280 trials x 1 subject
 BCI Competition IV - IIb: 400 trials x 9 subjects
@@ -2296,7 +2313,7 @@ Lots of results reported (for each feature categories)
 KNN: 72.60%
 LR: 82.70%
 SVM: 83.99%",Traditional pipeline,No,"Frequencies and Electrodes 
-contributing",Analysis of weights,"(1) Given that DBNs can also learn models in an unsupervised way, the large amounts of unlabeled EEG data may also be conductive to the semi-supervised DBN training paradigm and allow it to learn more sophisticated models than other traditional supervised learners. (2) There is still a lack of publicly available emotional EEG datasets. (3) In our studies, we propose a novel critical channels and frequency bands selection method through the weight distributions learned by deep belief networks.",Emotion Classes is limited to 3 in the study,No,N/A,Yes,,Yannick Roy,TBR,TBC,,Zheng2015
+contributing",Analysis of weights,"(1) Given that DBNs can also learn models in an unsupervised way, the large amounts of unlabeled EEG data may also be conductive to the semi-supervised DBN training paradigm and allow it to learn more sophisticated models than other traditional supervised learners. (2) There is still a lack of publicly available emotional EEG datasets. (3) In our studies, we propose a novel critical channels and frequency bands selection method through the weight distributions learned by deep belief networks.",Emotion Classes is limited to 3 in the study,No,N/A,Yes,,Yannick Roy,TBR,Yes,,Zheng2015
 ,Deep feature learning for EEG recordings,2015,"Stober, Sternin, Owen & Grahn",Arxiv,Yes,Preprint,University of Western Ontario,Canada,24,,Improvement of processing tools,Feature learning,,,Improve SOTA,Automatic feature learning using autoencoders,Music listening or imagery,Use of deep learning achieved good results in other domains ,,ActiveTwo (BioSemi),None,OpenMIIR dataset,Public,"OpenMIIR: 9 subjects x 12 stimuli x 10.4s [7-16s] x 5
 ",540,93.6,10,66,512,Offline,,"1) Removed and interpolated bad EEG channels
 2) Bandpass: 0.5-30 Hz",Yes,Yes,Yes,Raw EEG,Raw EEG,"[-1,1] 
@@ -2389,7 +2406,7 @@ Roughly ~60-8X% accuracy","SVM
 The concept of superchords",,N/M,Motor imagery,eegmmidb,Public,"eegmidb
 109 subjects, keeping only 62ms to 1000ms
 not clear if using the full dataset...",N/M,N/M,109,64,160,Offline,,1) Splitting each class in 10 datasets (10 to 160 first superchords),Yes,"N/M
-(see H2O)",N/M,Superchords,Other,N/M,,R / R Studio,H2O,N/M,N/M,N/M,No,not clear,"N/M
+(see H2O)",N/M,Superchords,Other,N/M,,R / R Studio,H2O,Other,N/M,N/M,No,not clear,"N/M
 (see H2O)",N/M,"N/M
 (see H2O)","N/M
 (see H2O)",N/M,5,"Left Hand
@@ -2433,7 +2450,7 @@ DS2: 1 subject x 4.5s x (200 + 180)","591;
 28.5","1;
 1",-1,256,,,"N/M
 (they say they used ""preprocessed EEG"")",N/M,No,No,Raw EEG,Raw EEG,N/M,,Matlab,"DELM
-(Deep Extreme Learning Machine)",N/M,"not clear
+(Deep Extreme Learning Machine)",Other,"not clear
 (to be reviewed)",N/M,Yes,"not clear
 (to be reviewed)","not clear
 (to be reviewed)",N/M,"Sigmoid
@@ -2490,7 +2507,7 @@ Precision
 F-Score","sensitivity, specificity, precision, f1-score",N/M,,N/M,"Mean Sensitivity: 0.9806  (STD: 0.078)
 Mean Specificity: 0.9929  (STD: 0.023)
 Mean Precision: 0.7329  (STD: 0.33)
- Mean F-Score: 0.7816  (STD: 0.29)",This is an improvement on the most recently reported results on this database by Pinho et al. (2014),Traditional pipeline,,No,No,"Much remains to be improved in terms of precision of the classifier. Also, using the proposed classi- fier to detect seizure onsets is still a work in progress, where such a technique involves aggregating classifier outputs on multiple contiguous segments to achieve higher sensitivity and specificity.",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Pramod2015
+ Mean F-Score: 0.7816  (STD: 0.29)",This is an improvement on the most recently reported results on this database by Pinho et al. (2014),Traditional pipeline,,No,No,"Much remains to be improved in terms of precision of the classifier. Also, using the proposed classi- fier to detect seizure onsets is still a work in progress, where such a technique involves aggregating classifier outputs on multiple contiguous segments to achieve higher sensitivity and specificity.",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Pramod2015
 ,Adaptive Recurrent Neural Network For Reduction Of Noise And Estimation Of Source From Recorded EEG Signals,2015," Pardede, Turnip, Manalu & Turnip",ARPN Journal of Engineering and Applied Sciences,No,Journal," Institut Teknologi Nasional, Indonesia",Indonesia,5,,Improvement of processing tools,Signal cleaning,Artifact handling,,New approach for removing noise and locating brain activity sources,Use an adaptive RNN for cleaning EEG,"""Normal conditions"", eyes closed, and blinking",N/M,,EPOC (Emotiv),None,Internal Recordings,Private,"8 subjects x (130s + 66s)
 window size not mentioned 
 (each stimuli = 1 sample ??)",N/M,26.3,8,6,128,,,1) Band-pass 0.5-49Hz,Yes,No,No,Raw EEG,Raw EEG,N/A,,N/M,RNN,RNN,N/M,N/M,No,N/M,N/M,N/M,N/M,N/M,N/M,,,N/M,N/M,Standard*,Standard,SGD,SGD,N/M,N/M,N/M,N/M,N/M,Minimum entropy,,N/M,No,N/M,Performance factor defined in the paper,custom,N/M,,N/M,Curves are shown in the paper.,No,None,No,No,No,The proposed method outperforms baselines for 6 out of 8 subjects.,N/M,No,N/A,No,,Isabela Albuquerque,TBR,TBC,,Pardede2015
@@ -2566,7 +2583,7 @@ Test: 20%",ROC AUC,ROC AUC,N/M,,N/M,"                            CNN | xDAWN | C
 [AUC] Exp #1 (MLP): 0.932 | 0.910 | 0.822 | 0.917
 [AUC] Exp #2 (MLP): 0.845 | 0.865 | 0.720 | 0.809
 [AUC] Exp #2 (MLP): 0.816 | 0.845 | 0.728 | 0.810","SVM
-Bayesian LDA",DL & Trad.,"Friedman’s test, Wilcoxon sign rank test, t-test, ANOVA",No,No,"After Wilcoxon sign rank tests, CNN was the best preprocessing step, followed successively by xDAWN, the absence of spatial filtering, and CSP ( p < 10e − 4). For classifiers, MLP was better than both SVM (p < 10e−5) and BLDA (p < 10e − 5), and there was no difference between SVM and BLDA.",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Cecotti2014
+Bayesian LDA",DL & Trad.,"Friedman’s test, Wilcoxon sign rank test, t-test, ANOVA",No,No,"After Wilcoxon sign rank tests, CNN was the best preprocessing step, followed successively by xDAWN, the absence of spatial filtering, and CSP ( p < 10e − 4). For classifiers, MLP was better than both SVM (p < 10e−5) and BLDA (p < 10e − 5), and there was no difference between SVM and BLDA.",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Cecotti2014
 ,Using convolutional neural networks to recognize rhythm stimuli from EEG recordings,2014,"Stober, Cameron & Grahn",Advances in Neural Information Processing Systems,No,Conference,Western University,Canada,9,,Classification of EEG signals,Monitoring,Music semantics,,"Classify 24 different rhythmic stimuli 
 (and identify West vs East population)",Use DNN to a 24-classes classification task,Rhythmic stimili,Shown good results in fMRI and limited cases in EEG,,(Grass Instruments),None,Internal Recordings,Private," 24 stimuli x (32 seconds + 4 sec) x 13 subjects
 Each 32s splitted in 3
@@ -2622,7 +2639,7 @@ Best 4",15,N/M,N/M,N/M,2,"Left
 Right",2,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,N/M,Intra,10 Random Permutations,Train-Valid-Test,"Train: 80%
 Test: 20%",Accuracy,accuracy,N/M,,N/M,89.8 %,SVM (97.1%),Traditional pipeline,No,No,No,"Our methodology is not the best, but is somewhat a simplified efficient one that satisfies the needs for researchers in field of neuroscience.
 
-(wow... :/)",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Alomari2013
+(wow... :/)",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Alomari2013
 ,Energy Distribution of EEG Signals: EEG Signal Wavelet-Neural Network Classifier,2013,"Omerhodzic, Avdakovic, Nuhanovic & Dizdarevic",Arxiv,Yes,Preprint,"Clinical Center University of Sarajevo
 University of Tuzla",Bosnia,6,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Use WNN (Wavelet NN) for Epilepsy,"Ongoing EEG recording, with and without seizures.",None,,N/M,Seizures,Bonn University,Public,"Bonn University: using only A,C, E  
 (300 segments of 23.6-sec)",300,118,5,1,173.61,Offline,,None,No,No,No,"Wavelet
@@ -2680,9 +2697,9 @@ Valid: 5%","Accuracy (Recognition Rate)
 Recall, Precision, Silence, Noise, Error, F-Measure","accuracy, recall, precision, silence, noise, error, f-measure","Core 2 Duo T7500 CPU
 (no GPU)",,10 min,"Subject A: CNN-1: 70.37% | MCNN-1: 68.99%
 Subject B: CNN-1: 78.19% | MCNN-1: 75.86%
-
+* Consider Class Imbalance *
 (see all results in paper, for all metrics and all networks)","Compare different CNNs, with ESVM [16,40], LDA [42], mLVQ [42]
-Yandong [40], Zongtan [40], Hoffman [40, 41]",Traditional pipeline,No,Analysis of weights,Analysis of weights,"Its accuracy is equivalent to the best current method on the Data set II of the third BCI competition [16]. It outperforms the best method in two situations: first, when the number of electrodes is restricted to 8; second, when the number of considered epochs is 10.",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Cecotti2011
+Yandong [40], Zongtan [40], Hoffman [40, 41]",Traditional pipeline,No,Analysis of weights,Analysis of weights,"Its accuracy is equivalent to the best current method on the Data set II of the third BCI competition [16]. It outperforms the best method in two situations: first, when the number of electrodes is restricted to 8; second, when the number of considered epochs is 10.",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Cecotti2011
 ,Modeling EEG waveforms with semi-supervised deep belief nets: fast classification and anomaly measurement,2011,"Wulsin, Gupta, Mani, Blamco & Litt",Journal of Neural Engineering,No,Journal,University of Pennsylvania,USA,14,,Classification of EEG signals,Clinical,Anomaly detection,,New Approach,Use DBN to detect EEG anomalies / rare events.,"Ongoing recording in a clinical settings 
 (to record rare anormal events)",DBNs can learn from unlabeled data (more available and cheaper than labeled one),,N/M,"1) spike & sharp wave, 
 2) GPED & Triphasic Waves, 
@@ -2734,7 +2751,7 @@ Matlab","NN
 Wrist",1,N/M,N/M,N/M,N/M,N/M,N/M,N/M,Trial and Error,Yes,N/M,N/M,Intra,No,No,N/M,"Accuracy
 (they say they also check Specificity and Sensitivity, but nothing is reported)",accuracy,N/M,,N/M,"Grand Average: 71%
 Real - RH: [52-81 | AVG: 70], LH: [56-69 | AVG: 67]
-Imaginery - RH: [61-82 | AVG: 73], LH: [67-72 | AVG: 69]",Minimum Distance Classifier,Traditional pipeline,No,No,No,"Classification is slightly more successful for imagined movements than for real movements. This is contrary to the findings of other BCI studies [20], where classification results for real movements are superior due to real movements generating stronger motor neural activity [20].",N/M,No,N/A,No,,Yannick Roy,TBR,TBC,,Mohamed2011
+Imaginery - RH: [61-82 | AVG: 73], LH: [67-72 | AVG: 69]",Minimum Distance Classifier,Traditional pipeline,No,No,No,"Classification is slightly more successful for imagined movements than for real movements. This is contrary to the findings of other BCI studies [20], where classification results for real movements are superior due to real movements generating stronger motor neural activity [20].",N/M,No,N/A,No,,Yannick Roy,TBR,Yes,,Mohamed2011
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,Analysis and classification of EEG signals using spectral analysis and recurrent neural networks,2010,Naderi & Mahdavi-Nasab,Iranian Conference of Biomedical Engineering,No,Conference,Islamic Azad University,Iran,4,,Classification of EEG signals,Clinical,Epilepsy,Detection,Improve SOTA,Using Elman RNN on Welch PSD on Bonn University Dataset,"On going EEG with and without seizures
 (Bonn University Dataset)",Highly nonlinear dynamic mappings can be performed by RNNs and therefore have temporally extended application,,N/M,Seizures,Bonn University,Public,"Bonn University

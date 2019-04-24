@@ -9,10 +9,13 @@ TODO:
 import re
 import warnings
 import os
+from collections import OrderedDict
 
 import pandas as pd
 import numpy as np
 from scipy.stats import mannwhitneyu, kruskal, pearsonr, spearmanr
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 dirname = os.path.dirname(__file__)
@@ -202,6 +205,7 @@ def load_reported_results_data():
     df = pd.read_csv(fname, header=0)
     df = df.drop(columns=['Unnamed: 0', 'Title', 'Comment'])
     df['Result'] = pd.to_numeric(df['Result'], errors='coerce')
+    df['Architecture'] = df['Architecture'].fillna('-')
     df = df.dropna()
 
     def extract_model_type(x):
@@ -266,8 +270,99 @@ def wrap_text(string, max_char=25):
     return out_string
 
 
+def plot_multiple_proportions(data, height=0.3, print_count=True, 
+                              respect_order=None, figsize=None, xlabel=None, 
+                              ylabel=None, title=None):
+    """Horizontal stacked bar plot for multiple proportions.
+
+    Horizontal stacked bar plot used to display many simple proportions with
+    potentially different categories.
+
+    Args:
+        data (dict): dictionary containing the different items, categories 
+            and counts per item. E.g.,
+
+            data = {'item1': {'cat1': 100, 'cat2': 56},
+                    'item2': {'cat3': 60, 'cat4': 46, 'cat5': 50},
+                    'item3': {'cat6': 50, 'cat7': 53, 'cat8': 53}}
+
+    Keyword Args:
+        height (float): height of bars
+        print_count (bool or int): if True, print the count (number of elements)
+            of each category in the middle of the bars. If False, don't print
+            the counts. If provided as an int, it defines the smaller number 
+            that will be printed on a bar (that way small numbers that wouldn't
+            fit in a bar because it's too small won't be printed). 
+        respect_order (list or None): if provided, the categories of each item 
+            should respect the given order. E.g., `['Yes', 'No', 'N/M']` means
+            that whenever the categories 'Yes', 'No' or 'N/M' are found for an
+            item, they should appear in that order in the bar.
+        figisize (tuple or None): size of the figure.
+        xlabel (str or None): x-axis label.
+        ylabel (str of None): y-axis label.
+
+    Returns:
+        (fig)
+        (ax)
+    """
+    df = pd.DataFrame(data=list(data.keys()), columns=['items'])
+    df['counts'] = np.zeros(len(data))
+    df['items'] = df['items'].apply(wrap_text, max_char=20)
+
+    fig, ax = plt.subplots(figsize=figsize)
+    sns.barplot(x='counts', y='items', data=df, ax=ax)
+    ax.set_ylabel('' if ylabel is None else ylabel)
+
+    ylabels = ax.get_yticklabels()
+    ax.set_yticklabels(ylabels, ha='right')
+
+    ax.set_xlabel('Percentage (%)' if xlabel is None else xlabel)
+    ax.set_xlim([0, 100])
+    if title is not None:
+        ax.set_title(title)
+
+    for ind, (item, values) in enumerate(data.items()):
+        bottom = 0
+        n_values = sum(list(values.values()))
+        ax.set_prop_cycle(None)  # reset color cycle
+        bars = list()
+
+        if respect_order is not None:
+            ordered_values = OrderedDict()
+            for ordered_cat in respect_order:
+                if ordered_cat in values:
+                    ordered_values[ordered_cat] = values.pop(ordered_cat)
+            ordered_values.update(values)
+            values = ordered_values
+
+        for cat, val in values.items():
+            width = val / n_values * 100
+            bar = ax.barh(
+                ind, width=width, height=height, left=bottom, label=cat)
+            bars.append(bar)
+
+            if (print_count is True) or (isinstance(print_count, int) and 
+                                         val >= print_count):
+                w = bar[0].get_width()
+                ax.text(bottom + w / 2, ind, str(val), ha='center', va='center')
+
+            bottom += width
+
+        legend = plt.legend(handles=bars, bbox_to_anchor=(105, ind),
+                            bbox_transform=ax.transData, loc='center left',
+                            frameon=False)
+        ax.add_artist(legend)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+
+    plt.tight_layout()
+
+    return fig, ax
+
+
 def run_mannwhitneyu(df, condition_col, conditions, value_col='acc_diff',
-                     min_n_obs=10):
+                     min_n_obs=10, plot=False):
     """Run Mann-Whitney rank-sum test.
 
     Args:
@@ -298,10 +393,21 @@ def run_mannwhitneyu(df, condition_col, conditions, value_col='acc_diff',
         print('Not enough observations in each sample ({} and {}).'.format(
             len(data1), len(data2)))
 
-    return {'test': 'mannwhitneyu', 'pvalue': p, 'stat': stat}
+    if plot:
+        fig, ax = plt.subplots()
+        sns.violinplot(
+            data=df[df[condition_col].isin(conditions)], x=condition_col, 
+            y=value_col, ax=ax)
+        ax.set_title('Mann-Whitney for {} vs. {}\n(pvalue={:0.4f})'.format(
+            condition_col, value_col, p))
+    else:
+        fig = None
+
+    return {'test': 'mannwhitneyu', 'pvalue': p, 'stat': stat, 'fig': fig}
 
 
-def run_kruskal(df, condition_col, value_col='acc_diff', min_n_obs=6):
+def run_kruskal(df, condition_col, value_col='acc_diff', min_n_obs=6, 
+                plot=False):
     """Run Kruskal-Wallis analysis of variance test.
 
     Args:
@@ -327,10 +433,23 @@ def run_kruskal(df, condition_col, value_col='acc_diff', min_n_obs=6):
         stat, p = np.nan, np.nan
         print('Not enough samples with more than {} observations.'.format(min_n_obs))
 
-    return {'test': 'kruskal', 'pvalue': p, 'stat': stat}
+    if plot:
+        enough_samples = df[condition_col].value_counts() >= min_n_obs
+        enough_samples = enough_samples.index[enough_samples].tolist()
+        fig, ax = plt.subplots()
+        sns.violinplot(
+            data=df[df[condition_col].isin(enough_samples)], x=condition_col, 
+            y=value_col, ax=ax)
+        ax.set_title('Kruskal-Wallis for {} vs. {}\n(pvalue={:0.4f})'.format(
+            condition_col, value_col, p))
+    else:
+        fig = None
+
+    return {'test': 'kruskal', 'pvalue': p, 'stat': stat, 'fig': fig}
 
 
-def run_spearmanr(df, condition_col, value_col='acc_diff', log=False):
+def run_spearmanr(df, condition_col, value_col='acc_diff', log=False, 
+                  plot=False):
     """Run Spearman's rank correlation analysis.
 
     Args:
@@ -349,9 +468,19 @@ def run_spearmanr(df, condition_col, value_col='acc_diff', log=False):
     """
     data1 = np.log10(df[condition_col]) if log else df[condition_col]
     data2 = df[value_col]
-    stat, p = spearmanr(data1, data2)
+    corr, p = spearmanr(data1, data2)
 
-    return {'test': 'spearmanr', 'pvalue': p, 'stat': stat}
+    if plot:
+        log_condition_col = 'log_' + condition_col
+        df[log_condition_col] = np.log10(df[condition_col])
+        fig, ax = plt.subplots()
+        sns.regplot(data=df, x=log_condition_col, y=value_col, robust=True, ax=ax)
+        ax.set_title('Spearman Rho for {} vs. {}\n(pvalue={:0.4f}, ρ={:0.4f})'.format(
+            log_condition_col, value_col, p, corr))
+    else:
+        fig = None
+
+    return {'test': 'spearmanr', 'pvalue': p, 'stat': corr, 'fig': fig}
 
 
 def keep_single_valued_rows(df, condition_col, mult_str='\n', id_col='Citation'):
@@ -367,7 +496,7 @@ def keep_single_valued_rows(df, condition_col, mult_str='\n', id_col='Citation')
     Keyword Args:
         mult_str (str): string that indicates multiple values in a row.
         id_col (str): name of column to use to identify different rows.
-
+True
     Returns:
         (pd.DataFrame): filtered dataframe
     """
