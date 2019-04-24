@@ -5,6 +5,7 @@ import os
 import logging
 import logging.config
 from collections import OrderedDict
+import subprocess
 
 import pandas as pd
 import geopandas as gpd
@@ -138,9 +139,9 @@ def plot_prisma_diagram(save_cfg=cfg.saving_config):
     dot.node('B', 'Articles identified\nthrough database\nsearching\n(n=553)', 
              fillcolor=fillcolor)
     # dot.node('B2', 'Excluded\n(n=446)', fillcolor=fillcolor)
-    dot.node('C', 'Articles after content\nscreening and\nduplicate removal\n(n=107) ', 
+    dot.node('C', 'Articles after content\nscreening and\nduplicate removal\n(n=105) ', 
              fillcolor=fillcolor)
-    dot.node('D', 'Articles included in\nthe analysis\n(n=156)', 
+    dot.node('D', 'Articles included in\nthe analysis\n(n=154)', 
              fillcolor=fillcolor)
     dot.node('E', 'Additional articles\nidentified through\nbibliography search\n(n=49)', 
              fillcolor=fillcolor)
@@ -159,7 +160,7 @@ def plot_prisma_diagram(save_cfg=cfg.saving_config):
 
 def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10, 
                      max_font_size=14, max_char=16, min_n_items=2, 
-                     save_cfg=cfg.saving_config):
+                     postprocess=True, save_cfg=cfg.saving_config):
     """Plot tree graph showing the breakdown of study domains.
 
     Args:
@@ -172,6 +173,8 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
         max_char (int): maximum number of characters per line
         min_n_items (int): if a node has less than this number of elements, 
             put it inside a node called "Others".
+        postpocess (bool): if True, convert PNG to EPS using inkscape in a 
+            system call.
         save_cfg (dict or None):
     
     Returns:
@@ -179,12 +182,13 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
 
     NOTES:
     - To unflatten automatically, apply the following on the .dot file:
-        >> unflatten -l 3 -c 10 domains | dot -Teps -o domains_unflattened.eps
-    - To produce a circular version instead (uses space more efficiently), use
-        >> neato -Tps domains -o domains_neato.eps
+        >> unflatten -l 3 -c 10 dom_domains_tree | dot -Teps -o domains_unflattened.eps
+    - To produce a circular version instead (uses space more efficiently):
+        >> neato -Tpdf dom_domains_tree -o domains_neato.pdf
     """
     df = df[['Domain 1', 'Domain 2', 'Domain 3', 'Domain 4']].copy()
     df = df[~df['Domain 1'].isnull()]
+    df[df == ' '] = None
 
     n_samples, n_levels = df.shape
     format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
@@ -251,6 +255,9 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'dom_domains_tree')
         dot.render(filename=fname, cleanup=False)
+        if postprocess:
+            subprocess.call(
+                ['neato', '-Tpdf', fname, '-o', fname + '.pdf'])
                 
     return dot
 
@@ -402,7 +409,7 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
         lambda x: int(x[x.find('2'):x.find('2') + 4]))
 
     # Order by average proposed model accuracy
-    acc_ind = acc_df[acc_df['model_type']=='Proposed'].groupby(
+    acc_ind = acc_df[acc_df['model_type'] == 'Proposed'].groupby(
         'Citation').mean().sort_values(by='Result').index
     acc_df.loc[:, 'Citation'] = acc_df['Citation'].astype('category')
     acc_df['Citation'].cat.set_categories(acc_ind, inplace=True)
@@ -418,7 +425,8 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
 
     # Only keep the maximum accuracy per citation & task
     best_df = acc_df.groupby(
-        ['Citation', 'Task', 'model_type'])['Result'].max().reset_index()
+        ['Citation', 'Task', 'Architecture', 'model_type'])[
+            'Result'].max().reset_index()
 
     # Only keep citations/tasks that have a traditional baseline
     best_df = best_df.groupby(['Citation', 'Task']).filter(
@@ -430,6 +438,11 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
                           x[x['model_type'] == 'Baseline (traditional)'][
                               'Result'].iloc[0]).reset_index()
     diff_df = diff_df.rename(columns={0: 'acc_diff'})
+    # Add fine-grained architecture information
+    diff_df = pd.merge(
+        diff_df, best_df[['Citation', 'Task', 'Architecture']], how='left', 
+        on=['Citation', 'Task'])
+    diff_df = diff_df[diff_df['Architecture'] != '-']
 
     axes.append(_plot_results_accuracy_diff_scatter(diff_df, save_cfg))
     axes.append(_plot_results_accuracy_diff_distr(diff_df, save_cfg))
@@ -437,7 +450,7 @@ def plot_reported_results(df, data_items_df=None, save_cfg=cfg.saving_config):
     # Pivot dataframe to plot proposed vs. baseline accuracy as a scatterplot
     best_df['citation_task'] = best_df[['Citation', 'Task']].apply(
         lambda x: ' ['.join(x) + ']', axis=1)
-    acc_comparison_df = best_df.pivot(
+    acc_comparison_df = best_df.pivot_table(
         index='citation_task', columns='model_type', values='Result')
 
     axes.append(_plot_results_accuracy_comparison(acc_comparison_df, save_cfg))
@@ -620,7 +633,7 @@ def _plot_results_stats_impact_on_acc_diff(results_df, save_cfg):
                          'Features (clean)': ['Raw EEG', 'Frequency-domain'],
                          'Regularization (clean)': ['Yes', 'N/M'],
                          'Intra/Inter subject': ['Intra', 'Inter']}
-    multiclass_data_items = ['Architecture (clean)',
+    multiclass_data_items = ['Architecture',  # Architecture (clean)',
                              'Optimizer (clean)']
     continuous_data_items = {'Layers (clean)': False,
                              'Data - subjects': True,
@@ -629,16 +642,16 @@ def _plot_results_stats_impact_on_acc_diff(results_df, save_cfg):
 
     results = dict()
     for key, val in binary_data_items.items():
-        results[key] = ut.run_mannwhitneyu(results_df, key, val)
+        results[key] = ut.run_mannwhitneyu(results_df, key, val, plot=True)
 
     for i in multiclass_data_items:
-        results[i] = ut.run_kruskal(results_df, i)
+        results[i] = ut.run_kruskal(results_df, i, plot=True)
 
     for i in continuous_data_items:
         single_df = ut.keep_single_valued_rows(results_df, i)
         single_df = single_df[single_df[i] != 'N/M']
         single_df[i] = single_df[i].astype(float)
-        results[i] = ut.run_spearmanr(single_df, i, log=val)
+        results[i] = ut.run_spearmanr(single_df, i, log=val, plot=True)
     
     stats_df =  pd.DataFrame(results).T
     logger.info('Results of statistical tests on impact of data items:\n{}'.format(
@@ -646,33 +659,29 @@ def _plot_results_stats_impact_on_acc_diff(results_df, save_cfg):
 
     # Categorical plot for each "significant" data item
     significant_items = stats_df[stats_df['pvalue'] < 0.05].index
-    fig, axes = plt.subplots(
-        nrows=len(significant_items), ncols=1, sharex=True, 
-        figsize=(save_cfg['text_width'] / 2, save_cfg['text_height'] / 3))
-    axes = axes if isinstance(axes, list) else [axes]
+    if save_cfg is not None and len(significant_items) > 0:
+        for i in significant_items:
+            savename = 'stat_impact_{}_on_acc_diff'.format(
+                i.replace(' ', '_').replace('/', '_'))
+            fname = os.path.join(save_cfg['savepath'], savename)
+            stats_df.loc[i, 'fig'].savefig(
+                fname + '.' + save_cfg['format'], **save_cfg)
 
-    for ax, i in zip(axes, significant_items):
-        sns.violinplot(data=results_df, y=i, x='acc_diff', ax=ax)
-
-    if save_cfg is not None:
-        savename = 'statistical_analysis_impact_on_acc_diff'
-        fname = os.path.join(save_cfg['savepath'], savename)
-        fig.savefig(fname + '.' + save_cfg['format'], **save_cfg)
-
-    return axes
+    return None
 
 
 def _compute_acc_diff_for_preprints(results_df, save_cfg):
     """Analyze the acc diff for preprints vs. peer-reviewed articles.
     """
     results_df['preprint'] = results_df['Journal / Origin'].isin(['Arxiv', 'BioarXiv'])
-    preprints = results_df['preprint'].value_counts()
+    preprints = results_df.groupby('Citation').first()['preprint'].value_counts()
+
     logger.info(
         'Number of preprints included in the accuracy difference comparison: '
-        '{}/{} papers'.format(preprints[True], len(results_df)))
+        '{}/{} papers'.format(preprints[True], sum(preprints)))
 
     logger.info('Median acc diff for preprints vs. non-preprint:\n{}'.format(
-        results_df.groupby('preprint').median()))
+        results_df.groupby('preprint').median()['acc_diff']))
     results = ut.run_mannwhitneyu(results_df, 'preprint', [True, False])
     logger.info('Mann-Whitney test on preprint vs. not preprint: {:0.3f}'.format(
         results['pvalue']))
@@ -839,7 +848,7 @@ def plot_country(df, save_cfg=cfg.saving_config):
     return ax
 
 
-def plot_countrymap(dfx, save_cfg=cfg.saving_config):
+def plot_countrymap(dfx, postprocess=True, save_cfg=cfg.saving_config):
     """Plot world map with colour indicating number of papers.
 
     Plot a world map where the colour of each country indicates how many papers
@@ -850,6 +859,10 @@ def plot_countrymap(dfx, save_cfg=cfg.saving_config):
     inkscape to convert it to .eps (leading to a file of ~1.6 MB):
 
     >> inkscape countrymap.png --export-eps=countrymap.eps
+
+    Keyword Args:
+        postpocess (bool): if True, convert PNG to EPS using inkscape in a 
+            system call.
     """
     dirname = os.path.dirname(__file__)
     shapefile = os.path.join(dirname, '../img/countries/ne_10m_admin_0_countries.shp')
@@ -910,6 +923,10 @@ def plot_countrymap(dfx, save_cfg=cfg.saving_config):
         save_cfg2['format'] = 'png'
         fig.savefig(fname + '.png', **save_cfg2)
 
+        if postprocess:
+            subprocess.call(
+                ['inkscape', fname + '.png', '--export-eps=' + fname + '.eps'])
+
     return ax
 
 
@@ -944,97 +961,6 @@ def make_domain_table(df, save_cfg=cfg.saving_config):
                 column_format='p{1.5cm}' * 4 + 'p{0.6cm}' * domains_df.shape[1]))
 
 
-def plot_multiple_proportions(data, height=0.3, print_count=True, 
-                              respect_order=None, figsize=None, xlabel=None, 
-                              ylabel=None, title=None):
-    """Horizontal stacked bar plot for multiple proportions.
-
-    Horizontal stacked bar plot used to display many simple proportions with
-    potentially different categories.
-
-    Args:
-        data (dict): dictionary containing the different items, categories 
-            and counts per item. E.g.,
-
-            data = {'item1': {'cat1': 100, 'cat2': 56},
-                    'item2': {'cat3': 60, 'cat4': 46, 'cat5': 50},
-                    'item3': {'cat6': 50, 'cat7': 53, 'cat8': 53}}
-
-    Keyword Args:
-        height (float): height of bars
-        print_count (bool or int): if True, print the count (number of elements)
-            of each category in the middle of the bars. If False, don't print
-            the counts. If provided as an int, it defines the smaller number 
-            that will be printed on a bar (that way small numbers that wouldn't
-            fit in a bar because it's too small won't be printed). 
-        respect_order (list or None): if provided, the categories of each item 
-            should respect the given order. E.g., `['Yes', 'No', 'N/M']` means
-            that whenever the categories 'Yes', 'No' or 'N/M' are found for an
-            item, they should appear in that order in the bar.
-        figisize (tuple or None): size of the figure.
-        xlabel (str or None): x-axis label.
-        ylabel (str of None): y-axis label.
-
-    Returns:
-        (fig)
-        (ax)
-    """
-    df = pd.DataFrame(data=list(data.keys()), columns=['items'])
-    df['counts'] = np.zeros(len(data))
-    df['items'] = df['items'].apply(ut.wrap_text, max_char=20)
-
-    fig, ax = plt.subplots(figsize=figsize)
-    sns.barplot(x='counts', y='items', data=df, ax=ax)
-    ax.set_ylabel('' if ylabel is None else ylabel)
-
-    ylabels = ax.get_yticklabels()
-    ax.set_yticklabels(ylabels, ha='right')
-
-    ax.set_xlabel('Percentage (%)' if xlabel is None else xlabel)
-    ax.set_xlim([0, 100])
-    if title is not None:
-        ax.set_title(title)
-
-    for ind, (item, values) in enumerate(data.items()):
-        bottom = 0
-        n_values = sum(list(values.values()))
-        ax.set_prop_cycle(None)  # reset color cycle
-        bars = list()
-
-        if respect_order is not None:
-            ordered_values = OrderedDict()
-            for ordered_cat in respect_order:
-                if ordered_cat in values:
-                    ordered_values[ordered_cat] = values.pop(ordered_cat)
-            ordered_values.update(values)
-            values = ordered_values
-
-        for cat, val in values.items():
-            width = val / n_values * 100
-            bar = ax.barh(
-                ind, width=width, height=height, left=bottom, label=cat)
-            bars.append(bar)
-
-            if (print_count is True) or (isinstance(print_count, int) and 
-                                         val >= print_count):
-                w = bar[0].get_width()
-                ax.text(bottom + w / 2, ind, str(val), ha='center', va='center')
-
-            bottom += width
-
-        legend = plt.legend(handles=bars, bbox_to_anchor=(105, ind),
-                            bbox_transform=ax.transData, loc='center left',
-                            frameon=False)
-        ax.add_artist(legend)
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-        ax.spines['left'].set_visible(False)
-
-    plt.tight_layout()
-
-    return fig, ax
-
-
 def plot_preprocessing_proportions(df, save_cfg=cfg.saving_config):
     """Plot proportions for preprocessing-related data items.
     """
@@ -1046,7 +972,7 @@ def plot_preprocessing_proportions(df, save_cfg=cfg.saving_config):
     data['(c) Extracted features'] = df[
          'Features (clean)'].value_counts().to_dict()
 
-    fig, ax = plot_multiple_proportions(
+    fig, ax = ut.plot_multiple_proportions(
         data, print_count=5, respect_order=['Yes', 'No', 'Other', 'N/M'],
         figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
     
@@ -1068,7 +994,7 @@ def plot_hyperparams_proportions(df, save_cfg=cfg.saving_config):
     data['(c) Optimizer'] = df[
          'Optimizer (clean)'].value_counts().to_dict()
 
-    fig, ax = plot_multiple_proportions(
+    fig, ax = ut.plot_multiple_proportions(
         data, print_count=5, respect_order=['Yes', 'No', 'Other', 'N/M'],
         figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] / 7 * 2))
     
@@ -1113,7 +1039,7 @@ def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
     logger.info('Stats on reproducibility - Limited data: {}'.format(df['Limited data'].value_counts().to_dict()))
     logger.info('Stats on reproducibility - Shared their Code: {}'.format(df[df['Code available'] == 'Yes']['Citation'].to_dict()))
 
-    fig, ax = plot_multiple_proportions(
+    fig, ax = ut.plot_multiple_proportions(
         data, print_count=5, respect_order=['Easy', 'Medium', 'Hard', 'Impossible'],
         figsize=(save_cfg['text_width'] / 4 * 4, save_cfg['text_height'] * 0.4))
     

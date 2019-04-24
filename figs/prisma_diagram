@@ -11,10 +11,10 @@ searching
 	C [label="Articles after content
 screening and
 duplicate removal
-(n=107) " fillcolor=gray98]
+(n=105) " fillcolor=gray98]
 	D [label="Articles included in
 the analysis
-(n=156)" fillcolor=gray98]
+(n=154)" fillcolor=gray98]
 	E [label="Additional articles
 identified through
 bibliography search
