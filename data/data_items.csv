@@ -2084,7 +2084,7 @@ Night Lenght = N/M
 (Langkvist et al., 2012)",Other,N/M,,"Matlab
 Python
 Keras
-Tensorflow",DBN + LSTM,DBM+RNN,-,The main idea is to fuse generative ability on DBN to extract multi-level hierarchical features and determine the final label of class prediction using the time series discrimination capability of LSTM.,Yes,28 Features,"DBN: 2
+Tensorflow",DBN + LSTM,Other,-,The main idea is to fuse generative ability on DBN to extract multi-level hierarchical features and determine the final label of class prediction using the time series discrimination capability of LSTM.,Yes,28 Features,"DBN: 2
 LSTM: 5",7,N/M,N/M,N/M,,,"5
 (softmax)
 (Sleep Stages)",N/M,"(Pre)Train DBN first, then LSTM",Pre-training,RMSProp,Other,Epoch 100,500,N/M,N/M,N/M,Categorical Cross-Entropy,N/M,Leave-One-Night-Out,Leave-One-Session-Out,"[DS1] Train: 4
