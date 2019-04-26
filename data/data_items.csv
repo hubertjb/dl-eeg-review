@@ -87,7 +87,7 @@ KL-Divergence (part 2)",Inter,N/M,No,"Train: 80%
 Validation: 20%
 Test: N/M",Accuracy,accuracy,N/M,,N/M,98.70%,N/M,None,No,Visualization of class activation maps (proposed method),Class Activation Maps,"""Importantly, the proposed novel method enabled us to visualize the features learnt by deep networks such as CNNs, which may in turn yield better interpretation of their classification basis.""",N/M,No,N/A,No,,Yannick Roy,Hubert Banville,TBC,,Ghosh2018
 ,Cascade and Parallel Convolutional Recurrent Neural Networks on EEG-based Intention Recognition for Brain Computer Interface,2018,"Zhang, Yao, Zhang, Wang, Chen & Boots",AAAI Conference on Artificial Intelligence,Yes,Preprint,University of New South Wales,Australia,8,,Classification of EEG signals,BCI,Active,Motor imagery,Novel Approach: Cascade & Parallel CNN and RNN,Compare Cascade and Parallel CNN + RNN on Motor Imagery Dataset (eegmmidb) to SOTA,"Motor Imagery
-(see eegmmidb dataset)",To capture temporal and spatial information.,,(BCI2000 Instruments),Motor Imagery,"eegmmidb;
+(see eegmmidb dataset)",To capture temporal and spatial information.,,N/M,Motor Imagery,"eegmmidb;
 Internal Recordings",Both," (eegmmidb)
 108 subjects, 3,145,160 EEG (2808min)
 (Internal recordings)
@@ -969,10 +969,7 @@ Test: 2500 images / subject","F1-Score
 ,EEGNet: A Compact Convolutional Neural Network for EEG-based Brain-Computer Interfaces,2018,"Lawhern, Solon, Waytowich, Gordon, Hung & Lance",Journal of Neural Engineering,Yes,Journal,"U.S. Army Lab,DCS Corporation, Columbia University, Georgetown University Medical Center",USA,17,,Classification of EEG signals,BCI,Active & Reactive,MI & ERP,Novel Approach: DN that can be used for different BCI paradigms,Compare EEGNet with SOTA ML for different BCI Paradigms,"Visual P300 
 ERN
 Movement-related cortical potentials
-Sensory Motor Rhythms",Allows robust feature extraction,,"ActiveTwo (BioSemi);
-N/M;
-ActiveTwo (BioSemi);
-N/M;","1) P300 
+Sensory Motor Rhythms",Allows robust feature extraction,,"ActiveTwo (BioSemi), N/M, ActiveTwo (BioSemi), N/M","1) P300 
 2) ERN
 3) Movement-related cortical potentials
 4) SMR","Internal Recordings;
@@ -1508,7 +1505,7 @@ Macquarie University
 RMIT University",Australia,20,,Classification of EEG signals,Personal trait/attribute,Person identification,,Improve SOTA: EEG for Person Identification,Use AR+RNN+SVM on EEG+Gait for Person Identification,"Motor Imagery
 (see eegmmidb dataset)
 
-+ Gait (PAMAP2 dataset)",The DL motivation is not clear. They want to improve SOTA.,,BCI2000 Instruments,Raw EEG,eegmmidb,Public,"eegmmidb: 8 subjects x 13,500 samples
++ Gait (PAMAP2 dataset)",The DL motivation is not clear. They want to improve SOTA.,,N/M,Raw EEG,eegmmidb,Public,"eegmmidb: 8 subjects x 13,500 samples
 13,500 samples / 90 per window 
 = 150 examples per subjects, 1200 total
 (90 points windows, no overlap)",1200,11.3,8,64,160,,,None (AR),No,No,No,Raw EEG,Raw EEG,N/M,,N/M,AR + RNN + SVM,RNN,N/M,"AR for pre-processing, RNN for feature extracting, and SVM for classification. Auto-regressive Coefficients (AR) is one of the most widely used pre-processing methods on EEG data",Yes,"150x13x64
@@ -1524,7 +1521,7 @@ Combined: 0.983 ","[45]: PSD + cross-correlation values, [8]: Customized Thresho
 Singapore Management University
 Macquarie University, Australia
 RMIT University, Australia",Australia,10,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,Use AE + XGB for BCI-MI 5 classes (eegmmidb + internal recordings),"Motor Imagery
-(see eegmmidb dataset)","Deep learning should be able to generalize better across subjects and across classes, instead of binary classif.",,BCI2000 Instruments,Motor Imagery,eegmmidb,Public,"eegmidb: 20 subjects x 28000 samples
+(see eegmmidb dataset)","Deep learning should be able to generalize better across subjects and across classes, instead of binary classif.",,N/M,Motor Imagery,eegmmidb,Public,"eegmidb: 20 subjects x 28000 samples
 Total: 560,000 EEG samples
 (window length = 1 point)",560000,58.3,20,64,160,,,N/M,N/M,No,No,"Raw EEG
 (None)",Raw EEG,z-score,,N/M,"AE 

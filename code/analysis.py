@@ -18,8 +18,6 @@ import numpy as np
 from PIL import Image
 from wordcloud import WordCloud, STOPWORDS
 from graphviz import Digraph
-from mne.io import concatenate_raws, read_raw_edf
-from mne.datasets import eegbci
 
 import config as cfg
 import utils as ut
@@ -50,67 +48,6 @@ formatter = logging.Formatter(
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
-
-
-def get_saturation(level, min_s, max_s, n_levels):
-    return (min_s - max_s) / (n_levels - 1) * level + max_s
-
-
-def get_font_size(n_papers, min_font, max_font, max_n_papers):
-    return (max_font - min_font) / (max_n_papers - 1) * n_papers + min_font
-
-
-def make_box(dot, text, max_char, n_instances, max_n_instances, level, n_levels, 
-             min_sat, max_sat, min_font_size, max_font_size, parent_name, 
-             counter=None, n_categories=None, hue=None, node_name=None):
-    """Make graphviz box for tree graph.
-
-    Args:
-        dot (): graphviz Digraph object
-        text (str): text to put in the box
-        max_char (int): maximum number of characters on a line
-        n_instances (int): number of instances (to be written under `text`)
-        max_n_instances (int): maximum number of instances a box can have
-        level (int): value from 0 to `n_levels`-1
-        n_levels (int): number of levels in graph
-        min_sat (float): minimum saturation value between [0, 1]
-        max_sat (float): maximum saturation value between [0, 1]
-        min_font_size (float): minimum font size
-        max_font_size (float): maximum font size
-        parent_name (str): name of parent node
-    
-    Keyword Args:
-        counter (None or int): counter from 0 to `n_categories`-1. If None, use 
-            the provided `hue`.
-        n_categories (None or int): number of categories on that level. If None, 
-            use the provided `hue`.
-        hue (None or str): hue of the box. If None, compute it using `counter` 
-            and `n_categories`.
-        node_name (None or str): internal name of the node. If None, use `text` 
-            as the internal node name.
-        
-    Returns:
-        (str): node name
-        (float): hue of the box
-    """
-    node_text = ut.wrap_text(text, max_char=max_char)
-    if node_name is None:
-        node_name = text
-    
-    if hue is None:
-        assert counter is not None
-        assert n_categories is not None
-        hue = (counter + 1) / n_categories
-    fillcolor = '{} {} 1'.format(
-        hue, get_saturation(level, min_sat, max_sat, n_levels))
-    fontsize = str(get_font_size(
-        n_instances, min_font_size, max_font_size, max_n_instances))
-
-    dot.node(node_name, '{}\n({})'.format(node_text, n_instances), 
-             fillcolor=fillcolor, fontsize=fontsize)
-    dot.edge(parent_name, node_name)
-    
-    return node_name, hue
 
 
 def plot_prisma_diagram(save_cfg=cfg.saving_config):
@@ -192,7 +129,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
 
     n_samples, n_levels = df.shape
     format = save_cfg['format'] if isinstance(save_cfg, dict) else 'svg'
-    size = '{},{}!'.format(save_cfg['page_width'], save_cfg['page_height'])
+    size = '{},{}!'.format(save_cfg['page_width'], 0.7 * save_cfg['page_height'])
     
     dot = Digraph(format=format)
     dot.attr('graph', rankdir='TB', overlap='false', ratio='fill', size=size)  # LR (left to right), TB (top to bottom)
@@ -208,12 +145,13 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
     n_categories = len(sub_df)
 
     for i, (d1, count1) in enumerate(sub_df.iteritems()):
-        node1, hue = make_box(dot, d1, max_char, count1, n_samples, 0, n_levels, 
-                              min_sat, max_sat, min_font_size, max_font_size, 'A',
-                              counter=i, n_categories=n_categories)
+        node1, hue = ut.make_box(
+            dot, d1, max_char, count1, n_samples, 0, n_levels, min_sat, max_sat, 
+            min_font_size, max_font_size, 'A', counter=i, 
+            n_categories=n_categories)
         
         for d2, count2 in df[df['Domain 1'] == d1]['Domain 2'].value_counts().iteritems():
-            node2, _ = make_box(
+            node2, _ = ut.make_box(
                 dot, d2, max_char, count2, n_samples, 1, n_levels, min_sat, 
                 max_sat, min_font_size, max_font_size, node1, hue=hue)
             
@@ -223,7 +161,7 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
                     if count3 < min_n_items:
                         n_others3 += 1
                     else:
-                        node3, _ = make_box(
+                        node3, _ = ut.make_box(
                             dot, d3, max_char, count3, n_samples, 2, n_levels,
                             min_sat, max_sat, min_font_size, max_font_size, 
                             node2, hue=hue)
@@ -234,20 +172,20 @@ def plot_domain_tree(df, first_box='DL + EEG studies', min_font_size=10,
                                 if count4 < min_n_items:
                                     n_others4 += 1
                                 else:
-                                    make_box(
+                                    ut.make_box(
                                         dot, d4, max_char, count4, n_samples, 3, 
                                         n_levels, min_sat, max_sat, min_font_size, 
                                         max_font_size, node3, hue=hue)
 
                         if n_others4 > 0:
-                            make_box(
+                            ut.make_box(
                                 dot, 'Others', max_char, n_others4, n_samples, 
                                 3, n_levels, min_sat, max_sat, min_font_size, 
                                 max_font_size, node3, hue=hue, 
                                 node_name=node3+'others')
 
             if n_others3 > 0:
-                make_box(
+                ut.make_box(
                     dot, 'Others', max_char, n_others3, n_samples, 2, n_levels,
                     min_sat, max_sat, min_font_size, max_font_size, node2, hue=hue, 
                     node_name=node2+'others')
@@ -708,21 +646,15 @@ def generate_wordcloud(df, save_cfg=cfg.saving_config):
     stopwords.add("using")
     stopwords.add("based")
 
-    wc = WordCloud(background_color="white", max_words=2000, max_font_size=50, mask=brain_mask,
-                   stopwords=stopwords, contour_width=1, contour_color='steelblue')
-
-    # generate word cloud
+    wc = WordCloud(
+        background_color="white", max_words=2000, max_font_size=50, mask=brain_mask,
+        stopwords=stopwords, contour_width=1, contour_color='steelblue')
     wc.generate(text)
 
     # store to file
     if save_cfg is not None:
         fname = os.path.join(save_cfg['savepath'], 'DL-EEG_WordCloud')
         wc.to_file(fname + '.' + save_cfg['format']) #, **save_cfg)
-
-    # plt.figure()
-    # plt.imshow(wc, interpolation="bilinear")
-    # plt.axis("off")
-    # plt.show()
 
 
 def plot_model_inspection_and_table(df, cutoff=1, save_cfg=cfg.saving_config):
@@ -937,7 +869,8 @@ def plot_countrymap(dfx, postprocess=True, save_cfg=cfg.saving_config):
 def compute_prct_statistical_tests(df):
     """Compute the number of studies that used statistical tests.
     """
-    prct = 100 - 100 * df['Statistical analysis of performance'].value_counts()['No'] / df.shape[0]
+    prct = 100 - 100 * df['Statistical analysis of performance'].value_counts(
+        )['No'] / df.shape[0]
     logger.info('% of studies that used statistical test: {}'.format(prct))
 
 
@@ -1035,13 +968,20 @@ def plot_reproducibility_proportions(df, save_cfg=cfg.saving_config):
     data['(d) Reproducibility'] = df[
          'reproducibility'].value_counts().to_dict()
 
-    logger.info('Stats on reproducibility - Dataset Accessibility: {}'.format(data['(a) Dataset availability']))
-    logger.info('Stats on reproducibility - Code Accessibility: {}'.format(df['Code available'].value_counts().to_dict()))
-    logger.info('Stats on reproducibility - Code Hosted On: {}'.format(data['(b) Code availability']))
-    logger.info('Stats on reproducibility - Baseline: {}'.format(data['(c) Type of baseline']))
-    logger.info('Stats on reproducibility - Reproducibility Level: {}'.format(data['(d) Reproducibility']))
-    logger.info('Stats on reproducibility - Limited data: {}'.format(df['Limited data'].value_counts().to_dict()))
-    logger.info('Stats on reproducibility - Shared their Code: {}'.format(df[df['Code available'] == 'Yes']['Citation'].to_dict()))
+    logger.info('Stats on reproducibility - Dataset Accessibility: {}'.format(
+        data['(a) Dataset availability']))
+    logger.info('Stats on reproducibility - Code Accessibility: {}'.format(
+        df['Code available'].value_counts().to_dict()))
+    logger.info('Stats on reproducibility - Code Hosted On: {}'.format(
+        data['(b) Code availability']))
+    logger.info('Stats on reproducibility - Baseline: {}'.format(
+        data['(c) Type of baseline']))
+    logger.info('Stats on reproducibility - Reproducibility Level: {}'.format(
+        data['(d) Reproducibility']))
+    logger.info('Stats on reproducibility - Limited data: {}'.format(
+        df['Limited data'].value_counts().to_dict()))
+    logger.info('Stats on reproducibility - Shared their Code: {}'.format(
+        df[df['Code available'] == 'Yes']['Citation'].to_dict()))
 
     fig, ax = ut.plot_multiple_proportions(
         data, print_count=5, respect_order=['Easy', 'Medium', 'Hard', 'Impossible'],
@@ -1312,7 +1252,8 @@ def plot_number_subjects_by_domain(df, save_cfg=cfg.saving_config):
     ax.set_xlabel('Number of subjects')
     ax.set_ylabel('')
     
-    logger.info('Stats on number of subjects per model: {}'.format(nb_subj_df[col].describe()))
+    logger.info('Stats on number of subjects per model: {}'.format(
+        nb_subj_df[col].describe()))
 
     plt.tight_layout()
 
@@ -1337,7 +1278,8 @@ def plot_number_channels(df, save_cfg=cfg.saving_config):
     ax.set_xlabel('Number of EEG channels')
     ax.set_ylabel('Number of papers')
 
-    logger.info('Stats on number of channels per model: {}'.format(nb_channels_df['Nb Channels'].describe()))
+    logger.info('Stats on number of channels per model: {}'.format(
+        nb_channels_df['Nb Channels'].describe()))
 
     plt.tight_layout()
 
@@ -1356,7 +1298,8 @@ def compute_stats_sampling_rate(df):
     fs_df['Sampling rate'] = fs_df['Sampling rate'].astype(float)
     fs_df = fs_df.loc[fs_df['Sampling rate'] > 0, :]
 
-    logger.info('Stats on sampling rate per model: {}'.format(fs_df['Sampling rate'].describe()))
+    logger.info('Stats on sampling rate per model: {}'.format(
+        fs_df['Sampling rate'].describe()))
 
 
 def plot_cross_validation(df, save_cfg=cfg.saving_config):
@@ -1500,69 +1443,6 @@ def plot_data_quantity(df, save_cfg=cfg.saving_config):
     return axes
 
 
-def get_real_eeg_data(start=0, stop=4, chans=4):
-    """Get real EEG data for plotting.
-
-    Keyword Args:
-        start (float): start of the EEG segment, in seconds.
-        stop (float): end of the EEG segment, in seconds.
-        chans (int or list): number of channels to extract, or list of channel
-            indices to be interpreted by MNE's get_data() function.
-    """
-    raw_fnames = eegbci.load_data(1, 2)
-    raws = [read_raw_edf(f, preload=True) for f in raw_fnames]
-    raw = concatenate_raws(raws)
-
-    fs = raw.info['sfreq']
-    start = int(fs * start)
-    stop = int(fs * stop)
-
-    if not isinstance(chans, list):
-        chans = np.arange(chans)
-    data, t = raw.get_data(picks=chans, start=start, stop=stop, return_times=True)
-    data = data.T
-
-    return data, t, fs
-
-
-def create_fake_eeg(fs=256, signal_len=4, n_channels=4):
-    """Create fake EEG data.
-    """
-    n_points = fs * signal_len
-    t = np.arange(n_points) / fs
-    data = np.random.rand(n_points, n_channels)
-
-    return data, t
-
-
-def draw_brace(ax, xspan, text, beta_factor=300, y_offset=None):
-    """Draws an annotated brace on the axes.
-    
-    Adapted from https://stackoverflow.com/a/53383764"""
-    xmin, xmax = xspan
-    xspan = xmax - xmin
-    ax_xmin, ax_xmax = ax.get_xlim()
-    xax_span = ax_xmax - ax_xmin
-    ymin, ymax = ax.get_ylim()
-    yspan = ymax - ymin
-    resolution = int(xspan/xax_span*100)*2+1 # guaranteed uneven
-    beta = beta_factor / xax_span # the higher this is, the smaller the radius
-
-    x = np.linspace(xmin, xmax, resolution)
-    x_half = x[:int(np.ceil(resolution/2))]
-    y_half_brace = (1/(1.+np.exp(-beta*(x_half-x_half[0])))
-                    + 1/(1.+np.exp(-beta*(x_half-x_half[-1]))))
-    y = np.concatenate((y_half_brace, y_half_brace[-2::-1]))
-    if y_offset is not None:
-        ymin = y_offset
-    y = ymin + (.035*y - .01) * yspan  # adjust vertical position
-
-    # ax.autoscale(False)
-    ax.plot(x, y, color='black', lw=1)
-
-    ax.text((xmax+xmin)/2., ymin+.05*yspan, text, ha='center', va='bottom')
-
-
 def plot_eeg_intro(save_cfg=cfg.saving_config):
     """Plot a figure that shows basic EEG notions such as epochs and samples.
     """
@@ -1572,7 +1452,7 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
     step = 0.5  # in s
     first_epoch = 1
 
-    data, t, fs = get_real_eeg_data(start=30, stop=34, chans=[0, 10, 20, 30])
+    data, t, fs = ut.get_real_eeg_data(start=30, stop=34, chans=[0, 10, 20, 30])
     t = t - t[0]
 
     # Offset data for visualization
@@ -1638,7 +1518,7 @@ def plot_eeg_intro(save_cfg=cfg.saving_config):
         xycoords='data', ha='left', va='bottom')
 
     # Annotate overlap
-    draw_brace(ax, (first_epoch + step, first_epoch + step * 2), 
+    ut.draw_brace(ax, (first_epoch + step, first_epoch + step * 2), 
             r'0.5-s $\bf{overlap}$' + '\nbetween windows', 
             beta_factor=300, y_offset=max_y)
 

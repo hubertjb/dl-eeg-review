@@ -13,9 +13,11 @@ from collections import OrderedDict
 
 import pandas as pd
 import numpy as np
-from scipy.stats import mannwhitneyu, kruskal, pearsonr, spearmanr
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy.stats import mannwhitneyu, kruskal, pearsonr, spearmanr
+from mne.io import concatenate_raws, read_raw_edf
+from mne.datasets import eegbci
 
 
 dirname = os.path.dirname(__file__)
@@ -502,3 +504,127 @@ True
     """
     rows_with_multiple = df[df[condition_col].str.contains(mult_str)][id_col]
     return df[~df[id_col].isin(rows_with_multiple)]
+
+
+def get_saturation(level, min_s, max_s, n_levels):
+    return (min_s - max_s) / (n_levels - 1) * level + max_s
+
+
+def get_font_size(n_papers, min_font, max_font, max_n_papers):
+    return (max_font - min_font) / (max_n_papers - 1) * n_papers + min_font
+
+
+def make_box(dot, text, max_char, n_instances, max_n_instances, level, n_levels, 
+             min_sat, max_sat, min_font_size, max_font_size, parent_name, 
+             counter=None, n_categories=None, hue=None, node_name=None):
+    """Make graphviz box for tree graph.
+
+    Args:
+        dot (): graphviz Digraph object
+        text (str): text to put in the box
+        max_char (int): maximum number of characters on a line
+        n_instances (int): number of instances (to be written under `text`)
+        max_n_instances (int): maximum number of instances a box can have
+        level (int): value from 0 to `n_levels`-1
+        n_levels (int): number of levels in graph
+        min_sat (float): minimum saturation value between [0, 1]
+        max_sat (float): maximum saturation value between [0, 1]
+        min_font_size (float): minimum font size
+        max_font_size (float): maximum font size
+        parent_name (str): name of parent node
+    
+    Keyword Args:
+        counter (None or int): counter from 0 to `n_categories`-1. If None, use 
+            the provided `hue`.
+        n_categories (None or int): number of categories on that level. If None, 
+            use the provided `hue`.
+        hue (None or str): hue of the box. If None, compute it using `counter` 
+            and `n_categories`.
+        node_name (None or str): internal name of the node. If None, use `text` 
+            as the internal node name.
+        
+    Returns:
+        (str): node name
+        (float): hue of the box
+    """
+    node_text = wrap_text(text, max_char=max_char)
+    if node_name is None:
+        node_name = text
+    
+    if hue is None:
+        assert counter is not None
+        assert n_categories is not None
+        hue = (counter + 1) / n_categories
+    fillcolor = '{} {} 1'.format(
+        hue, get_saturation(level, min_sat, max_sat, n_levels))
+    fontsize = str(get_font_size(
+        n_instances, min_font_size, max_font_size, max_n_instances))
+
+    dot.node(node_name, '{}\n({})'.format(node_text, n_instances), 
+             fillcolor=fillcolor, fontsize=fontsize)
+    dot.edge(parent_name, node_name)
+    
+    return node_name, hue
+
+
+def get_real_eeg_data(start=0, stop=4, chans=4):
+    """Get real EEG data for plotting.
+
+    Keyword Args:
+        start (float): start of the EEG segment, in seconds.
+        stop (float): end of the EEG segment, in seconds.
+        chans (int or list): number of channels to extract, or list of channel
+            indices to be interpreted by MNE's get_data() function.
+    """
+    raw_fnames = eegbci.load_data(1, 2)
+    raws = [read_raw_edf(f, preload=True) for f in raw_fnames]
+    raw = concatenate_raws(raws)
+
+    fs = raw.info['sfreq']
+    start = int(fs * start)
+    stop = int(fs * stop)
+
+    if not isinstance(chans, list):
+        chans = np.arange(chans)
+    data, t = raw.get_data(picks=chans, start=start, stop=stop, return_times=True)
+    data = data.T
+
+    return data, t, fs
+
+
+def create_fake_eeg(fs=256, signal_len=4, n_channels=4):
+    """Create fake EEG data.
+    """
+    n_points = fs * signal_len
+    t = np.arange(n_points) / fs
+    data = np.random.rand(n_points, n_channels)
+
+    return data, t
+
+
+def draw_brace(ax, xspan, text, beta_factor=300, y_offset=None):
+    """Draws an annotated brace on the axes.
+    
+    Adapted from https://stackoverflow.com/a/53383764"""
+    xmin, xmax = xspan
+    xspan = xmax - xmin
+    ax_xmin, ax_xmax = ax.get_xlim()
+    xax_span = ax_xmax - ax_xmin
+    ymin, ymax = ax.get_ylim()
+    yspan = ymax - ymin
+    resolution = int(xspan/xax_span*100)*2 + 1 # guaranteed uneven
+    beta = beta_factor / xax_span # the higher this is, the smaller the radius
+
+    x = np.linspace(xmin, xmax, resolution)
+    x_half = x[:int(np.ceil(resolution/2))]
+    y_half_brace = (1/(1.+np.exp(-beta*(x_half-x_half[0])))
+                    + 1/(1.+np.exp(-beta*(x_half-x_half[-1]))))
+    y = np.concatenate((y_half_brace, y_half_brace[-2::-1]))
+    if y_offset is not None:
+        ymin = y_offset
+    y = ymin + (.035*y - .01) * yspan  # adjust vertical position
+
+    # ax.autoscale(False)
+    ax.plot(x, y, color='black', lw=1)
+
+    ax.text((xmax+xmin)/2., ymin+.05*yspan, text, ha='center', va='bottom')
