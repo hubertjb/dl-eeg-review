@@ -1363,6 +1363,10 @@ def make_dataset_table(df, min_n_articles=2, save_cfg=cfg.saving_config):
     datasets_df.loc[datasets_df['Dataset'].isin(
         counts[counts < min_n_articles].index), 'Dataset'] = 'Other'
 
+    # Remove duplicates (due to grouping of Others and BCI Comp)
+    datasets_df = datasets_df.drop(labels=col, axis=1)
+    datasets_df = datasets_df.drop_duplicates()
+
     # Group by dataset and order by number of articles
     dataset_table = datasets_df.groupby(
         ['Main domain', 'Dataset'], as_index=True)['Citation'].apply(list)
