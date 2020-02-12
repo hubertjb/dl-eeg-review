@@ -1,0 +1,27 @@
+,,,Origin,,,,,,,,Rationale,,,,,,,,,Data,,,,,,,,,,,,EEG processing,,,,,,,,Methodology,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Results and discussion,,,,,,,,,,,,,Reviewed by,,,,
+,Title,Year,Authors,Journal / Origin,Preprint first,Type of paper,Lab / School / Company,Country,Pages,,Domain 1,Domain 2,Domain 3,Domain 4,High-level Goal,Practical Goal,Task/Paradigm,Motivation for DL,,EEG Hardware,Neural response pattern,Dataset name,Dataset accessibility,Data,Data - samples,Data - time,Data - subjects,Nb Channels,Sampling rate,Offline / Online,,Preprocessing,Preprocessing (clean),Artefact handling,Artefact handling (clean),Features,Features (clean),Normalization,,Software,Architecture,Architecture (clean),Design peculiarities,EEG-specific design,Network Schema,Input format,Layers,Layers (clean),Activation function,Regularization,Regularization (clean),Nb Classes,Classes,Output format,Nb Parameters,Training procedure,Training procedure (clean),Optimizer,Optimizer (clean),Optim parameters,Minibatch size,Hyperparameter optim,Hyperparameter optim (clean),Data augmentation,Loss,Intra/Inter subject,Cross validation,Cross validation (clean),Data split,Performance metrics,Performance metrics (clean),Training hardware,,Training time,Results,Benchmarks,Baseline model type,Statistical analysis of performance,Analysis of learned parameters,Model inspection (clean),Discussion,Limitations,Code available,Code hosted on,Limited data,,First Reader,Second Reader,Validated by Author(s),,Citation
+,"Restricted Boltzmann Machines in Sensory Motor Rhythm 
+Brain-Computer Interfacing: 
+A study on inter-subject transfer and co-adaptation",2016,Kobler & Scherer,"IEEE International Conference on Systems, Man, and Cybernetics (SMC)",No,Conference,Graz University of Technology,Austria,6,,Classification of EEG signals,BCI,Active,Motor imagery,Improve SOTA,plug and play BCI,Motor Imagery (Graz BCI paradigm),"Generative learning
+",,g.tec,motor imagery,"BCI Competition IV
++ internal",On request,"12 subjects x 1 sessions
+approximatley 30 min per session
+2 motor imgery classes (left hand vs. both feet)","80 trials per class
+",25 minutes,10 + 12,13,512 Hz,both,,"1) laplacian spatial filter
+2) band-pass filter (IIR, 10th order) alpha band, beta band
+3) log bandpower (2s sliding window)
+4) adaptive feature zscoring",yes,yes,yes,log band power,raw EEG,z-score,,Matlab,RBM + ANN,inverse filter,"Network was trained as RBM offline.
+Online the network was adapted
+with backprop (ANN).",N/A,Yes,channels x sample,2,N/A,sigmoid,"L2, dropout",N/A,2,"left hand motor imagery
+both feet motor imagery",2 (softmax),N/M,contrastive divergence + backprop,N/A,conjugate gradient descent,N/A,"0.005 learning rate
+armijo step size selection
+25 epochs
+",10 - 40 trials (online),"0.001 L2 penalty
+",N/A,no,"contrastive divergence (offline)
+cross-entropy error (online)
+",inters-subject,leave-one-subject-out,N/A,train-test,accuracy,N/A,CPU,,"~ 60 s (offline)
+~ 2s (online)
+",median accuracy of 88.9%   (6.5% std),FBCSP + LDA,Traditional pipeline,two-sample Wilcoxon rank test,"visualization of sampled data from the RBM
+",N/A,"The approach allowed immediate feedback, based on an initial general classifier.
+This helped naive BCI users to establish a control signal in a short period of time. ","2 out of 10 users could not achieve a control signal
+within the 1 session experiment",No,N/A,No,,Kobler,,Pending,,Kobler2016
